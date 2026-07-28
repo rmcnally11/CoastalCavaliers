@@ -1,6 +1,6 @@
-// One-time cleanup: an earlier build registered a service worker at the root,
-// which took control of the whole domain and served stale pages. Remove any
-// worker whose scope is not /app/, and bin its caches.
+One-time cleanup: an earlier build registered a service worker at the root,
+which took control of the whole domain and served stale pages. Remove any
+worker whose scope is not /app/, and bin its caches.
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(function (rs) {
     rs.forEach(function (r) {
