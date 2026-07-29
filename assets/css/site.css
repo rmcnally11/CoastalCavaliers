@@ -31,3 +31,8 @@
 .mdl-no{background:none;border:none;font:500 13.5px Archivo;color:var(--mute);cursor:pointer;text-decoration:underline;padding:0 4px}
 .mdl-no:hover{color:var(--ink)}
 @media(max-width:720px){.mdl-c{grid-template-columns:1fr}.mdl-c img{min-height:0;height:190px}.mdl-b{padding:26px 24px 28px}}
+
+/* build stamp -- proves THIS stylesheet is the one that loaded */
+.build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
+#bc{font-style:normal}
+#bc::after{content:"\00b7 css-20260729b"}
