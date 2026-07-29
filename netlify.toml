@@ -5,11 +5,35 @@
   publish = "."
   command = ""
 
-# Long cache on fingerprint-safe assets, short on HTML so edits go live immediately.
+# CACHE POLICY -- read this before changing it.
+#
+# The previous policy put ALL of /assets/* on a one-year immutable cache.
+# site.css and site.js have no content hash in their filenames, so every
+# stylesheet and script change shipped between then and 29 July 2026 was
+# invisible to anyone who had already loaded the site. `immutable` means the
+# browser will not revalidate even on reload.
+#
+# Images are safe to cache hard: they are stable, and a changed image gets a
+# new filename. CSS and JS are hand-edited with no build step or fingerprint,
+# so they must revalidate.
+#
+# If a build step with content hashing is ever added, put css/js back on the
+# immutable rule and delete the ?v= strings in the HTML.
+
 [[headers]]
-  for = "/assets/*"
+  for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/*.html"

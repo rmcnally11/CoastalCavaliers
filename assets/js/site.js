@@ -150,12 +150,16 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     if(fired || suppressed) return;
     fired = true;
     lastFocus = document.activeElement;
+    mdl.removeAttribute("hidden");
+    mdl.style.display = "";
     mdl.classList.add("on");
     document.body.style.overflow = "hidden";
     var f = focusables(); if(f.length) f[f.length-1].focus();
   }
   function close(remember){
     mdl.classList.remove("on");
+    mdl.style.display = "none";
+    mdl.setAttribute("hidden", "");
     document.body.style.overflow = "";
     if(remember){ try { localStorage.setItem(KEY,"1"); } catch(e){} }
     if(lastFocus && lastFocus.focus) lastFocus.focus();
