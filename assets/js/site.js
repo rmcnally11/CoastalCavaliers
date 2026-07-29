@@ -34,7 +34,7 @@ var box = document.getElementById("zipres");
 if(z.length < 5){ box.className="zipresult in no"; box.innerHTML="Give us five digits and we will tell you straight."; return; }
 if(SERVED.indexOf(z) > -1){
 box.className = "zipresult in yes";
-box.innerHTML = "<b>You are in the first water we open.</b> Register above and you will get the launch date before anyone else &mdash; and the founding burgee is available today. <a href='#join' style='color:#4E7A62'>Reserve a place &rarr;</a>";
+box.innerHTML = "<b>You are in the first water we open.</b> Register above and you will get the launch date before anyone else &mdash; and the founding burgee is available today. <a href='#join' style='color:#163867'>Reserve a place &rarr;</a>";
 } else {
 box.className = "zipresult in no";
 box.innerHTML = "<b>Not yet &mdash; but you just moved the map.</b> Tell us where you keep her and we will write when we open your coast. <a href='#w_zip' onclick=\"document.getElementById('w_zip').value='"+z+"';document.getElementById('w_zip').scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){document.getElementById('w_name').focus()},500);return false;\">Add me to the list &rarr;</a>";
@@ -121,4 +121,67 @@ var io = new IntersectionObserver(function(en){
 en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } });
 }, { threshold:.1 });
 [].forEach.call(els, function(e){ io.observe(e); });
+})();
+
+/* ---- inaugural drop modal -------------------------------------------
+   Deliberately does NOT fire on load. The zip capture is the primary
+   conversion on this page; a popup over it trades the asset for a sale.
+   Fires at 9s or 35% scroll, whichever is first, and never if the visitor
+   has already engaged the zip field. Dismissal is permanent.            */
+(function(){
+  var KEY = "cc_drop_seen_v1";
+  var mdl = document.getElementById("mdl");
+  if(!mdl) return;
+  try { if(localStorage.getItem(KEY)) return; } catch(e){}
+
+  var fired = false, lastFocus = null, suppressed = false;
+
+  var zip = document.getElementById("zip");
+  if(zip){
+    ["focus","input"].forEach(function(ev){
+      zip.addEventListener(ev, function(){ suppressed = true; }, { once:true });
+    });
+  }
+
+  function focusables(){
+    return mdl.querySelectorAll("a[href],button:not([disabled]),input,[tabindex]:not([tabindex='-1'])");
+  }
+  function open(){
+    if(fired || suppressed) return;
+    fired = true;
+    lastFocus = document.activeElement;
+    mdl.classList.add("on");
+    document.body.style.overflow = "hidden";
+    var f = focusables(); if(f.length) f[f.length-1].focus();
+  }
+  function close(remember){
+    mdl.classList.remove("on");
+    document.body.style.overflow = "";
+    if(remember){ try { localStorage.setItem(KEY,"1"); } catch(e){} }
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.getElementById("mdl-x").addEventListener("click", function(){ close(true); });
+  document.getElementById("mdl-later").addEventListener("click", function(){ close(true); });
+  document.getElementById("mdl-go").addEventListener("click", function(){ close(true); });
+  mdl.addEventListener("click", function(e){ if(e.target === mdl) close(true); });
+  document.addEventListener("keydown", function(e){
+    if(!mdl.classList.contains("on")) return;
+    if(e.key === "Escape"){ close(true); return; }
+    if(e.key === "Tab"){
+      var f = focusables(); if(!f.length) return;
+      var first = f[0], last = f[f.length-1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  setTimeout(open, 9000);
+  window.addEventListener("scroll", function onScroll(){
+    var max = document.body.scrollHeight - window.innerHeight;
+    if(max > 0 && (window.scrollY / max) > 0.35){
+      window.removeEventListener("scroll", onScroll);
+      open();
+    }
+  }, { passive:true });
 })();
