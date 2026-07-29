@@ -1,9 +1,4 @@
-.DS_Store
-Thumbs.db
-node_modules/
-.netlify/
-*.log
-.env
-.env.*
-*.zip
-~$*
+User-agent: *
+Allow: /
+
+Sitemap: https://coastalcavaliers.com/sitemap.xml

@@ -1,2 +1,52 @@
+# Coastal Cavaliers — Netlify configuration
+# Deploys automatically on every push to main.
+
 [build]
   publish = "."
+  command = ""
+
+# Long cache on fingerprint-safe assets, short on HTML so edits go live immediately.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Service workers must NEVER be cached, or a bad one cannot be replaced.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/app/sw.js"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0"
+
+[[redirects]]
+  from = "/apply"
+  to = "/apply.html"
+  status = 200
+
+[[redirects]]
+  from = "/sport"
+  to = "/#sport"
+  status = 302
+
+[[redirects]]
+  from = "/chest"
+  to = "/#chest"
+  status = 302
