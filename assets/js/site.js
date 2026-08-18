@@ -15,6 +15,27 @@ var WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
 var SERVED = ["77565","77573","77586","77058","77059","77062","77546","77598","77504","77505"];
 function val(id){ var e=document.getElementById(id); return e && e.value.trim() ? e.value.trim() : undefined; }
 function seg(id){ var e=document.querySelector("#"+id+" .o.on"); return e ? e.dataset.v : undefined; }
+/* Seawall Applications contract. Never send Producer / Marina / Member link IDs. */
+var CC_KEYS = ["type","name","business","marinaName","email","phone","city","zip","makerTier","regNumber","products","capacity","deliveryPref","slips","shipsStore","dropType","boatType","notes","source","intendedPlan"];
+var CC_TYPES = { Maker:1, Marina:1, Waitlist:1 };
+var CC_TIERS = { Cottage:1, Licensed:1, House:1 };
+var CC_PLANS = { Deckhand:1, Cavalier:1, Commodore:1 };
+function contractBody(b){
+  var out = {}, i, k, v;
+  if (!b || !CC_TYPES[b.type]) return null;
+  for (i=0;i<CC_KEYS.length;i++){
+    k = CC_KEYS[i];
+    if (k === "type") { out.type = b.type; continue; }
+    if (k === "source") { out.source = "Site"; continue; }
+    v = b[k];
+    if (v === undefined || v === null || v === "") continue;
+    if (k === "makerTier" && !CC_TIERS[v]) continue;
+    if (k === "intendedPlan" && !CC_PLANS[v]) continue;
+    if (k === "shipsStore") { out[k] = !!v; continue; }
+    out[k] = v;
+  }
+  return out;
+}
 /* segmented controls */
 document.querySelectorAll(".seg").forEach(function(g){
 g.addEventListener("click", function(e){
@@ -60,29 +81,38 @@ function reservePlan(plan){
   }, 400);
   return false;
 }
-/* forms */
+/* forms — Seawall camelCase only; omit empty; never invent App as source.
+   Temporary fallback (not a second capture path): WF2 Shape Application still
+   does not map intendedPlan → Intended plan. Keep the intendedPlan key
+   (Deckhand / Cavalier / Commodore) AND write "Intended plan: …" into notes
+   until n8n adds "Intended plan": s(b.intendedPlan). */
 function payload(type){
 var b = { type: type, source: "Site" };
 if(type === "Maker"){
 b.name=val("m_name"); b.business=val("m_business"); b.city=val("m_city");
-b.phone=val("m_phone"); b.email=val("m_email"); b.makerTier=seg("m_tier");
-b.regNumber=val("m_reg"); b.products=val("m_products");
+b.zip=val("m_zip"); b.phone=val("m_phone"); b.email=val("m_email");
+b.makerTier=seg("m_tier"); b.regNumber=val("m_reg"); b.products=val("m_products");
 b.capacity=val("m_capacity"); b.deliveryPref=val("m_delivery");
+b.notes=val("m_notes");
 } else if(type === "Marina"){
 b.marinaName=val("r_marina"); b.business=val("r_marina"); b.name=val("r_name");
 b.phone=val("r_phone"); b.email=val("r_email"); b.city=val("r_city");
 b.slips=val("r_slips"); b.dropType=seg("r_drop");
+var store = document.getElementById("r_store");
+if(store) b.shipsStore = !!store.checked;
 var role = val("r_role"), notes = val("r_notes");
 b.notes = role ? (notes ? notes + " \u00b7 Role: " + role : "Role: " + role) : notes;
 } else {
 b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
 b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
 b.intendedPlan=seg("w_plan");
-if(b.intendedPlan){
-  b.notes = "Intended plan: " + b.intendedPlan;
+var parts = [];
+var wNotes = val("w_notes");
+if(wNotes) parts.push(wNotes);
+if(b.intendedPlan) parts.push("Intended plan: " + b.intendedPlan);
+if(parts.length) b.notes = parts.join(" \u00b7 ");
 }
-}
-return b;
+return contractBody(b);
 }
 function send(body, tries){
 tries = tries || 3;
@@ -103,9 +133,9 @@ Waitlist: "You are on the list \u2713"
 };
 var BTN = { Maker:"m_btn", Marina:"r_btn", Waitlist:"w_btn" };
 var FIELDS = {
-Maker:["m_name","m_business","m_city","m_phone","m_email","m_reg","m_products","m_capacity"],
+Maker:["m_name","m_business","m_city","m_zip","m_phone","m_email","m_reg","m_products","m_capacity","m_notes"],
 Marina:["r_marina","r_name","r_role","r_phone","r_email","r_city","r_slips","r_notes"],
-Waitlist:["w_name","w_email","w_zip","w_city","w_marina"]
+Waitlist:["w_name","w_email","w_zip","w_city","w_marina","w_notes"]
 };
 function ccBotCheck(){
 var hps = document.querySelectorAll('[name="company_website"]');
@@ -118,6 +148,7 @@ var btn = document.getElementById(BTN[type]);
 var label = btn.getAttribute("data-l") || btn.textContent;
 btn.setAttribute("data-l", label);
 var b = payload(type);
+if(!b) return;
 if(type === "Waitlist" && (!b.name || !b.email || !b.zip)){
 btn.textContent = "Name, email and zip";
 setTimeout(function(){ btn.textContent = label; }, 3000);
@@ -133,7 +164,16 @@ send(b).then(function(ok){
 btn.disabled = false;
 if(ok){
 btn.textContent = DONE[type];
-FIELDS[type].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=""; });
+FIELDS[type].forEach(function(id){
+  var e=document.getElementById(id);
+  if(!e) return;
+  if(e.type === "checkbox") e.checked = false;
+  else e.value="";
+});
+if(type === "Marina"){
+  var store = document.getElementById("r_store");
+  if(store) store.checked = false;
+}
 if(type === "Waitlist"){
   var g = document.getElementById("w_plan");
   if(g){ [].forEach.call(g.children, function(c,i){ c.classList.toggle("on", i===0); }); }
