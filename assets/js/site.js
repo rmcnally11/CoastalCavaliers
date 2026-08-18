@@ -281,7 +281,7 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   var empty = document.getElementById("chest-empty");
   var copy = {
     womens: "This line is still being designed. There is nothing to show yet.",
-    pets: "Nothing for pets on the wall yet. The collar stays down until there is a file."
+    pets: "Nothing for pets on the wall yet."
   };
   function show(cat){
     var n = 0;
