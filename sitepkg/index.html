@@ -708,14 +708,14 @@ section{padding:104px 0}
       <div class="stats">
         <div class="stat"><div class="v">0</div><div class="l">Cost to the marina</div></div>
         <div class="stat"><div class="v">1</div><div class="l">Van, once a week</div></div>
-        <div class="stat"><div class="v">15</div><div class="l">Minutes to hear it out</div></div>
+        <div class="stat"><div class="v">0</div><div class="l">Staff you add</div></div>
         <div class="stat"><div class="v">30</div><div class="l">Days to walk away</div></div>
       </div>
     </div>
     <div class="form rv" id="marina-form">
-      <div class="kick" style="color:var(--gold-lt)">Request a visit</div>
-      <h3 style="font-size:22px;margin:10px 0 4px;color:#F7F5F1">Fifteen minutes and a sample box.</h3>
-      <p class="tiny" style="color:#8A9088">That is the whole ask.</p>
+      <div class="kick" style="color:var(--gold-lt)">Ask about a drop</div>
+      <h3 style="font-size:22px;margin:10px 0 4px;color:#F7F5F1">Tell us about the yard.</h3>
+      <p class="tiny" style="color:#8A9088">We write first. No sample box.</p>
       <label>Marina name</label><input id="r_marina" placeholder="Watergate Yachting Center">
       <div class="two">
         <div><label>Your name</label><input id="r_name" placeholder="Name"></div>
@@ -737,8 +737,8 @@ section{padding:104px 0}
       </div>
       <label>Anything we should know</label>
       <textarea id="r_notes" placeholder="Gate access, storm protocol, event calendar&hellip;"></textarea>
-      <button class="btn gold fbtn" id="r_btn" onclick="submitForm('Marina')">Request a visit</button>
-      <p class="fnote">No cost, no contract to read tonight. We will call, come by, and leave you a box.</p>
+      <button class="btn gold fbtn" id="r_btn" onclick="submitForm('Marina')">Send a request</button>
+      <p class="fnote">We read every request. We are not delivering yet, and we will not show up with a box. When we are ready to talk in person, we will write first.</p>
     </div>
   </div>
 </section>
@@ -773,7 +773,7 @@ section{padding:104px 0}
           <select id="m_delivery"><option>I can deliver</option><option>Please pick up</option></select></div>
       </div>
       <button class="btn dark fbtn" id="m_btn" onclick="submitForm('Maker')">Submit application</button>
-      <p class="fnote">We read every one. Most people hear back inside 48 hours &mdash; usually with a sample box in hand.</p>
+      <p class="fnote">We read every one. We are not delivering, and we will not send a sample box. You will hear from us by email.</p>
     </div>
     <div class="rv" style="order:1">
       <div class="kick">For makers</div>
@@ -837,7 +837,7 @@ section{padding:104px 0}
         <div class="sportkick">Coastal Cavaliers &middot; tournament &amp; regatta</div>
         <div class="sportslog">Feed the fleet.</div>
         <p class="lede" style="margin-top:16px;font-size:17px">Crew breakfasts at the slip before lines&#8209;off, weigh&#8209;in spreads when the fleet comes in heavy, and committee&#8209;boat coolers packed and staged. Same makers, same kitchen, different morning entirely.</p>
-        <p style="margin-top:14px;font-size:15px;color:var(--soft)"><em>Nobody fishes hungry.</em> Seven days&rsquo; notice books it; field size can move up to 48 hours out.</p>
+        <p style="margin-top:14px;font-size:15px;color:var(--soft)"><em>Nobody fishes hungry.</em> Seven days&rsquo; notice books it; field size can move up to two days out.</p>
         <div style="margin-top:22px"><a class="btn dark" href="mailto:orders@coastalcavaliers.com?subject=Cavaliers%20Sport%20%E2%80%94%20tournament%20enquiry">Talk to us about your event</a></div>
       </div>
     </div>
@@ -1056,7 +1056,7 @@ function send(body, tries){
 
 var DONE = {
   Maker:    "Received \u2014 we will be in touch \u2713",
-  Marina:   "Received \u2014 we will call \u2713",
+  Marina:   "Received \u2014 we will write \u2713",
   Waitlist: "You are on the list \u2713"
 };
 var BTN = { Maker:"m_btn", Marina:"r_btn", Waitlist:"w_btn" };
