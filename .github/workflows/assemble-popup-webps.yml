@@ -1,0 +1,48 @@
+name: assemble-popup-webps
+on:
+  push:
+    branches: [cursor/boat-snacks-popup-garment-plate-4120]
+    paths:
+      - 'assets/img/*.b64.manifest'
+      - '.github/workflows/assemble-popup-webps.yml'
+  workflow_dispatch:
+jobs:
+  assemble:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode signed garment webps and drop sidecars
+        run: |
+          python3 << 'PY'
+          import base64, pathlib, os, glob
+          root = pathlib.Path('assets/img')
+          specs = {
+            'popup-boat-snacks-toddler_1600.webp': 'popup-boat-snacks-toddler_1600.webp.b64',
+            'popup-boat-snacks-youth_1600.webp': 'popup-boat-snacks-youth_1600.webp.b64',
+            'popup-boat-snacks-bib_1600.webp': 'popup-boat-snacks-bib_1600.webp.b64',
+          }
+          for dest, prefix in specs.items():
+              parts = sorted(root.glob(prefix + '.p*'))
+              if not parts:
+                  raise SystemExit(f'missing parts for {dest}')
+              data = ''.join(p.read_text().strip() for p in parts)
+              raw = base64.b64decode(data)
+              if len(raw) < 100000:
+                  raise SystemExit(f'{dest} too small: {len(raw)}')
+              if raw[:4] != b'RIFF' or raw[8:12] != b'WEBP':
+                  raise SystemExit(f'{dest} not a webp')
+              (root / dest).write_bytes(raw)
+              print(dest, len(raw), 'from', len(parts), 'parts')
+          for junk in root.glob('popup-boat-snacks-*.b64*'):
+              junk.unlink()
+              print('deleted', junk)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A assets/img
+          git status
+          git commit -m "Add signed Boat Snacks popup garment webps and remove b64 sidecars"
+          git push
