@@ -270,7 +270,7 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     }
   });
 
-  setTimeout(open, 9000);
+  setTimeout(open, 1000);
   window.addEventListener("scroll", function onScroll(){
     var max = document.body.scrollHeight - window.innerHeight;
     if(max > 0 && (window.scrollY / max) > 0.35){
