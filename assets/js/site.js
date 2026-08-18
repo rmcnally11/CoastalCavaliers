@@ -128,7 +128,7 @@ go(0);
 }
 var DONE = {
 Maker:    "Received \u2014 we will be in touch \u2713",
-Marina:   "Received \u2014 we will call \u2713",
+Marina:   "Received \u2014 we will write \u2713",
 Waitlist: "You are on the list \u2713"
 };
 var BTN = { Maker:"m_btn", Marina:"r_btn", Waitlist:"w_btn" };
