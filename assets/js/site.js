@@ -271,3 +271,58 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     }
   } catch (e) {}
 })();
+
+/* public sticky-header menu — desktop nav stays as-is above 1000px */
+(function(){
+  var header = document.querySelector("header");
+  var nav = header && header.querySelector("nav.main");
+  var btn = header && header.querySelector(".nav-toggle");
+  if(!header || !nav || !btn) return;
+  if(!nav.id) nav.id = "main-nav";
+  btn.setAttribute("aria-controls", nav.id);
+
+  function narrow(){ return window.matchMedia("(max-width:1000px)").matches; }
+  function sync(){
+    var open = header.classList.contains("nav-open") && narrow();
+    header.classList.toggle("nav-open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    if(!narrow()){
+      nav.removeAttribute("hidden");
+      nav.removeAttribute("inert");
+      return;
+    }
+    if(open){
+      nav.removeAttribute("hidden");
+      nav.removeAttribute("inert");
+    } else {
+      nav.setAttribute("hidden", "");
+      nav.setAttribute("inert", "");
+    }
+  }
+  function setOpen(open){
+    header.classList.toggle("nav-open", !!open && narrow());
+    sync();
+  }
+
+  btn.addEventListener("click", function(){
+    setOpen(!header.classList.contains("nav-open"));
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key !== "Escape" || !header.classList.contains("nav-open")) return;
+    setOpen(false);
+    btn.focus();
+  });
+  nav.addEventListener("click", function(e){
+    if(e.target.closest("a")) setOpen(false);
+  });
+  document.addEventListener("click", function(e){
+    if(!header.classList.contains("nav-open")) return;
+    if(!header.contains(e.target)) setOpen(false);
+  });
+  window.addEventListener("resize", function(){
+    if(!narrow()) setOpen(false);
+    else sync();
+  });
+  sync();
+})();
