@@ -1,1 +1,19 @@
-/*  /index.html  200
+# Pretty URLs for the hub and the three landings.
+/apply      /apply.html      200
+/waitlist   /waitlist.html   200
+/join       /waitlist.html   200
+/makers     /makers.html     200
+/marinas    /marinas.html    200
+
+# App stub — keep /app and /app/ as the stub, not a shop.
+/app        /app/index.html  200
+
+# Existing homepage anchors.
+/sport      /#sport          302
+/chest      /#chest          302
+
+# Unknown paths must 404. Do not restore "/* /index.html 200" —
+# that made junk URLs look like a live homepage (soft 404).
+# Existing files (/, /apply.html, /app/, /app/index.html, assets,
+# sitemap, robots) are served as themselves via Netlify shadowing.
+/*          /404.html        404
