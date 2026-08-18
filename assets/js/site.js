@@ -204,10 +204,9 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
 })();
 
 /* ---- Boat Snacks waitlist popup -------------------------------------
-   Same #mdl as before — one popup, not a second. Does NOT fire on load.
-   The zip capture is the primary conversion; a popup over it trades the
-   asset for a name. Fires at 9s or 35% scroll, whichever is first, and
-   never if the visitor has already engaged the homepage zip field.
+   Same #mdl as before — one popup, not a second. First visit, ~1s after
+   load, once-per-browser. Does not fire at 0ms. Zip-suppress stays: if
+   they are already in the homepage zip field, do not steal focus.
    Dismissal (or a successful waitlist submit) is permanent.             */
 (function(){
   var KEY = "cc_boat_snacks_popup_v1";
@@ -271,13 +270,6 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   });
 
   setTimeout(open, 1000);
-  window.addEventListener("scroll", function onScroll(){
-    var max = document.body.scrollHeight - window.innerHeight;
-    if(max > 0 && (window.scrollY / max) > 0.35){
-      window.removeEventListener("scroll", onScroll);
-      open();
-    }
-  }, { passive:true });
 })();
 
 (function(){
