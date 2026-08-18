@@ -15,6 +15,17 @@ var WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
 var SERVED = ["77565","77573","77586","77058","77059","77062","77546","77598","77504","77505"];
 function val(id){ var e=document.getElementById(id); return e && e.value.trim() ? e.value.trim() : undefined; }
 function seg(id){ var e=document.querySelector("#"+id+" .o.on"); return e ? e.dataset.v : undefined; }
+function siteSource(){
+  var p = (location.pathname || "/").toLowerCase();
+  p = p.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+  p = p.replace(/\/+$/, "") || "/";
+  if (p === "/") return "Site homepage";
+  if (p === "/waitlist") return "Site /waitlist";
+  if (p === "/makers") return "Site /makers";
+  if (p === "/marinas") return "Site /marinas";
+  if (p === "/apply") return "Site /apply";
+  return "Site";
+}
 /* segmented controls */
 document.querySelectorAll(".seg").forEach(function(g){
 g.addEventListener("click", function(e){
@@ -60,27 +71,32 @@ function reservePlan(plan){
   }, 400);
   return false;
 }
-/* forms */
+/* forms — same field names as apply.html; omit empty; only read inputs that exist */
 function payload(type){
-var b = { type: type, source: "Site" };
+var b = { type: type, source: siteSource() };
 if(type === "Maker"){
 b.name=val("m_name"); b.business=val("m_business"); b.city=val("m_city");
-b.phone=val("m_phone"); b.email=val("m_email"); b.makerTier=seg("m_tier");
-b.regNumber=val("m_reg"); b.products=val("m_products");
+b.zip=val("m_zip"); b.phone=val("m_phone"); b.email=val("m_email");
+b.makerTier=seg("m_tier"); b.regNumber=val("m_reg"); b.products=val("m_products");
 b.capacity=val("m_capacity"); b.deliveryPref=val("m_delivery");
+b.notes=val("m_notes");
 } else if(type === "Marina"){
 b.marinaName=val("r_marina"); b.business=val("r_marina"); b.name=val("r_name");
 b.phone=val("r_phone"); b.email=val("r_email"); b.city=val("r_city");
 b.slips=val("r_slips"); b.dropType=seg("r_drop");
+var store = document.getElementById("r_store");
+if(store) b.shipsStore = !!store.checked;
 var role = val("r_role"), notes = val("r_notes");
 b.notes = role ? (notes ? notes + " \u00b7 Role: " + role : "Role: " + role) : notes;
 } else {
 b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
 b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
 b.intendedPlan=seg("w_plan");
-if(b.intendedPlan){
-  b.notes = "Intended plan: " + b.intendedPlan;
-}
+var parts = [];
+var wNotes = val("w_notes");
+if(wNotes) parts.push(wNotes);
+if(b.intendedPlan) parts.push("Intended plan: " + b.intendedPlan);
+if(parts.length) b.notes = parts.join(" \u00b7 ");
 }
 return b;
 }
@@ -103,9 +119,9 @@ Waitlist: "You are on the list \u2713"
 };
 var BTN = { Maker:"m_btn", Marina:"r_btn", Waitlist:"w_btn" };
 var FIELDS = {
-Maker:["m_name","m_business","m_city","m_phone","m_email","m_reg","m_products","m_capacity"],
+Maker:["m_name","m_business","m_city","m_zip","m_phone","m_email","m_reg","m_products","m_capacity","m_notes"],
 Marina:["r_marina","r_name","r_role","r_phone","r_email","r_city","r_slips","r_notes"],
-Waitlist:["w_name","w_email","w_zip","w_city","w_marina"]
+Waitlist:["w_name","w_email","w_zip","w_city","w_marina","w_notes"]
 };
 function ccBotCheck(){
 var hps = document.querySelectorAll('[name="company_website"]');
@@ -133,7 +149,16 @@ send(b).then(function(ok){
 btn.disabled = false;
 if(ok){
 btn.textContent = DONE[type];
-FIELDS[type].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=""; });
+FIELDS[type].forEach(function(id){
+  var e=document.getElementById(id);
+  if(!e) return;
+  if(e.type === "checkbox") e.checked = false;
+  else e.value="";
+});
+if(type === "Marina"){
+  var store = document.getElementById("r_store");
+  if(store) store.checked = false;
+}
 if(type === "Waitlist"){
   var g = document.getElementById("w_plan");
   if(g){ [].forEach.call(g.children, function(c,i){ c.classList.toggle("on", i===0); }); }

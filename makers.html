@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260818b">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260818c">
 </head>
 <body>
   <header>
@@ -113,12 +113,20 @@
               <input id="m_city" name="city" autocomplete="address-level2" placeholder="Kemah">
             </div>
             <div>
+              <label for="m_zip">Zip</label>
+              <input id="m_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="77565" maxlength="10">
+            </div>
+          </div>
+          <div class="two">
+            <div>
               <label for="m_phone">Phone</label>
               <input id="m_phone" name="phone" type="tel" autocomplete="tel" placeholder="(281) 555-0110">
             </div>
+            <div>
+              <label for="m_email">Email</label>
+              <input id="m_email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+            </div>
           </div>
-          <label for="m_email">Email</label>
-          <input id="m_email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
           <label id="m_tier_label">Which are you?</label>
           <div class="seg" id="m_tier" role="group" aria-labelledby="m_tier_label">
             <div class="o on" data-v="Cottage">Home kitchen<small>Texas cottage</small></div>
@@ -141,6 +149,8 @@
               </select>
             </div>
           </div>
+          <label for="m_notes">Anything else</label>
+          <textarea id="m_notes" name="notes" placeholder="Seasonality, allergens, packaging&hellip;"></textarea>
           <button class="btn dark fbtn" id="m_btn" type="button" onclick="submitForm('Maker')">Submit application</button>
           <p class="fnote">We read every one. Most people hear back inside 48 hours &mdash; usually with a sample box in hand.</p>
         </div>
@@ -177,11 +187,11 @@
       <div class="frule"></div>
       <div class="fbot">
         <span>&copy; 2026 Coastal Cavaliers &middot; Texas Gulf Coast</span>
-        <span class="build">build makers-20260818b <i id="bc"></i></span>
+        <span class="build">build makers-20260818c <i id="bc"></i></span>
         <span>Made ashore. Enjoyed aboard.</span>
       </div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20260818b" defer></script>
+  <script src="/assets/js/site.js?v=20260818c" defer></script>
 </body>
 </html>
