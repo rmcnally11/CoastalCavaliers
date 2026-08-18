@@ -34,13 +34,31 @@ var box = document.getElementById("zipres");
 if(z.length < 5){ box.className="zipresult in no"; box.innerHTML="Give us five digits and we will tell you straight."; return; }
 if(SERVED.indexOf(z) > -1){
 box.className = "zipresult in yes";
-box.innerHTML = "<b>You are in the first water we open.</b> Register above and you will get the launch date before anyone else &mdash; and the founding burgee is available today. <a href='#join' style='color:#163867'>Reserve a place &rarr;</a>";
+box.innerHTML = "<b>You are in the first water we open.</b> Leave your name and the plan you have in mind &mdash; we are not taking payment, and you will get the launch date before anyone else. <a href='#waitlist' onclick=\"reservePlan('Cavalier');return false;\" style='color:#163867'>Get on the list &rarr;</a>";
 } else {
 box.className = "zipresult in no";
-box.innerHTML = "<b>Not yet &mdash; but you just moved the map.</b> Tell us where you keep her and we will write when we open your coast. <a href='#w_zip' onclick=\"document.getElementById('w_zip').value='"+z+"';document.getElementById('w_zip').scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){document.getElementById('w_name').focus()},500);return false;\">Add me to the list &rarr;</a>";
+box.innerHTML = "<b>Not yet &mdash; but you just moved the map.</b> Tell us where you keep her and we will write when we open your coast. <a href='#w_zip' onclick=\"document.getElementById('w_zip').value='"+z+"';var el=document.getElementById('waitlist')||document.getElementById('w_zip');el.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){document.getElementById('w_name').focus()},500);return false;\">Add me to the list &rarr;</a>";
 }
 }
 document.getElementById("zip").addEventListener("keydown", function(e){ if(e.key === "Enter") checkZip(); });
+function reservePlan(plan){
+  var zipEl = document.getElementById("zip");
+  var wZip = document.getElementById("w_zip");
+  if(zipEl && wZip && zipEl.value.trim()){
+    wZip.value = zipEl.value.trim();
+  }
+  var g = document.getElementById("w_plan");
+  if(g && plan){
+    [].forEach.call(g.children, function(c){ c.classList.toggle("on", c.getAttribute("data-v") === plan); });
+  }
+  var target = document.getElementById("waitlist") || document.getElementById("w_name");
+  if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
+  setTimeout(function(){
+    var n = document.getElementById("w_name");
+    if(n) n.focus();
+  }, 400);
+  return false;
+}
 /* forms */
 function payload(type){
 var b = { type: type, source: "Site" };
@@ -58,6 +76,10 @@ b.notes = role ? (notes ? notes + " \u00b7 Role: " + role : "Role: " + role) : n
 } else {
 b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
 b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
+b.intendedPlan=seg("w_plan");
+if(b.intendedPlan){
+  b.notes = "Intended plan: " + b.intendedPlan;
+}
 }
 return b;
 }
@@ -95,6 +117,11 @@ var btn = document.getElementById(BTN[type]);
 var label = btn.getAttribute("data-l") || btn.textContent;
 btn.setAttribute("data-l", label);
 var b = payload(type);
+if(type === "Waitlist" && (!b.name || !b.email || !b.zip)){
+btn.textContent = "Name, email and zip";
+setTimeout(function(){ btn.textContent = label; }, 3000);
+return;
+}
 if(!b.email && !b.phone){
 btn.textContent = "Add an email or phone";
 setTimeout(function(){ btn.textContent = label; }, 3000);
@@ -106,6 +133,10 @@ btn.disabled = false;
 if(ok){
 btn.textContent = DONE[type];
 FIELDS[type].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=""; });
+if(type === "Waitlist"){
+  var g = document.getElementById("w_plan");
+  if(g){ [].forEach.call(g.children, function(c,i){ c.classList.toggle("on", i===0); }); }
+}
 setTimeout(function(){ btn.textContent = label; }, 6000);
 } else {
 btn.textContent = "Did not send \u2014 tap to retry";
@@ -188,4 +219,14 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
       open();
     }
   }, { passive:true });
+})();
+
+(function(){
+  try {
+    var q = new URLSearchParams(location.search);
+    var plan = q.get("plan");
+    if(plan && /^(Deckhand|Cavalier|Commodore)$/.test(plan)){
+      reservePlan(plan);
+    }
+  } catch (e) {}
 })();

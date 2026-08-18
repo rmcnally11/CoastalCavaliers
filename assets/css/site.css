@@ -35,4 +35,4 @@
 /* build stamp -- proves THIS stylesheet is the one that loaded */
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
-#bc::after{content:"\00b7 css-20260729b"}
+#bc::after{content:"\00b7 css-20260818a"}
