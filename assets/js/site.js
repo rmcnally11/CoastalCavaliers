@@ -30,7 +30,9 @@ function contractBody(b){
     v = b[k];
     if (v === undefined || v === null || v === "") continue;
     if (k === "makerTier" && !CC_TIERS[v]) continue;
-    if (k === "intendedPlan" && !CC_PLANS[v]) continue;
+    if (k === "intendedPlan"){
+      if (b.type !== "Waitlist" || !CC_PLANS[v]) continue;
+    }
     if (k === "shipsStore") { out[k] = !!v; continue; }
     out[k] = v;
   }
@@ -81,11 +83,9 @@ function reservePlan(plan){
   }, 400);
   return false;
 }
-/* forms — Seawall camelCase only; omit empty; never invent App as source.
-   Temporary fallback (not a second capture path): WF2 Shape Application still
-   does not map intendedPlan → Intended plan. Keep the intendedPlan key
-   (Deckhand / Cavalier / Commodore) AND write "Intended plan: …" into notes
-   until n8n adds "Intended plan": s(b.intendedPlan). */
+/* forms — Seawall camelCase only; omit empty; source is exactly Site.
+   Waitlist sends intendedPlan as its own key (Deckhand / Cavalier / Commodore).
+   Notes is visitor free-text only — do not copy the plan into notes. */
 function payload(type){
 var b = { type: type, source: "Site" };
 if(type === "Maker"){
@@ -106,11 +106,7 @@ b.notes = role ? (notes ? notes + " \u00b7 Role: " + role : "Role: " + role) : n
 b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
 b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
 b.intendedPlan=seg("w_plan");
-var parts = [];
-var wNotes = val("w_notes");
-if(wNotes) parts.push(wNotes);
-if(b.intendedPlan) parts.push("Intended plan: " + b.intendedPlan);
-if(parts.length) b.notes = parts.join(" \u00b7 ");
+b.notes=val("w_notes");
 }
 return contractBody(b);
 }
