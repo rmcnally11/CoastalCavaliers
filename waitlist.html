@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Get on the list — Coastal Cavaliers</title>
+  <meta name="description" content="We are not delivering yet and we are not taking payment. Leave your name, email, zip and the plan you have in mind — Deckhand, Cavalier or Commodore.">
+  <meta property="og:title" content="Get on the list — Coastal Cavaliers">
+  <meta property="og:description" content="Name, email, zip, and a plan. No checkout. Clear Lake, Kemah and Seabrook hear first.">
+  <meta name="theme-color" content="#F7F5F1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260818b">
+</head>
+<body>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="/">
+        <img src="/assets/img/coastal-cavaliers.webp" alt="Coastal Cavaliers">
+        <div>
+          <div class="n">Coastal Cavaliers</div>
+          <div class="t">Local hands, open water</div>
+        </div>
+      </a>
+      <nav class="main">
+        <a href="/#how">How it works</a>
+        <a href="/makers.html">Makers</a>
+        <a href="/marinas.html">Marinas</a>
+        <a href="/waitlist.html" aria-current="page">Membership</a>
+        <a href="/apply.html">Apply</a>
+      </nav>
+      <a class="btn dark hdr-cta" href="#waitlist">Leave your name</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="page-hero" id="join">
+      <div class="wrap">
+        <div class="kick">Clear Lake &middot; Kemah &middot; Seabrook</div>
+        <h1>Leave your name.<br><em>Not your card.</em></h1>
+        <p class="lede">We are not delivering yet, and we are not taking payment. Name, email, zip, and the plan you have in mind. In the first water you will hear the launch date before anyone else. Anywhere else, your zip is a vote for the next coast.</p>
+      </div>
+    </section>
+
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="plans rv">
+          <div class="plan">
+            <h3>Deckhand</h3>
+            <div class="tag">Provision when you please.</div>
+            <div class="price">$0<span> / year, always</span></div>
+            <ul>
+              <li>Order any cycle, no commitment</li>
+              <li>The full run of vetted makers</li>
+              <li>Friday staging or Saturday delivery</li>
+            </ul>
+            <a class="btn line" href="#waitlist" onclick="reservePlan('Deckhand');return false;">I have Deckhand in mind</a>
+          </div>
+          <div class="plan hero-plan">
+            <h3>Cavalier</h3>
+            <div class="tag">The full club.</div>
+            <div class="price">$120<span> / year &mdash; reserved, not billed yet</span></div>
+            <ul>
+              <li>Member pricing on every box</li>
+              <li>Priority slots in peak season</li>
+              <li>The founding burgee, when we make it</li>
+            </ul>
+            <a class="btn dark" href="#waitlist" onclick="reservePlan('Cavalier');return false;">I have Cavalier in mind</a>
+          </div>
+          <div class="plan">
+            <h3>Commodore</h3>
+            <div class="tag">First call on the coast.</div>
+            <div class="price">$360<span> / year &mdash; reserved, not billed yet</span></div>
+            <ul>
+              <li>Everything in Cavalier</li>
+              <li>Concierge provisioning by text</li>
+              <li>Guaranteed peak-season delivery</li>
+            </ul>
+            <a class="btn line" href="#waitlist" onclick="reservePlan('Commodore');return false;">I have Commodore in mind</a>
+          </div>
+        </div>
+        <p class="small rv" style="margin-top:22px;max-width:62ch">The $120 founding burgee is not for sale today. There is no checkout on this site. Deckhand is free. Cavalier and Commodore are reserved and not billed yet. Nothing ships.</p>
+      </div>
+    </section>
+
+    <section id="waitlist">
+      <div class="wrap">
+        <div class="split" style="gap:44px;align-items:start">
+          <div class="rv">
+            <div class="kick">Leave your place on the list</div>
+            <h2 style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">Name, email, zip, and a plan.</h2>
+            <p class="lede" style="margin-top:14px;font-size:17px">Same form as the homepage. If a plan was in the link you followed, it is already marked below.</p>
+            <p class="small" style="margin-top:18px">Opening first around Clear Lake, Kemah and Seabrook &mdash; zip <strong>77565</strong> and the water around Watergate Yachting Center. Maker or marina? <a href="/apply.html">The hub is apply</a>, or go straight to <a href="/makers.html">makers</a> or <a href="/marinas.html">marinas</a>.</p>
+          </div>
+          <div class="form rv">
+            <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="two">
+              <div>
+                <label for="w_name">Your name</label>
+                <input id="w_name" name="name" autocomplete="name" placeholder="Name">
+              </div>
+              <div>
+                <label for="w_email">Email</label>
+                <input id="w_email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+              </div>
+            </div>
+            <div class="two">
+              <div>
+                <label for="w_zip">Zip</label>
+                <input id="w_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="77565" maxlength="10">
+              </div>
+              <div>
+                <label for="w_city">City</label>
+                <input id="w_city" name="city" autocomplete="address-level2" placeholder="Kemah">
+              </div>
+            </div>
+            <div class="two">
+              <div>
+                <label for="w_marina">Your marina <span style="font-weight:400;letter-spacing:0;text-transform:none">(optional)</span></label>
+                <input id="w_marina" name="marina" placeholder="Watergate Yachting Center">
+              </div>
+              <div>
+                <label for="w_boat">What do you run?</label>
+                <select id="w_boat" name="boat">
+                  <option>Sail &middot; cruising</option>
+                  <option>Center console</option>
+                  <option>Sportfish</option>
+                  <option>Trawler</option>
+                  <option>Charter fleet</option>
+                </select>
+              </div>
+            </div>
+            <label id="w_plan_label">Which plan do you have in mind?</label>
+            <div class="seg" id="w_plan" role="group" aria-labelledby="w_plan_label">
+              <div class="o on" data-v="Deckhand">Deckhand<small>free, per box</small></div>
+              <div class="o" data-v="Cavalier">Cavalier<small>$120 at launch</small></div>
+              <div class="o" data-v="Commodore">Commodore<small>$360 at launch</small></div>
+            </div>
+            <button class="btn dark fbtn" id="w_btn" type="button" onclick="submitForm('Waitlist')">Get on the list</button>
+            <p class="fnote">No checkout. We write when we have a date.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div>
+          <div class="fbrand">
+            <img src="/assets/img/coastal-cavaliers.webp" alt="">
+            <div>
+              <div class="n">Coastal Cavaliers</div>
+              <div style="font-size:12px;color:var(--gold-lt);margin-top:4px;letter-spacing:.04em">Local hands, open water</div>
+            </div>
+          </div>
+          <p class="flegal">Registered Texas cottage food vendor. Home-kitchen items carry their maker&rsquo;s name and this mark: <em>made in a home kitchen that is not inspected by the Department of State Health Services.</em> We are not taking payment today.</p>
+        </div>
+        <div>
+          <h4>On this site</h4>
+          <a href="/">Home</a>
+          <a href="/waitlist.html" aria-current="page">Waitlist</a>
+          <a href="/makers.html">Makers</a>
+          <a href="/marinas.html">Marinas</a>
+          <a href="/apply.html">Apply</a>
+          <a href="/#chest">Slop Chest preview</a>
+        </div>
+        <div>
+          <h4>Reach us</h4>
+          <a href="mailto:orders@coastalcavaliers.com">orders@coastalcavaliers.com</a>
+        </div>
+      </div>
+      <div class="frule"></div>
+      <div class="fbot">
+        <span>&copy; 2026 Coastal Cavaliers &middot; Texas Gulf Coast</span>
+        <span class="build">build waitlist-20260818b <i id="bc"></i></span>
+        <span>Made ashore. Enjoyed aboard.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/js/site.js?v=20260818b" defer></script>
+</body>
+</html>

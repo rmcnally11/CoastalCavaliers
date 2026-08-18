@@ -66,6 +66,26 @@
   status = 200
 
 [[redirects]]
+  from = "/waitlist"
+  to = "/waitlist.html"
+  status = 200
+
+[[redirects]]
+  from = "/join"
+  to = "/waitlist.html"
+  status = 200
+
+[[redirects]]
+  from = "/makers"
+  to = "/makers.html"
+  status = 200
+
+[[redirects]]
+  from = "/marinas"
+  to = "/marinas.html"
+  status = 200
+
+[[redirects]]
   from = "/sport"
   to = "/#sport"
   status = 302
@@ -74,3 +94,4 @@
   from = "/chest"
   to = "/#chest"
   status = 302
+

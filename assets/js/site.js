@@ -40,7 +40,8 @@ box.className = "zipresult in no";
 box.innerHTML = "<b>Not yet &mdash; but you just moved the map.</b> Tell us where you keep her and we will write when we open your coast. <a href='#w_zip' onclick=\"document.getElementById('w_zip').value='"+z+"';var el=document.getElementById('waitlist')||document.getElementById('w_zip');el.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){document.getElementById('w_name').focus()},500);return false;\">Add me to the list &rarr;</a>";
 }
 }
-document.getElementById("zip").addEventListener("keydown", function(e){ if(e.key === "Enter") checkZip(); });
+var zipInput = document.getElementById("zip");
+if(zipInput) zipInput.addEventListener("keydown", function(e){ if(e.key === "Enter") checkZip(); });
 function reservePlan(plan){
   var zipEl = document.getElementById("zip");
   var wZip = document.getElementById("w_zip");
