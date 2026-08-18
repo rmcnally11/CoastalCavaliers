@@ -37,9 +37,12 @@
 .page-hero{padding:64px 0 28px}.page-hero h1{font-size:clamp(40px,5.4vw,72px);margin:16px 0 0;line-height:.98}.page-hero .lede{margin-top:18px}.err404{max-width:720px;padding:28px 0 40px}.err404 h1{margin-top:14px}.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}nav.main a[aria-current="page"]{color:var(--ink);font-weight:600}
 
 /* ---- slop chest: preview plates, not a shop ----------------------- */
-.chest-filt{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0 0 18px;border-bottom:1px solid var(--line2)}
-.chest-filt button{font:600 11px/1 Archivo;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;border:1px solid var(--line2);background:#fff;color:var(--soft);cursor:pointer;border-radius:2px}
-.chest-filt button.on{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.chest-filt{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 26px;padding:0 0 16px;border-bottom:1px solid var(--line)}
+.chest-filt button{font:600 10px/1 Archivo;letter-spacing:.16em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line2);background:transparent;color:var(--mute);cursor:pointer;border-radius:999px}
+.chest-filt button:hover{border-color:var(--ink);color:var(--ink)}
+.chest-filt button.on,.chest-filt button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.chest-filt button:focus{outline:none}
+.chest-filt button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .chest-empty{font-size:15.5px;color:var(--soft);padding:28px 0 8px;max-width:54ch}
 .item[hidden]{display:none!important}
 .item .shot.plate{aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:8px;padding:18px 16px 16px;background:var(--shell-wash);border:1px solid var(--line)}
@@ -56,4 +59,4 @@
 /* build stamp -- proves THIS stylesheet is the one that loaded */
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
-#bc::after{content:"\00b7 css-20260818h"}
+#bc::after{content:"\00b7 css-20260818i"}

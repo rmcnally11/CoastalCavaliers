@@ -272,14 +272,15 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   } catch (e) {}
 })();
 
-/* Slop Chest category filter. Preview wall only — no cart. */
+/* Slop Chest category chips. Preview wall only — no cart. */
 (function(){
   var bar = document.getElementById("chest-filt");
   if(!bar) return;
+  var chips = bar.querySelectorAll("button[data-cat]");
   var items = document.querySelectorAll("#chest .item[data-cat]");
   var empty = document.getElementById("chest-empty");
   var copy = {
-    womens: "No women's pieces on the wall yet. We will not invent one.",
+    womens: "This line is still being designed. There is nothing to show yet.",
     pets: "Nothing for pets on the wall yet. The collar stays down until there is a file."
   };
   function show(cat){
@@ -289,10 +290,10 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
       el.hidden = !ok;
       if(ok) n++;
     });
-    [].forEach.call(bar.querySelectorAll("button[data-cat]"), function(b){
+    [].forEach.call(chips, function(b){
       var on = b.getAttribute("data-cat") === cat;
       b.classList.toggle("on", on);
-      b.setAttribute("aria-selected", on ? "true" : "false");
+      b.setAttribute("aria-pressed", on ? "true" : "false");
     });
     if(!empty) return;
     if(n === 0){
@@ -307,5 +308,15 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     var b = e.target.closest("button[data-cat]");
     if(!b) return;
     show(b.getAttribute("data-cat"));
+  });
+  bar.addEventListener("keydown", function(e){
+    if(e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    var list = [].slice.call(chips);
+    var i = list.indexOf(document.activeElement);
+    if(i < 0) return;
+    e.preventDefault();
+    var next = e.key === "ArrowRight" ? (i + 1) % list.length : (i - 1 + list.length) % list.length;
+    list[next].focus();
+    show(list[next].getAttribute("data-cat"));
   });
 })();
