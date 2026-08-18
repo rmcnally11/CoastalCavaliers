@@ -36,10 +36,30 @@
 
 .page-hero{padding:64px 0 28px}.page-hero h1{font-size:clamp(40px,5.4vw,72px);margin:16px 0 0;line-height:.98}.page-hero .lede{margin-top:18px}.err404{max-width:720px;padding:28px 0 40px}.err404 h1{margin-top:14px}.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}nav.main a[aria-current="page"]{color:var(--ink);font-weight:600}
 
+/* ---- slop chest: preview plates, not a shop ----------------------- */
+.chest-filt{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 26px;padding:0 0 16px;border-bottom:1px solid var(--line)}
+.chest-filt button{font:600 10px/1 Archivo;letter-spacing:.16em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line2);background:transparent;color:var(--mute);cursor:pointer;border-radius:999px}
+.chest-filt button:hover{border-color:var(--ink);color:var(--ink)}
+.chest-filt button.on,.chest-filt button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.chest-filt button:focus{outline:none}
+.chest-filt button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.chest-empty{font-size:15.5px;color:var(--soft);padding:28px 0 8px;max-width:54ch}
+.item[hidden]{display:none!important}
+.item .shot.plate{aspect-ratio:1/1;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:8px;padding:18px 16px 16px;background:var(--shell-wash);border:1px solid var(--line)}
+.item .shot.plate .pn{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:22px;line-height:1.12;letter-spacing:-.02em;color:var(--ink);max-width:16ch}
+.item .shot.plate .ps{font:600 10px/1.4 Archivo;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.item .pv{font:600 10px/1.35 Archivo;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.item .r{justify-content:flex-start}
+.tag.sku1{background:var(--gold);color:#fff}
+.mdl-c .shot.plate{min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;padding:22px 20px;background:var(--shell-wash);border-right:1px solid var(--line)}
+.mdl-c .shot.plate .pn{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:26px;line-height:1.05;letter-spacing:-.02em}
+.mdl-c .shot.plate .ps{font:600 10px/1.4 Archivo;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-top:8px}
+@media(max-width:720px){.mdl-c .shot.plate{min-height:0;height:190px;border-right:none;border-bottom:1px solid var(--line)}}
+
 /* build stamp -- proves THIS stylesheet is the one that loaded */
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
-#bc::after{content:"\00b7 css-20260818f"}
+#bc::after{content:"\00b7 css-20260818j"}
 :focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* mobile nav — same destinations as desktop, drawer under the sticky bar */
@@ -61,3 +81,4 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
 }
 @media(max-width:640px){header.nav-open nav.main,nav.main{padding-left:20px;padding-right:20px}}
 @media(max-width:480px){.brand .n,.brand .t{display:none}}
+
