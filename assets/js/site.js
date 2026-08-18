@@ -86,7 +86,7 @@ function reservePlan(plan){
    does not map intendedPlan → Intended plan. Keep the intendedPlan key
    (Deckhand / Cavalier / Commodore) AND write "Intended plan: …" into notes
    until n8n adds "Intended plan": s(b.intendedPlan). */
-function payload(type){
+function payload(type, src){
 var b = { type: type, source: "Site" };
 if(type === "Maker"){
 b.name=val("m_name"); b.business=val("m_business"); b.city=val("m_city");
@@ -102,6 +102,9 @@ var store = document.getElementById("r_store");
 if(store) b.shipsStore = !!store.checked;
 var role = val("r_role"), notes = val("r_notes");
 b.notes = role ? (notes ? notes + " \u00b7 Role: " + role : "Role: " + role) : notes;
+} else if(src === "boatSnacks"){
+b.name=val("bs_name"); b.email=val("bs_email"); b.zip=val("bs_zip");
+b.notes="Boat Snacks popup";
 } else {
 b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
 b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
@@ -142,12 +145,12 @@ var hps = document.querySelectorAll('[name="company_website"]');
 for (var i=0;i<hps.length;i++){ if (hps[i].value) return true; }
 return false;
 }
-function submitForm(type){
+function submitForm(type, src){
 if (ccBotCheck()) { return; }
-var btn = document.getElementById(BTN[type]);
+var btn = document.getElementById(src === "boatSnacks" ? "bs_btn" : BTN[type]);
 var label = btn.getAttribute("data-l") || btn.textContent;
 btn.setAttribute("data-l", label);
-var b = payload(type);
+var b = payload(type, src);
 if(!b) return;
 if(type === "Waitlist" && (!b.name || !b.email || !b.zip)){
 btn.textContent = "Name, email and zip";
@@ -164,7 +167,8 @@ send(b).then(function(ok){
 btn.disabled = false;
 if(ok){
 btn.textContent = DONE[type];
-FIELDS[type].forEach(function(id){
+var clear = src === "boatSnacks" ? ["bs_name","bs_email","bs_zip"] : FIELDS[type];
+clear.forEach(function(id){
   var e=document.getElementById(id);
   if(!e) return;
   if(e.type === "checkbox") e.checked = false;
@@ -174,9 +178,13 @@ if(type === "Marina"){
   var store = document.getElementById("r_store");
   if(store) store.checked = false;
 }
-if(type === "Waitlist"){
+if(type === "Waitlist" && src !== "boatSnacks"){
   var g = document.getElementById("w_plan");
   if(g){ [].forEach.call(g.children, function(c,i){ c.classList.toggle("on", i===0); }); }
+}
+if(src === "boatSnacks"){
+  setTimeout(function(){ document.dispatchEvent(new CustomEvent("cc-mdl-done")); }, 900);
+  return;
 }
 setTimeout(function(){ btn.textContent = label; }, 6000);
 } else {
@@ -195,13 +203,14 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
 [].forEach.call(els, function(e){ io.observe(e); });
 })();
 
-/* ---- inaugural drop modal -------------------------------------------
-   Deliberately does NOT fire on load. The zip capture is the primary
-   conversion on this page; a popup over it trades the asset for a sale.
-   Fires at 9s or 35% scroll, whichever is first, and never if the visitor
-   has already engaged the zip field. Dismissal is permanent.            */
+/* ---- Boat Snacks waitlist popup -------------------------------------
+   Same #mdl as before — one popup, not a second. Does NOT fire on load.
+   The zip capture is the primary conversion; a popup over it trades the
+   asset for a name. Fires at 9s or 35% scroll, whichever is first, and
+   never if the visitor has already engaged the homepage zip field.
+   Dismissal (or a successful waitlist submit) is permanent.             */
 (function(){
-  var KEY = "cc_drop_seen_v1";
+  var KEY = "cc_boat_snacks_popup_v1";
   var mdl = document.getElementById("mdl");
   if(!mdl) return;
   try { if(localStorage.getItem(KEY)) return; } catch(e){}
@@ -216,17 +225,20 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   }
 
   function focusables(){
-    return mdl.querySelectorAll("a[href],button:not([disabled]),input,[tabindex]:not([tabindex='-1'])");
+    return mdl.querySelectorAll("a[href],button:not([disabled]),input:not([tabindex='-1']),[tabindex]:not([tabindex='-1'])");
   }
   function open(){
     if(fired || suppressed) return;
+    if(document.activeElement === zip) return;
     fired = true;
     lastFocus = document.activeElement;
     mdl.removeAttribute("hidden");
     mdl.style.display = "";
     mdl.classList.add("on");
     document.body.style.overflow = "hidden";
-    var f = focusables(); if(f.length) f[f.length-1].focus();
+    var name = document.getElementById("bs_name");
+    if(name) name.focus();
+    else { var f = focusables(); if(f.length) f[0].focus(); }
   }
   function close(remember){
     mdl.classList.remove("on");
@@ -238,9 +250,15 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   }
 
   document.getElementById("mdl-x").addEventListener("click", function(){ close(true); });
-  document.getElementById("mdl-later").addEventListener("click", function(){ close(true); });
-  document.getElementById("mdl-go").addEventListener("click", function(){ close(true); });
   mdl.addEventListener("click", function(e){ if(e.target === mdl) close(true); });
+  document.addEventListener("cc-mdl-done", function(){ close(true); });
+  var form = document.getElementById("mdl-form");
+  if(form){
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      submitForm("Waitlist", "boatSnacks");
+    });
+  }
   document.addEventListener("keydown", function(e){
     if(!mdl.classList.contains("on")) return;
     if(e.key === "Escape"){ close(true); return; }
