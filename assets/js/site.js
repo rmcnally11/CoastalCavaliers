@@ -15,16 +15,26 @@ var WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
 var SERVED = ["77565","77573","77586","77058","77059","77062","77546","77598","77504","77505"];
 function val(id){ var e=document.getElementById(id); return e && e.value.trim() ? e.value.trim() : undefined; }
 function seg(id){ var e=document.querySelector("#"+id+" .o.on"); return e ? e.dataset.v : undefined; }
-function siteSource(){
-  var p = (location.pathname || "/").toLowerCase();
-  p = p.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
-  p = p.replace(/\/+$/, "") || "/";
-  if (p === "/") return "Site homepage";
-  if (p === "/waitlist") return "Site /waitlist";
-  if (p === "/makers") return "Site /makers";
-  if (p === "/marinas") return "Site /marinas";
-  if (p === "/apply") return "Site /apply";
-  return "Site";
+/* Seawall Applications contract. Never send Producer / Marina / Member link IDs. */
+var CC_KEYS = ["type","name","business","marinaName","email","phone","city","zip","makerTier","regNumber","products","capacity","deliveryPref","slips","shipsStore","dropType","boatType","notes","source","intendedPlan"];
+var CC_TYPES = { Maker:1, Marina:1, Waitlist:1 };
+var CC_TIERS = { Cottage:1, Licensed:1, House:1 };
+var CC_PLANS = { Deckhand:1, Cavalier:1, Commodore:1 };
+function contractBody(b){
+  var out = {}, i, k, v;
+  if (!b || !CC_TYPES[b.type]) return null;
+  for (i=0;i<CC_KEYS.length;i++){
+    k = CC_KEYS[i];
+    if (k === "type") { out.type = b.type; continue; }
+    if (k === "source") { out.source = "Site"; continue; }
+    v = b[k];
+    if (v === undefined || v === null || v === "") continue;
+    if (k === "makerTier" && !CC_TIERS[v]) continue;
+    if (k === "intendedPlan" && !CC_PLANS[v]) continue;
+    if (k === "shipsStore") { out[k] = !!v; continue; }
+    out[k] = v;
+  }
+  return out;
 }
 /* segmented controls */
 document.querySelectorAll(".seg").forEach(function(g){
@@ -71,9 +81,13 @@ function reservePlan(plan){
   }, 400);
   return false;
 }
-/* forms — same field names as apply.html; omit empty; only read inputs that exist */
+/* forms — Seawall camelCase only; omit empty; never invent App as source.
+   Temporary fallback (not a second capture path): WF2 Shape Application still
+   does not map intendedPlan → Intended plan. Keep the intendedPlan key
+   (Deckhand / Cavalier / Commodore) AND write "Intended plan: …" into notes
+   until n8n adds "Intended plan": s(b.intendedPlan). */
 function payload(type){
-var b = { type: type, source: siteSource() };
+var b = { type: type, source: "Site" };
 if(type === "Maker"){
 b.name=val("m_name"); b.business=val("m_business"); b.city=val("m_city");
 b.zip=val("m_zip"); b.phone=val("m_phone"); b.email=val("m_email");
@@ -98,7 +112,7 @@ if(wNotes) parts.push(wNotes);
 if(b.intendedPlan) parts.push("Intended plan: " + b.intendedPlan);
 if(parts.length) b.notes = parts.join(" \u00b7 ");
 }
-return b;
+return contractBody(b);
 }
 function send(body, tries){
 tries = tries || 3;
@@ -134,6 +148,7 @@ var btn = document.getElementById(BTN[type]);
 var label = btn.getAttribute("data-l") || btn.textContent;
 btn.setAttribute("data-l", label);
 var b = payload(type);
+if(!b) return;
 if(type === "Waitlist" && (!b.name || !b.email || !b.zip)){
 btn.textContent = "Name, email and zip";
 setTimeout(function(){ btn.textContent = label; }, 3000);
