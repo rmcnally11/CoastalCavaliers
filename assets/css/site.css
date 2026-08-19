@@ -49,7 +49,7 @@
 /* build stamp -- proves THIS stylesheet is the one that loaded */
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
-#bc::after{content:"\00b7 css-20260818k"}
+#bc::after{content:"\00b7 css-20260818m"}
 :focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* mobile nav — same destinations as desktop, drawer under the sticky bar */

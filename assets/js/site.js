@@ -345,15 +345,18 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   var items = document.querySelectorAll("#chest .item[data-cat]");
   var empty = document.getElementById("chest-empty");
   function show(cat){
+    var n = 0;
     [].forEach.call(items, function(el){
-      el.hidden = !(cat === "all" || el.getAttribute("data-cat") === cat);
+      var ok = cat === "all" || el.getAttribute("data-cat") === cat;
+      el.hidden = !ok;
+      if(ok) n++;
     });
     [].forEach.call(chips, function(b){
       var on = b.getAttribute("data-cat") === cat;
       b.classList.toggle("on", on);
       b.setAttribute("aria-pressed", on ? "true" : "false");
     });
-    if(empty) empty.hidden = cat !== "womens";
+    if(empty) empty.hidden = !(cat === "womens" && n === 0);
   }
   bar.addEventListener("click", function(e){
     var b = e.target.closest("button[data-cat]");
