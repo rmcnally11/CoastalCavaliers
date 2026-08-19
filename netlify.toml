@@ -87,8 +87,13 @@
 
 [[redirects]]
   from = "/sport"
-  to = "/#sport"
-  status = 302
+  to = "/sport.html"
+  status = 200
+
+[[redirects]]
+  from = "/waterdog"
+  to = "/waterdog.html"
+  status = 200
 
 [[redirects]]
   from = "/chest"
