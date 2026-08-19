@@ -49,7 +49,7 @@
 /* build stamp -- proves THIS stylesheet is the one that loaded */
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
-#bc::after{content:"\00b7 css-20260818m"}
+#bc::after{content:"\00b7 css-20260819a"}
 :focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* mobile nav — same destinations as desktop, drawer under the sticky bar */
@@ -71,3 +71,67 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
 }
 @media(max-width:640px){header.nav-open nav.main,nav.main{padding-left:20px;padding-right:20px}}
 @media(max-width:480px){.brand .n,.brand .t{display:none}}
+
+/* ---- homepage 20260819a: first screen, shop wall, mobile ---- */
+.hero{padding:clamp(48px,9vh,120px) 0 clamp(56px,10vh,128px)}
+.hero-place{max-width:22em}
+.hero-place .kick{margin-bottom:8px}
+.hero h1{font-size:clamp(56px,9vw,118px);line-height:.9;margin:18px 0 0;letter-spacing:-.035em}
+.hero .lede{margin:28px 0 0;font-size:clamp(18px,2.1vw,22px);max-width:22ch;color:var(--soft)}
+.hero .zipbox{margin-top:40px;max-width:440px}
+.hero .zipnote{max-width:46ch}
+@media(min-width:880px){
+  .hero{min-height:calc(100svh - 74px);display:flex;align-items:center}
+}
+
+.box-stage{max-width:720px}
+.box-stage .sec-head{margin-bottom:36px}
+.box-stage .manifest{box-shadow:0 30px 60px -40px rgba(8,41,82,.34)}
+.box-stage .boxnote{margin-top:18px}
+
+.chest-note{border-top:2px solid var(--green);padding:15px 0 22px;margin-bottom:26px;display:flex;gap:20px;align-items:baseline;flex-wrap:wrap}
+.chest-note p{font-size:15.5px;color:var(--soft);margin:0;flex:1;min-width:280px}
+
+#chest .chest{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 28px}
+#chest .item{background:transparent;border:none}
+#chest .item .shot{background:var(--shell-wash);border:1px solid var(--line);overflow:hidden}
+#chest .item .shot img{aspect-ratio:4/5;object-fit:cover;object-position:center 22%;width:100%;display:block}
+#chest .item[data-cat="accessories"] .shot img,
+#chest .item[data-cat="pets"] .shot img{object-position:center 46%;aspect-ratio:1/1}
+#chest .item .b{padding:16px 2px 0}
+#chest .item h3{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(17px,1.6vw,21px);letter-spacing:-.02em;line-height:1.15}
+#chest .item .d{font-size:13.5px;line-height:1.5;margin:8px 0 12px}
+#chest .item .r{border-top:1px solid var(--line2);padding-top:10px}
+.chest-filt{gap:10px;margin:0 0 32px}
+.chest-filt button{min-height:44px;padding:12px 16px;font-size:14px}
+
+.wait-card{background:var(--shell-wash);border:1px solid var(--line);border-top:3px solid var(--shell);border-radius:3px;padding:44px 42px}
+
+.also{margin-bottom:36px;padding-bottom:28px;border-bottom:1px solid rgba(8,41,82,.18)}
+.also .kick{margin-bottom:14px}
+.also p{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0}
+.also a{padding:8px 0;font-size:15px}
+
+@media(max-width:1000px){
+  #chest .chest{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 18px}
+}
+@media(max-width:640px){
+  .hero{padding:36px 0 48px}
+  .hero h1{font-size:clamp(48px,13.5vw,72px);line-height:.92}
+  .hero .lede{font-size:18px;max-width:28ch}
+  .hero .zipbox{flex-direction:column;max-width:none;gap:10px}
+  .hero .zipbox input,.hero .zipbox .btn{min-height:48px;width:100%}
+  .wait-card{padding:28px 20px}
+  .chest-filt{gap:8px}
+  .chest-filt button{min-height:44px;padding:12px 14px;font-size:13.5px}
+  #chest .chest{gap:22px 12px}
+  #chest .item h3{font-size:16px}
+  #chest .item .d{font-size:12.5px}
+  .also a{min-height:44px;display:inline-flex;align-items:center}
+  .hdr-cta{padding:12px 14px;font-size:13px}
+  .seg .o{min-height:48px;display:flex;flex-direction:column;justify-content:center}
+}
+@media(max-width:420px){
+  #chest .chest{grid-template-columns:1fr 1fr;gap:18px 10px}
+  .chest-filt button{flex:1 1 calc(50% - 8px)}
+}
