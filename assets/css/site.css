@@ -49,7 +49,7 @@
 /* build stamp -- proves THIS stylesheet is the one that loaded */
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
-#bc::after{content:"\00b7 css-20260819a"}
+#bc::after{content:"\00b7 css-20260819b"}
 :focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* mobile nav — same destinations as desktop, drawer under the sticky bar */
@@ -74,11 +74,13 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
 
 /* ---- homepage 20260819a: first screen, shop wall, mobile ---- */
 .hero{padding:clamp(48px,9vh,120px) 0 clamp(56px,10vh,128px)}
-.hero-place{max-width:22em}
-.hero-place .kick{margin-bottom:8px}
-.hero h1{font-size:clamp(56px,9vw,118px);line-height:.9;margin:18px 0 0;letter-spacing:-.035em}
+.hero-place{max-width:34rem}
+.hero-place .kick{margin-bottom:8px;max-width:22em}
+.hero h1{font-size:clamp(56px,9vw,118px);line-height:.9;margin:18px 0 0;letter-spacing:-.035em;max-width:22em}
 .hero .lede{margin:28px 0 0;font-size:clamp(18px,2.1vw,22px);max-width:22ch;color:var(--soft)}
-.hero .zipbox{margin-top:40px;max-width:440px}
+.hero .zipbox{margin-top:40px;max-width:34rem;width:100%;flex-wrap:nowrap}
+.hero .zipbox #zip{flex:1 1 14rem;min-width:14rem}
+.hero .zipbox .btn{flex:0 0 auto;white-space:nowrap}
 .hero .zipnote{max-width:46ch}
 @media(min-width:880px){
   .hero{min-height:calc(100svh - 74px);display:flex;align-items:center}
@@ -119,8 +121,8 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
   .hero{padding:36px 0 48px}
   .hero h1{font-size:clamp(48px,13.5vw,72px);line-height:.92}
   .hero .lede{font-size:18px;max-width:28ch}
-  .hero .zipbox{flex-direction:column;max-width:none;gap:10px}
-  .hero .zipbox input,.hero .zipbox .btn{min-height:48px;width:100%}
+  .hero .zipbox{flex-direction:column;flex-wrap:wrap;max-width:none;gap:10px}
+  .hero .zipbox #zip,.hero .zipbox .btn{min-height:48px;width:100%;min-width:0;flex:1 1 auto}
   .wait-card{padding:28px 20px}
   .chest-filt{gap:8px}
   .chest-filt button{min-height:44px;padding:12px 14px;font-size:13.5px}
