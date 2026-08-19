@@ -374,3 +374,4 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     show(list[next].getAttribute("data-cat"));
   });
 })();
+/* build js-20260819a */
