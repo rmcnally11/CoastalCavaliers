@@ -336,3 +336,38 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   });
   sync();
 })();
+
+/* Slop Chest category chips. Preview wall only — hide/show signed cards. */
+(function(){
+  var bar = document.getElementById("chest-filt");
+  if(!bar) return;
+  var chips = bar.querySelectorAll("button[data-cat]");
+  var items = document.querySelectorAll("#chest .item[data-cat]");
+  var empty = document.getElementById("chest-empty");
+  function show(cat){
+    [].forEach.call(items, function(el){
+      el.hidden = !(cat === "all" || el.getAttribute("data-cat") === cat);
+    });
+    [].forEach.call(chips, function(b){
+      var on = b.getAttribute("data-cat") === cat;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    if(empty) empty.hidden = cat !== "womens";
+  }
+  bar.addEventListener("click", function(e){
+    var b = e.target.closest("button[data-cat]");
+    if(!b) return;
+    show(b.getAttribute("data-cat"));
+  });
+  bar.addEventListener("keydown", function(e){
+    if(e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    var list = [].slice.call(chips);
+    var i = list.indexOf(document.activeElement);
+    if(i < 0) return;
+    e.preventDefault();
+    var next = e.key === "ArrowRight" ? (i + 1) % list.length : (i - 1 + list.length) % list.length;
+    list[next].focus();
+    show(list[next].getAttribute("data-cat"));
+  });
+})();
