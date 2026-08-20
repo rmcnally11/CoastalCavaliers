@@ -24,9 +24,8 @@ Static HTML. Push to `main` and Netlify serves it. That is how bots update the *
 ### You must not
 
 - Dump the TanStack member app into this repo
-- Replace `app/index.html` (coming-soon stub) until told
-- Add a header CTA, two-door banner, or “Open the app” button — header stays **Check your water**
-- Touch anything except the quiet footer link **Also from us → Members** (`/app`) when adding the app
+- Hide the app in the footer only. Header CTA stays **Check your water**. The Gulf Sunrise rail is **Join the club** + **Get the app** — keep both. `Get the app` points at `/app`.
+- Collapse the two surfaces into one page
 - Invent makers, baker profiles, food photography, or heraldry
 - Take money. Stripe lives on the website later. The app holds only.
 - Invent `/webhook/cc-order`. Holds are WF1-shaped. Do not invent a second n8n URL.
