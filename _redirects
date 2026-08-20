@@ -7,14 +7,18 @@
 /sport      /sport.html      200
 /waterdog   /waterdog.html   200
 
-# App stub — keep /app and /app/ as the stub, not a shop.
-/app        /app/index.html  200
+# Member box — public Grok URL. Force /app because app/index.html would shadow.
+# Do not force /app/* — app/catalog.json must stay on this site (WF0).
+/app              https://forge-breeze-mist-berry.grok.me/app  302!
+/app/             https://forge-breeze-mist-berry.grok.me/app  302!
+/app/index.html   https://forge-breeze-mist-berry.grok.me/app  302!
+/app/*            https://forge-breeze-mist-berry.grok.me/app/:splat  302
 
 # Existing homepage anchors.
 /chest      /#chest          302
 
 # Unknown paths must 404. Do not restore "/* /index.html 200" —
 # that made junk URLs look like a live homepage (soft 404).
-# Existing files (/, /apply.html, /app/, /app/index.html, assets,
+# Existing files (/, /apply.html, /app/catalog.json, assets,
 # sitemap, robots) are served as themselves via Netlify shadowing.
 /*          /404.html        404
