@@ -11,10 +11,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260819c">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260819e">
+  <link rel="stylesheet" href="/assets/css/doors.css?v=20260819e">
 </head>
 <body>
   <header>
+    <div class="doors" role="navigation" aria-label="Club or app">
+      <div class="wrap">
+        <a class="doors-join" href="/#waitlist">Join the club</a>
+        <a class="doors-go" href="/app">Get the app</a>
+      </div>
+    </div>
     <div class="wrap bar">
       <a class="brand" href="/">
         <img src="/assets/img/coastal-cavaliers.webp" alt="Coastal Cavaliers">
@@ -30,6 +37,7 @@
         <a href="/makers.html">Makers</a>
         <a href="/marinas.html">Marinas</a>
         <a href="/apply.html" aria-current="page">Apply</a>
+        <a class="nav-app" href="/app">The app</a>
       </nav>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
       <a class="btn dark hdr-cta" href="#hub">Three ways in</a>
@@ -220,6 +228,7 @@
           <a href="/marinas.html">Marinas</a>
           <a href="/apply.html" aria-current="page">Apply</a>
           <a href="/waitlist.html">Waitlist</a>
+          <a href="/app">Get the app</a>
           <a href="mailto:orders@coastalcavaliers.com?subject=Yacht%20provisioning">Yacht &amp; tournament</a>
           <a href="/sport">Cavaliers Sport</a>
           <a href="/waterdog">Waterdog Fuel</a>
@@ -243,6 +252,7 @@
           <a href="/#box">The box</a>
           <a href="/#chest">Slop Chest</a>
           <a href="/waitlist.html">Waitlist</a>
+          <a href="/app">Get the app</a>
         </div>
         <div>
           <h4>Work with us</h4>
@@ -261,7 +271,7 @@
       </div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20260819c" defer></script>
+  <script src="/assets/js/site.js?v=20260819e" defer></script>
   <script>
 const WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
 let TYPE = "Maker";
@@ -299,7 +309,6 @@ function contractBody(b) {
   });
   return out;
 }
-/* Temporary fallback: WF2 does not map intendedPlan → Intended plan. Keep the key and also write Notes. */
 function payload() {
   const base = { type: TYPE, source: "Site" };
   if (TYPE === "Maker") return contractBody({ ...base, name: val("m_name"), business: val("m_business"), city: val("m_city"), zip: val("m_zip"), phone: val("m_phone"), email: val("m_email"), makerTier: segVal("m_tier"), regNumber: val("m_reg"), products: val("m_products"), capacity: val("m_capacity"), deliveryPref: val("m_delivery"), notes: val("m_notes") });
@@ -321,7 +330,7 @@ async function send(body, tries = 3) {
     try {
       const r = await fetch(WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
       if (r.ok) return true;
-    } catch (e) { /* offline or blocked — retry */ }
+    } catch (e) { }
     await new Promise(s => setTimeout(s, 800 * (i + 1)));
   }
   return false;
