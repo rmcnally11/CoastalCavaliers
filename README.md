@@ -5,6 +5,10 @@ Netlify just serves this folder.
 
 **Local hands, open water.**
 
+Bots: read `BOTS.md` first. GitHub is the file source of truth for this site.
+n8n owns Airtable. The member app is a separate Grok/Vercel surface — do not
+dump it here. WF0 overwrites `app/catalog.json`.
+
 ---
 
 ## Structure
@@ -16,7 +20,8 @@ assets/
   css/site.css      all styles
   js/site.js        all behaviour, including the form handler
   img/*.webp        product and brand images
-app/                the ordering PWA (separate, self-contained)
+app/                coming-soon stub + catalog.json (WF0 overwrites catalog.json)
+BOTS.md             contract for grok-bots / n8n — read this first
 netlify.toml        headers, caching, redirects
 sitemap.xml         regenerate if pages are added
 robots.txt
@@ -63,6 +68,7 @@ automatically.
 - **Zip codes served, webhook, form logic** — `assets/js/site.js`
   (the served zip list is the `SERVED` array near the top)
 - **Images** — drop a `.webp` into `assets/img/` and reference it relatively
+- **Weekly catalog** — `app/catalog.json` (n8n WF0 overwrites this)
 
 ## Caching, so you are not surprised
 
