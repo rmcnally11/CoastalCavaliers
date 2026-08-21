@@ -12,14 +12,22 @@
     });
   }
 
+  var SHEET_KEY = "wd-sheet-v1";
+
   function val(id) {
     var e = document.getElementById(id);
     return e && e.value.trim() ? e.value.trim() : undefined;
   }
+  function parseAmt(v) {
+    if (v == null) return NaN;
+    var s = String(v).trim();
+    if (!s) return NaN;
+    var n = parseFloat(s.replace(/[^0-9.]/g, ""));
+    return isFinite(n) ? n : NaN;
+  }
   function num(id) {
     var e = document.getElementById(id);
-    if (!e) return NaN;
-    return parseFloat(String(e.value).replace(/[^0-9.]/g, ""));
+    return e ? parseAmt(e.value) : NaN;
   }
   function money(n) {
     if (!isFinite(n)) return "—";
@@ -28,6 +36,34 @@
   function cents(n) {
     if (!isFinite(n)) return "—";
     return (n * 100).toFixed(1) + "¢";
+  }
+  function galPrice(n) {
+    return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+  }
+  function readSheet() {
+    try {
+      var s = JSON.parse(localStorage.getItem(SHEET_KEY) || "{}");
+      return s && typeof s === "object" ? s : {};
+    } catch (e) {
+      return {};
+    }
+  }
+  // Only real sheet numbers. Omit blanks, placeholders, and uncomputed lines.
+  function sheetQuoteParts(s) {
+    s = s || {};
+    var r = parseAmt(s.rack);
+    var p = parseAmt(s.paid);
+    var g = parseAmt(s.gal);
+    var parts = [];
+    if (isFinite(r)) parts.push("Rack " + galPrice(r));
+    if (isFinite(p)) parts.push("Delivered " + galPrice(p));
+    if (isFinite(g)) parts.push("Gallons " + g.toLocaleString("en-US", { maximumFractionDigits: 0 }));
+    if (isFinite(r) && isFinite(p)) {
+      var d = p - r;
+      parts.push("Differential " + cents(d));
+      if (isFinite(g) && g > 0) parts.push("Exposure " + money(d * g));
+    }
+    return parts;
   }
   function honeypotFilled(form) {
     var hp = form.querySelector('[name="company_website"]');
@@ -86,6 +122,11 @@
 
   var marina = document.getElementById("wd-form");
   if (marina) {
+    var notesEl = document.getElementById("r_notes");
+    if (notesEl && !notesEl.value.trim()) {
+      var sheetParts = sheetQuoteParts(readSheet());
+      if (sheetParts.length) notesEl.value = sheetParts.join(" · ");
+    }
     marina.addEventListener("submit", function (e) {
       e.preventDefault();
       if (honeypotFilled(marina)) return;
@@ -193,21 +234,19 @@
     var dOut = document.getElementById("s_diff");
     var eOut = document.getElementById("s_exp");
     var box = document.getElementById("s_verdict");
-    var KEY = "wd-sheet-v1";
     function load() {
-      try {
-        var s = JSON.parse(localStorage.getItem(KEY) || "{}");
-        if (s.rack) rack.value = s.rack;
-        if (s.paid) paid.value = s.paid;
-        if (s.gal) gal.value = s.gal;
-      } catch (e) {}
+      var s = readSheet();
+      if (s.rack) rack.value = s.rack;
+      if (s.paid) paid.value = s.paid;
+      if (s.gal) gal.value = s.gal;
     }
     function save() {
       try {
-        localStorage.setItem(KEY, JSON.stringify({ rack: rack.value, paid: paid.value, gal: gal.value }));
+        localStorage.setItem(SHEET_KEY, JSON.stringify({ rack: rack.value, paid: paid.value, gal: gal.value }));
       } catch (e) {}
     }
     function run() {
+      save();
       var r = num("s_rack");
       var p = num("s_paid");
       var g = num("s_gal");
@@ -246,7 +285,6 @@
         v.textContent = "Someone has been comfortable.";
         pEl.textContent = "This is worth a conversation today.";
       }
-      save();
     }
     load();
     ["input", "change"].forEach(function (ev) {
