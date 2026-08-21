@@ -102,14 +102,10 @@
       }
       var notes = "Waterdog Fuel — quote request";
       if (val("r_role")) notes += " · Role: " + val("r_role");
-      if (val("r_rack")) notes += " · Rack: " + val("r_rack");
-      if (val("r_paid")) notes += " · Delivered: " + val("r_paid");
-      if (val("r_gal")) notes += " · Annual gal: " + val("r_gal");
-      if (val("r_rack") && val("r_paid")) {
-        var rN = parseFloat(String(val("r_rack")).replace(/[^0-9.]/g, ""));
-        var pN = parseFloat(String(val("r_paid")).replace(/[^0-9.]/g, ""));
-        if (isFinite(rN) && isFinite(pN)) notes += " · Diff: " + ((pN - rN) * 100).toFixed(1) + "¢";
-      }
+      if (val("r_pricing")) notes += " · Pricing: " + val("r_pricing");
+      if (val("r_product")) notes += " · Product: " + val("r_product");
+      if (val("r_volume")) notes += " · Volume: " + val("r_volume");
+      if (val("r_when")) notes += " · When: " + val("r_when");
       if (val("r_notes")) notes += " · " + val("r_notes");
       send({
         type: "Marina",
@@ -261,18 +257,31 @@
     run();
   }
 
-  // Prefill quote optional fields from the marina sheet (same device).
-  (function () {
-    var rack = document.getElementById("r_rack");
-    if (!rack) return;
-    try {
-      var s = JSON.parse(localStorage.getItem("wd-sheet-v1") || "{}");
-      if (s.rack && !rack.value) rack.value = s.rack;
-      var paid = document.getElementById("r_paid");
-      if (s.paid && paid && !paid.value) paid.value = s.paid;
-      var gal = document.getElementById("r_gal");
-      if (s.gal && gal && !gal.value) gal.value = s.gal;
-    } catch (e) {}
-  })();
+  var news = document.getElementById("wd-news");
+  if (news) {
+    news.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (honeypotFilled(news)) return;
+      var err = document.getElementById("n-err");
+      var done = document.getElementById("n-done");
+      var btn = news.querySelector("button[type=submit]");
+      if (err) err.classList.remove("on");
+      var email = val("n_email");
+      if (!email) {
+        if (err) { err.textContent = "Email is enough to subscribe."; err.classList.add("on"); }
+        return;
+      }
+      var name = val("n_name") || email;
+      var notes = "Waterdog Fuel — market update subscribe";
+      if (val("n_marina")) notes += " · Marina: " + val("n_marina");
+      send({
+        type: "Waitlist",
+        name: name,
+        email: email,
+        marinaName: val("n_marina"),
+        notes: notes,
+      }, news, err, done, btn, "Subscribe to market updates");
+    });
+  }
 
 })();
