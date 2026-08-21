@@ -1,0 +1,21 @@
+Build a base called WD_Operations with six tables. Use these exact field names. This is Waterdog Fuel Co., a separate company from Coastal Cavaliers. Do not mix food, bread, or club membership into this base.
+
+**Leads** — Lead (autonumber, primary); Received (created time); Kind (single select: Marina, Boat, Talk); Status (single select: New, Contacted, Quoted, Won, Declined); Name (text); Email (email); Phone (phone); Marina (text); Boat / place (text); Notes (long text); Source (single select: Site, Dock, Call, Email); Airtable App # (text); Cycle (text).
+
+**Accounts** — Account (text, primary); Kind (single select: Marina, Boat); Name (text); Email (email); Phone (phone); Marina (text); Slips (number); Boat (text); Product mix (single select: Gasoline, Diesel, Both); Status (single select: Prospect, Talking, Signed, Live, Lapsed); Host fee ¢/gal (number); Notes (long text).
+
+**Quotes** — Quote (autonumber, primary); Account (link to Accounts); Date (date); Rack $/gal (number, 4 decimals); Delivered $/gal (number, 4 decimals); Differential ¢ (number, 1 decimal); Annual gallons (number); Annual exposure $ (currency); Grade (text); Verdict (single select: Under 12¢, 12–20¢, 20–30¢, Over 30¢); Status (single select: Draft, Sent, Accepted, No fit); Notes (long text).
+
+**Invoices** — Invoice (text, primary); Account (link to Accounts); Cycle (text); Product (single select: Gasoline, Diesel, Both); Gallons (number); Price $/gal (number, 4 decimals); Host fee $ (currency); Total $ (currency); Status (single select: Draft, Sent, Paid, Void); Issued (date); Paid (date); Notes (long text). Keep this table empty until Waterdog is actually delivering. Do not take card payments in this base.
+
+**Tickets** — Ticket (autonumber, primary); Cycle (text); Account (link to Accounts); Marina (text); Slip (text); Boat (text); Product (single select: Gasoline, Diesel, Both); Est. gallons (number); Metered gallons (number); Window (text); Status (single select: Held, Routed, Filled, Rolled, Exception); Receipt # (text). Empty until GATE 5 is bound.
+
+**Hosts** — Host marina (text, primary); Cluster (single select: CL-01 Clear Lake, Galveston, South); Has fuel dock (single select: Yes, No); Agreement (single select: Prospect, Talking, Signed, Live); Host fee ¢/gal (number); Drop contact (text); Phone (phone); Address (long text); Status (single select: Prospect, Talking, Signed, Live); Covenant note (long text). Default covenant: never wet-hose where Has fuel dock = Yes unless the marina asks.
+
+Views to create:
+- Leads → New (filter Status = New)
+- Quotes → Open (Status is not Accepted and not No fit)
+- Hosts → No fuel dock (Has fuel dock = No) — this is the wedge
+- Tickets → This cycle (filter Cycle = current)
+
+Do not add a Members table. Do not add Producers. Do not add bread.

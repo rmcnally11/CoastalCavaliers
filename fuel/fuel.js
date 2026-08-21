@@ -1,5 +1,8 @@
 (function () {
   var WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
+  var CC_KEYS = ["type","name","business","marinaName","email","phone","city","zip","makerTier","regNumber","products","capacity","deliveryPref","slips","shipsStore","dropType","boatType","notes","source","intendedPlan"];
+  var CC_TYPES = { Maker:1, Marina:1, Waitlist:1 };
+
   var t = document.querySelector(".nav-toggle");
   var h = document.querySelector("header");
   if (t && h) {
@@ -26,41 +29,66 @@
     if (!isFinite(n)) return "—";
     return (n * 100).toFixed(1) + "¢";
   }
-  function send(body, form, err, done, btn, doneLabel) {
-    Object.keys(body).forEach(function (k) {
-      if (body[k] === undefined || body[k] === "") delete body[k];
-    });
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = "Sending…";
+  function honeypotFilled(form) {
+    var hp = form.querySelector('[name="company_website"]');
+    return !!(hp && hp.value && hp.value.trim());
+  }
+  function contractBody(b) {
+    var out = {}, i, k, v;
+    if (!b || !CC_TYPES[b.type]) return null;
+    for (i = 0; i < CC_KEYS.length; i++) {
+      k = CC_KEYS[i];
+      if (k === "type") { out.type = b.type; continue; }
+      if (k === "source") { out.source = "Site"; continue; }
+      v = b[k];
+      if (v === undefined || v === null || v === "") continue;
+      if (k === "shipsStore") { out[k] = !!v; continue; }
+      out[k] = v;
     }
-    fetch(WEBHOOK, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("bad");
-        form.style.display = "none";
-        if (done) done.classList.add("on");
+    return out;
+  }
+  function send(body, form, err, done, btn, doneLabel) {
+    body = contractBody(body);
+    if (!body) {
+      if (err) { err.textContent = "Could not send. Email orders@coastalcavaliers.com."; err.classList.add("on"); }
+      return;
+    }
+    if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+    function go(n) {
+      fetch(WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       })
-      .catch(function () {
+        .then(function (r) {
+          if (r.ok) {
+            form.style.display = "none";
+            if (done) done.classList.add("on");
+            return;
+          }
+          retry(n);
+        })
+        .catch(function () { retry(n); });
+    }
+    function retry(n) {
+      if (n >= 3) {
         if (err) {
-          err.innerHTML =
-            'Could not send from here. Email <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a> or call <a href="tel:5612717911">561-271-7911</a>.';
+          err.innerHTML = 'Could not send from here. Email <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a> or call <a href="tel:5612717911">561-271-7911</a>.';
           err.classList.add("on");
         }
-        if (btn) {
-          btn.disabled = false;
-          btn.textContent = doneLabel;
-        }
-      });
+        if (btn) { btn.disabled = false; btn.textContent = doneLabel; }
+        return;
+      }
+      setTimeout(function () { go(n + 1); }, 700 * (n + 1));
+    }
+    go(0);
   }
 
   var marina = document.getElementById("wd-form");
   if (marina) {
     marina.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (honeypotFilled(marina)) return;
       var err = document.getElementById("wd-err");
       var done = document.getElementById("wd-done");
       var btn = marina.querySelector("button[type=submit]");
@@ -69,33 +97,23 @@
       var name = val("r_name");
       var email = val("r_email");
       if (!m || !name || !email) {
-        if (err) {
-          err.textContent = "Marina, your name, and email — then we can look.";
-          err.classList.add("on");
-        }
+        if (err) { err.textContent = "Marina, your name, and email — then we can look."; err.classList.add("on"); }
         return;
       }
-      var notes = ("Waterdog Fuel — invoice review. " + (val("r_notes") || "")).trim();
+      var notes = "Waterdog Fuel — invoice review";
       if (val("r_role")) notes += " · Role: " + val("r_role");
-      send(
-        {
-          type: "Marina",
-          source: "Site",
-          marinaName: m,
-          business: m,
-          name: name,
-          email: email,
-          phone: val("r_phone"),
-          city: val("r_city"),
-          slips: val("r_slips"),
-          notes: notes,
-        },
-        marina,
-        err,
-        done,
-        btn,
-        "Send the marina"
-      );
+      if (val("r_notes")) notes += " · " + val("r_notes");
+      send({
+        type: "Marina",
+        marinaName: m,
+        business: m,
+        name: name,
+        email: email,
+        phone: val("r_phone"),
+        city: val("r_city"),
+        slips: val("r_slips"),
+        notes: notes,
+      }, marina, err, done, btn, "Send the marina");
     });
   }
 
@@ -103,6 +121,7 @@
   if (wait) {
     wait.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (honeypotFilled(wait)) return;
       var err = document.getElementById("w-err");
       var done = document.getElementById("w-done");
       var btn = wait.querySelector("button[type=submit]");
@@ -110,33 +129,56 @@
       var name = val("w_name");
       var email = val("w_email");
       if (!name || !email) {
-        if (err) {
-          err.textContent = "Name and email — that is enough to hold a slip.";
-          err.classList.add("on");
-        }
+        if (err) { err.textContent = "Name and email — that is enough to hold a slip."; err.classList.add("on"); }
         return;
       }
-      var parts = ["Waterdog wet-hose waitlist"];
+      var parts = ["Waterdog Fuel — wet-hose waitlist"];
       if (val("w_marina")) parts.push("Marina: " + val("w_marina"));
       if (val("w_boat")) parts.push("Boat: " + val("w_boat"));
       if (val("w_notes")) parts.push(val("w_notes"));
-      send(
-        {
-          type: "Waitlist",
-          source: "Site",
-          name: name,
-          email: email,
-          zip: val("w_zip"),
-          marinaName: val("w_marina"),
-          boatType: val("w_boat"),
-          notes: parts.join(" · "),
-        },
-        wait,
-        err,
-        done,
-        btn,
-        "Hold my slip"
-      );
+      send({
+        type: "Waitlist",
+        name: name,
+        email: email,
+        zip: val("w_zip"),
+        marinaName: val("w_marina"),
+        boatType: val("w_boat"),
+        notes: parts.join(" · "),
+      }, wait, err, done, btn, "Hold my slip");
+    });
+  }
+
+  var info = document.getElementById("wd-info");
+  if (info) {
+    info.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (honeypotFilled(info)) return;
+      var err = document.getElementById("i-err");
+      var done = document.getElementById("i-done");
+      var btn = info.querySelector("button[type=submit]");
+      if (err) err.classList.remove("on");
+      var name = val("i_name");
+      var email = val("i_email");
+      if (!name || !email) {
+        if (err) { err.textContent = "Name and email — that is enough."; err.classList.add("on"); }
+        return;
+      }
+      var kindEl = info.querySelector('input[name="i_kind"]:checked');
+      var kind = kindEl ? kindEl.value : "Talk";
+      var type = kind === "Marina" ? "Marina" : "Waitlist";
+      var notes = "Waterdog Fuel — request more info · " + kind;
+      if (val("i_place")) notes += " · Place: " + val("i_place");
+      if (val("i_notes")) notes += " · " + val("i_notes");
+      send({
+        type: type,
+        name: name,
+        email: email,
+        phone: val("i_phone"),
+        marinaName: kind === "Marina" ? val("i_place") : undefined,
+        business: kind === "Marina" ? val("i_place") : undefined,
+        boatType: kind === "Boat" ? val("i_place") : undefined,
+        notes: notes,
+      }, info, err, done, btn, "Send it");
     });
   }
 

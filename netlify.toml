@@ -100,3 +100,9 @@
   to = "/#chest"
   status = 302
 
+
+[[headers]]
+  for = "/ops/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "private, max-age=0"

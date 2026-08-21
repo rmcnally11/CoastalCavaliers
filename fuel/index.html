@@ -111,6 +111,44 @@
       </div>
     </section>
 
+
+    <section class="band" id="info">
+      <div class="wrap split">
+        <div>
+          <div class="kick">Request more info</div>
+          <h2 style="margin-top:14px">Leave the name. We will write.</h2>
+          <p class="lede" style="margin-top:16px">Opening 2027. This is not an order and it is not a fill. It is a name in the book, tagged Waterdog, same intake as the club.</p>
+        </div>
+        <form class="form" id="wd-info">
+          <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+          <label>What is this about</label>
+          <div class="kind">
+            <label class="choice"><input type="radio" name="i_kind" value="Marina" checked> I run a marina</label>
+            <label class="choice"><input type="radio" name="i_kind" value="Boat"> I keep a boat</label>
+            <label class="choice"><input type="radio" name="i_kind" value="Talk"> Something else</label>
+          </div>
+          <label for="i_name">Your name</label>
+          <input id="i_name" name="name" autocomplete="name" required>
+          <label for="i_email">Email</label>
+          <input id="i_email" name="email" type="email" autocomplete="email" required>
+          <label for="i_phone">Phone</label>
+          <input id="i_phone" name="phone" type="tel" autocomplete="tel">
+          <label for="i_place">Marina or boat</label>
+          <input id="i_place" name="place">
+          <label for="i_notes">Notes</label>
+          <textarea id="i_notes" name="notes"></textarea>
+          <button class="btn gold fbtn" type="submit">Request more info</button>
+          <p class="fnote">No fuel money. No spam. A reply from the same desk that looks at invoices.</p>
+          <div class="err" id="i-err" role="alert"></div>
+        </form>
+        <div class="done" id="i-done">
+          <div class="kick">Received</div>
+          <h2>We have the name.</h2>
+          <p>We will write. Until 2027 nothing is filled and nothing is billed.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="ink">
       <div class="wrap split">
         <div>

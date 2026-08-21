@@ -1,0 +1,132 @@
+{
+  "name": "WD_WF_Notify_Waterdog_Leads",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "id": "wd-sched-1",
+      "name": "Every 15 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.airtable.com/v0/app2S94SbfNjei0Ka/Applications",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "airtableTokenApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filterByFormula",
+              "value": "AND(FIND('Waterdog Fuel', {Notes} & ''), {Status} = 'New', IS_AFTER(CREATED_TIME(), DATEADD(NOW(), -20, 'minutes')))"
+            },
+            {
+              "name": "pageSize",
+              "value": "20"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "wd-get-1",
+      "name": "New Waterdog Applications",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ],
+      "credentials": {
+        "airtableTokenApi": {
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const recs = $input.first().json.records || [];\nif (!recs.length) return [];\nreturn recs.map(r => {\n  const f = r.fields || {};\n  return { json: {\n    id: r.id,\n    type: f.Type || '',\n    name: f.Name || '',\n    email: f.Email || '',\n    phone: f.Phone || '',\n    marina: f['Marina name'] || f.Business || '',\n    notes: f.Notes || '',\n    source: f.Source || 'Site'\n  }};\n});"
+      },
+      "id": "wd-split-1",
+      "name": "Each lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "orders@coastalcavaliers.com",
+        "subject": "=Waterdog \u00b7 {{ $json.type }} \u00b7 {{ $json.name }}",
+        "emailType": "text",
+        "message": "=A Waterdog name landed in Applications.\n\nType: {{ $json.type }}\nName: {{ $json.name }}\nEmail: {{ $json.email }}\nPhone: {{ $json.phone }}\nMarina: {{ $json.marina }}\nSource: {{ $json.source }}\n\n{{ $json.notes }}\n\nOpen Airtable CC_Operations \u2192 Applications \u2192 filter Notes contains Waterdog Fuel.\nThis is not a fill and not an invoice. Reply. Do not take fuel money.\n",
+        "options": {}
+      },
+      "id": "wd-mail-1",
+      "name": "Email orders@",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        780,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Every 15 min": {
+      "main": [
+        [
+          {
+            "node": "New Waterdog Applications",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Waterdog Applications": {
+      "main": [
+        [
+          {
+            "node": "Each lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Each lead": {
+      "main": [
+        [
+          {
+            "node": "Email orders@",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Chicago"
+  },
+  "pinData": {},
+  "tags": []
+}
