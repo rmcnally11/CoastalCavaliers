@@ -5,22 +5,30 @@ Netlify just serves this folder.
 
 **Local hands, open water.**
 
-Bots: read `BOTS.md` first. GitHub is the file source of truth for this site.
-n8n owns Airtable. The member app is a separate Grok/Vercel surface — do not
-dump it here. WF0 overwrites `app/catalog.json`.
+Bots: read `BOTS.md` first. GitHub is the file source of truth for this site
+**and** the member app. n8n owns Airtable. WF0 overwrites `app/catalog.json`.
+
+The member app is **on this domain** at `/app`. Do not 302 it to Grok, Vercel,
+or any other host.
 
 ---
 
 ## Structure
 
 ```
-index.html          the site
+index.html          the marketing site
 apply.html          standalone application page, for QR traffic
 assets/
-  css/site.css      all styles
-  js/site.js        all behaviour, including the form handler
+  css/site.css      marketing styles
+  js/site.js        marketing behaviour, including the form handler
   img/*.webp        product and brand images
-app/                coming-soon stub + catalog.json (WF0 overwrites catalog.json)
+app/
+  index.html        member app shell (PWA)
+  app.js            catalog, box, cutoff, drop, lock, install
+  app.css           app chrome
+  catalog.json      WF0 overwrites this
+  manifest.json     Add to Home Screen
+  sw.js             scoped to /app/
 BOTS.md             contract for grok-bots / n8n — read this first
 netlify.toml        headers, caching, redirects
 sitemap.xml         regenerate if pages are added
@@ -63,19 +71,20 @@ automatically.
 
 ## Editing
 
-- **Prices, copy, products** — `index.html`
-- **Colours, layout, spacing** — `assets/css/site.css`
-- **Zip codes served, webhook, form logic** — `assets/js/site.js`
-  (the served zip list is the `SERVED` array near the top)
-- **Images** — drop a `.webp` into `assets/img/` and reference it relatively
-- **Weekly catalog** — `app/catalog.json` (n8n WF0 overwrites this)
+* **Prices, copy, products** — index.html
+* **Colours, layout, spacing** — assets/css/site.css
+* **Zip codes served, webhook, form logic** — assets/js/site.js
+  (the served zip list is the SERVED array near the top)
+* **Images** — drop a .webp into assets/img/ and reference it relatively
+* **Weekly catalog** — app/catalog.json (n8n WF0 overwrites this)
+* **Member app behaviour** — app/app.js
 
 ## Caching, so you are not surprised
 
-`netlify.toml` caches `/assets/*` for a year and marks it immutable, while HTML
-is never cached. That means copy edits go live immediately, but **if you change
-an image you must change its filename**, otherwise browsers will keep serving
-the old one for up to a year.
+`netlify.toml` caches `/assets/img/*` for a year and marks it immutable, while HTML
+is never cached. CSS and JS revalidate. That means copy edits go live immediately, but
+**if you change an image you must change its filename**, otherwise browsers will keep
+serving the old one for up to a year.
 
 ## Colours
 
@@ -90,20 +99,14 @@ Full specification lives in the main project package.
 
 ## Notes for future you
 
-**The app is a big file.** `app/index.html` is 713 KB because the ordering app
-still has everything embedded, the way this site used to. Git stores the whole
-file again on every commit that touches it. Fine at this size and frequency —
-but if the app starts changing weekly, extract its assets the same way the
-site's were extracted and the repo will stop growing.
+**The member app is static on purpose.** This repo has no build step. Do not dump
+a Vite/TanStack/Nitro project here. Edit `app/app.js` and `app/app.css`.
 
-**The root `icons/` folder was removed.** Nothing referenced it. The app keeps
-its own copies at `app/icons/`.
-
-**`sw.js` at the root is a kill-switch, not a feature.** It caches nothing. It
+**sw.js at the root is a kill-switch, not a feature.** It caches nothing. It
 exists to unregister a service worker that an earlier build wrongly registered
 at the root, which took over the whole domain and served app files in place of
 the homepage. Do not delete it — browsers holding the bad worker stay broken
-until they fetch it.
+until they fetch it. The member app’s worker is `/app/sw.js`, scoped to `/app/`.
 
 **Check deploys in a private window.** No service worker there, so it shows what
 Netlify is actually serving rather than what your browser cached.
