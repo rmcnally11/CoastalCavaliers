@@ -42,7 +42,7 @@
         <p class="lede">Opening 2027. We are not delivering fuel now. Leave the marina details, or hold a slip. Either way we will write back. Call 561-271-7911 or write orders@coastalcavaliers.com.</p>
       </div>
     </section>
-    <section style="padding-top:12px">
+    <section id="quote" style="padding-top:12px">
       <div class="wrap split">
         <form class="form" id="wd-form">
           <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
@@ -80,8 +80,22 @@
               <input id="r_slips" name="slips" inputmode="numeric">
             </div>
           </div>
+          <div class="kick" style="margin-top:8px">Optional — from your sheet</div>
+          <p class="fnote" style="margin-top:0;margin-bottom:8px">If you ran the differential sheet, those numbers can ride with this request. Leave blank if you prefer.</p>
+          <div class="two">
+            <div>
+              <label for="r_rack">Terminal rack ($/gal)</label>
+              <input id="r_rack" name="rack" inputmode="decimal" placeholder="2.14">
+            </div>
+            <div>
+              <label for="r_paid">Delivered price ($/gal)</label>
+              <input id="r_paid" name="paid" inputmode="decimal" placeholder="2.49">
+            </div>
+          </div>
+          <label for="r_gal">Annual gallons (estimate)</label>
+          <input id="r_gal" name="gal" inputmode="numeric" placeholder="250000">
           <label for="r_notes">Notes</label>
-          <textarea id="r_notes" name="notes" placeholder="Product mix, gallons a month, rack vs delivered if you know it."></textarea>
+          <textarea id="r_notes" name="notes" placeholder="Product mix, season, anything the numbers will not say."></textarea>
           <button class="btn gold fbtn" type="submit">Request a quote</button>
           <p class="fnote">Lands in the Waterdog book as a quote request. We do not take fuel money on this page.</p>
           <div class="err" id="wd-err" role="alert"></div>
@@ -92,76 +106,15 @@
             <h2>We have the request.</h2>
             <p>It is in the book as a quote request. We will write back with the number. Until 2027 nothing is filled and nothing is billed.</p>
           </div>
-          <p class="lede">Prefer to skip the form.</p>
-          <div class="cta-row">
-            <a class="btn line" href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel%20%E2%80%94%20marina%20enquiry">Email us</a>
-            <a class="btn line" href="tel:5612717911">Call</a>
-          </div>
+          <p class="aside">Prefer the phone: <a href="tel:5612717911">561-271-7911</a> · <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel%20%E2%80%94%20quote%20request">orders@coastalcavaliers.com</a></p>
           <div class="rule"></div>
           <div class="kick">If you keep a boat</div>
-          <h2 style="font-size:28px;margin:10px 0 8px">Hold a slip instead.</h2>
-          <p class="aside" style="margin-top:0">No fuel dock at your marina? Leave your name on the wet-hose list. Not an order.</p>
-          <div class="cta-row">
-            <a class="btn gold" href="/fuel/boats.html">For boats</a>
-          </div>
+          <p class="aside" style="margin-top:8px">No fuel dock? <a href="/fuel/boats.html">Hold a slip</a> instead. Not a quote.</p>
           <p class="aside">A separate company. The same dog. Bobby McNally. Holds fast.</p>
         </div>
       </div>
     </section>
 
-    <section class="band" id="info">
-      <div class="wrap split">
-        <form class="form" id="wd-info">
-          <div class="kick">Request more info</div>
-          <h2 style="font-size:28px;margin:10px 0 8px">Just talk.</h2>
-          <p class="fnote" style="margin-top:0;margin-bottom:8px">Name and email. We write back. No fuel is sold from this page.</p>
-          <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
-          <label>What is this about</label>
-          <div class="kind">
-            <label class="choice"><input type="radio" name="i_kind" value="Marina" checked> I run a marina — request a quote</label>
-            <label class="choice"><input type="radio" name="i_kind" value="Boat"> I keep a boat — no fuel dock</label>
-            <label class="choice"><input type="radio" name="i_kind" value="Talk"> Something else</label>
-          </div>
-          <div class="two">
-            <div>
-              <label for="i_name">Your name</label>
-              <input id="i_name" name="name" autocomplete="name" required>
-            </div>
-            <div>
-              <label for="i_email">Email</label>
-              <input id="i_email" name="email" type="email" autocomplete="email" required>
-            </div>
-          </div>
-          <div class="two">
-            <div>
-              <label for="i_phone">Phone</label>
-              <input id="i_phone" name="phone" type="tel" autocomplete="tel">
-            </div>
-            <div>
-              <label for="i_place">Marina or boat</label>
-              <input id="i_place" name="place" placeholder="Optional">
-            </div>
-          </div>
-          <label for="i_notes">What you want to know</label>
-          <textarea id="i_notes" name="notes" placeholder="A sentence is enough."></textarea>
-          <button class="btn gold fbtn" type="submit">Request a quote</button>
-          <p class="fnote">Lands in the same book as the club applications, tagged Waterdog. We do not take fuel money here.</p>
-          <div class="err" id="i-err" role="alert"></div>
-        </form>
-        <div>
-          <div class="done" id="i-done">
-            <div class="kick">Received</div>
-            <h2>We have the name.</h2>
-            <p>We will write. Until 2027 nothing is filled and nothing is billed.</p>
-          </div>
-          <p class="lede" style="margin-top:8px">Prefer the longer forms.</p>
-          <div class="cta-row">
-            <a class="btn line" href="/fuel/marinas.html">Run the sheet</a>
-            <a class="btn line" href="/fuel/boats.html">Hold a slip</a>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer>
