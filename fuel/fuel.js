@@ -100,7 +100,7 @@
         if (err) { err.textContent = "Marina, your name, and email — then we can look."; err.classList.add("on"); }
         return;
       }
-      var notes = "Waterdog Fuel — invoice review";
+      var notes = "Waterdog Fuel — quote request";
       if (val("r_role")) notes += " · Role: " + val("r_role");
       if (val("r_notes")) notes += " · " + val("r_notes");
       send({
@@ -113,7 +113,7 @@
         city: val("r_city"),
         slips: val("r_slips"),
         notes: notes,
-      }, marina, err, done, btn, "Send the marina");
+      }, marina, err, done, btn, "Request a quote");
     });
   }
 
@@ -166,7 +166,7 @@
       var kindEl = info.querySelector('input[name="i_kind"]:checked');
       var kind = kindEl ? kindEl.value : "Talk";
       var type = kind === "Marina" ? "Marina" : "Waitlist";
-      var notes = "Waterdog Fuel — request more info · " + kind;
+      var notes = (kind === "Marina" ? "Waterdog Fuel — quote request" : "Waterdog Fuel — request more info") + " · " + kind;
       if (val("i_place")) notes += " · Place: " + val("i_place");
       if (val("i_notes")) notes += " · " + val("i_notes");
       send({
@@ -178,7 +178,7 @@
         business: kind === "Marina" ? val("i_place") : undefined,
         boatType: kind === "Boat" ? val("i_place") : undefined,
         notes: notes,
-      }, info, err, done, btn, "Send it");
+      }, info, err, done, btn, "Request a quote");
     });
   }
 
