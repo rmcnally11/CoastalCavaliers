@@ -13,7 +13,7 @@ POST https://rjmrio.app.n8n.cloud/webhook/cc-apply
 WF2 writes `CC_Operations → Applications`. Every Waterdog row has Notes beginning:
 
 - `Waterdog Fuel — request more info`
-- `Waterdog Fuel — invoice review`
+- `Waterdog Fuel — quote request`
 - `Waterdog Fuel — wet-hose waitlist`
 
 In Airtable, filter Applications where Notes contains `Waterdog Fuel`. That is the book, today.
@@ -30,7 +30,7 @@ We do **not** take fuel money from the site. No second webhook. Holds and names 
 
 ## Invoices
 
-The Invoices table exists so 2027 has a place to land. Do not send invoices from the website. A quote is the diagnose sheet (rack, delivered, differential, exposure). A ticket is a wet-hose fill after GATE 5. Neither bills a card.
+The Quotes table is the live desk. Site forms tagged `Waterdog Fuel — quote request` land in Applications (filter Notes). Copy those into Quotes when you write the number back. The Invoices table exists so 2027 has a place to land. Do not bill from the website. A ticket is a wet-hose fill after GATE 5. Neither bills a card.
 
 ## Covenant
 
