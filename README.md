@@ -11,6 +11,9 @@ Bots: read `BOTS.md` first. GitHub is the file source of truth for this site
 The member app is **on this domain** at `/app`. Do not 302 it to Grok, Vercel,
 or any other host.
 
+Waterdog Fuel is **on this domain** at `/fuel`. Separate company. Opening 2027.
+Bots: `ops/waterdog/README.md`. Do not take fuel money. Do not invent a second webhook.
+
 ---
 
 ## Structure
@@ -29,6 +32,8 @@ app/
   catalog.json      WF0 overwrites this
   manifest.json     Add to Home Screen
   sw.js             scoped to /app/
+fuel/               Waterdog Fuel Co. site (separate company, same domain)
+ops/waterdog/       Waterdog Airtable + n8n import pack — bots read README.md here
 BOTS.md             contract for grok-bots / n8n — read this first
 netlify.toml        headers, caching, redirects
 sitemap.xml         regenerate if pages are added
