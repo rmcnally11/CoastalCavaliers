@@ -1,7 +1,7 @@
 {
   "name": "Coastal Cavaliers",
   "short_name": "Cavaliers",
-  "description": "Coastal Cavaliers member app — coming. Nothing ships yet.",
+  "description": "Coastal Cavaliers member app — this week’s box on coastalcavaliers.com. Holds only.",
   "start_url": "/app/",
   "scope": "/app/",
   "display": "standalone",
