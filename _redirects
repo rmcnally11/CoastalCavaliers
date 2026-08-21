@@ -8,6 +8,7 @@
 /waterdog   /waterdog.html   200
 
 # Waterdog Fuel Co. — separate company site until the domain is ours.
+/fuel/boats       /fuel/boats.html     200
 /fuel/supply      /fuel/supply.html    200
 /fuel/marinas     /fuel/marinas.html   200
 /fuel/contact     /fuel/contact.html   200

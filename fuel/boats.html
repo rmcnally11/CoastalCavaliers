@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fuel at the slip — Waterdog Fuel Co.</title>
+  <meta name="description" content="Scheduled wet-hose for boats at marinas without fuel docks. Wednesday noon cutoff. Opening 2027.">
+  <meta name="theme-color" content="#F7F5F1">
+  <link rel="icon" type="image/png" href="/fuel/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/fuel/fuel.css">
+</head>
+<body>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="/fuel/">
+        <img src="/assets/img/leaping-dog.webp" alt="">
+        <div>
+          <div class="n">Waterdog Fuel Co.</div>
+          <div class="t">Rack to dock</div>
+        </div>
+      </a>
+      <nav class="main" id="main-nav">
+        <a href="/fuel/">Home</a>
+        <a href="/fuel/boats.html" aria-current="page">For boats</a>
+        <a href="/fuel/marinas.html">For marinas</a>
+        <a href="/fuel/contact.html">Contact</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <a class="phone" href="tel:5612717911">561-271-7911</a>
+      <a class="btn gold hdr-cta" href="/fuel/contact.html">Send an invoice</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap" style="max-width:44rem">
+        <div class="stamp-open">Opening 2027 · not filling now</div>
+        <div class="kick">For boats</div>
+        <h1>Fuel at<br><em>the slip.</em></h1>
+        <p class="lede">If your marina has no fuel dock, you still burn gallons. Order by Wednesday noon. The truck works the slips Friday and Saturday. You get a metered ticket. We do not fill boats now — leave the slip and we will call when the hose is bound.</p>
+      </div>
+    </section>
+    <section class="band">
+      <div class="wrap">
+        <div class="grid3">
+          <div class="card">
+            <div class="kick">01</div>
+            <h3>Wednesday noon.</h3>
+            <p>Slip, boat, gasoline or diesel, estimated gallons, preferred window. Late orders roll. Same clock as the box.</p>
+          </div>
+          <div class="card">
+            <div class="kick">02</div>
+            <h3>The truck comes to you.</h3>
+            <p>Host marinas get a window. Fills against a signed work order. Every gallon metered.</p>
+          </div>
+          <div class="card">
+            <div class="kick">03</div>
+            <h3>A stamped receipt.</h3>
+            <p>Not a guess and not a dock walk with a jerry can. The ticket is the proof.</p>
+          </div>
+        </div>
+        <p class="aside">We only wet-hose at marinas without a working fuel dock — unless that marina asks us onto theirs. We will not undercut the pumps you already have.</p>
+      </div>
+    </section>
+    <section>
+      <div class="wrap split">
+        <form class="form" id="wd-wait">
+          <div class="kick">The waitlist</div>
+          <h2 style="font-size:28px;margin:10px 0 4px">Hold a slip.</h2>
+          <p class="fnote" style="margin-top:0;margin-bottom:8px">Not an order. Not a fill. A name on the list for 2027.</p>
+          <label for="w_name">Your name</label>
+          <input id="w_name" name="name" autocomplete="name" required>
+          <div class="two">
+            <div>
+              <label for="w_email">Email</label>
+              <input id="w_email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div>
+              <label for="w_zip">Zip</label>
+              <input id="w_zip" name="zip" inputmode="numeric" autocomplete="postal-code">
+            </div>
+          </div>
+          <div class="two">
+            <div>
+              <label for="w_marina">Marina</label>
+              <input id="w_marina" name="marina" autocomplete="organization">
+            </div>
+            <div>
+              <label for="w_boat">Boat</label>
+              <input id="w_boat" name="boat" placeholder="Make, length, gasoline or diesel">
+            </div>
+          </div>
+          <label for="w_notes">Notes</label>
+          <textarea id="w_notes" name="notes" placeholder="Typical gallons. Whether the marina has a fuel dock."></textarea>
+          <button class="btn gold fbtn" type="submit">Hold my slip</button>
+          <p class="fnote">We do not take fuel money on this page. Opening 2027.</p>
+          <div class="err" id="w-err" role="alert"></div>
+        </form>
+        <div>
+          <div class="done" id="w-done">
+            <div class="kick">Held</div>
+            <h2>You are on the list.</h2>
+            <p>When the hose is bound we will write. Until then, nothing is billed and nothing is filled.</p>
+          </div>
+          <p class="lede" style="margin-top:8px">Your marina already has pumps.</p>
+          <p class="aside" style="margin-top:10px">Then this page is not for you — unless they ask us. If you run those pumps, send an invoice instead.</p>
+          <div class="cta-row">
+            <a class="btn line" href="/fuel/marinas.html">I run the marina</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div>
+          <div class="fbrand">
+            <img src="/assets/img/leaping-dog.webp" alt="">
+            <div>
+              <div class="n">Waterdog Fuel Co.</div>
+              <div style="font-size:12px;color:var(--gold-lt);margin-top:5px;letter-spacing:.08em">RACK TO DOCK · HOLDS FAST</div>
+            </div>
+          </div>
+          <p class="flegal">A separate company from Coastal Cavaliers. Wet-hose at marinas without fuel docks. Rack to dock for marinas that run their own. Opening 2027. We are not delivering fuel now.</p>
+        </div>
+        <div>
+          <h4>The company</h4>
+          <a href="/fuel/">Home</a>
+          <a href="/fuel/boats.html">For boats</a>
+          <a href="/fuel/marinas.html">For marinas</a>
+            <a href="/fuel/contact.html">Contact</a>
+        </div>
+        <div>
+          <h4>Reach us</h4>
+          <a href="tel:5612717911">561-271-7911</a>
+          <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a>
+          <h4 style="margin-top:24px">The club</h4>
+          <a href="/">Coastal Cavaliers</a>
+          <a href="/waterdog">The intro</a>
+        </div>
+      </div>
+      <div class="frule"></div>
+      <div class="fbot">
+        <span>&copy; 2026 Waterdog Fuel Co. · Texas Gulf Coast</span>
+        <span>Until the name is ours, this lives here.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="/fuel/fuel.js" defer></script>
+</body>
+</html>

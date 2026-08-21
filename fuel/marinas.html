@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>For marinas — Waterdog Fuel Co.</title>
-  <meta name="description" content="Send one fuel invoice. We will tell you what you are leaving on the table. Opening 2027.">
+  <meta name="description" content="Send one fuel invoice. We will tell you the differential. Rack to dock. Opening 2027.">
   <meta name="theme-color" content="#F7F5F1">
   <link rel="icon" type="image/png" href="/fuel/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,59 +24,128 @@
       </a>
       <nav class="main" id="main-nav">
         <a href="/fuel/">Home</a>
-        <a href="/fuel/supply.html">Supply</a>
+        <a href="/fuel/boats.html">For boats</a>
         <a href="/fuel/marinas.html" aria-current="page">For marinas</a>
         <a href="/fuel/contact.html">Contact</a>
       </nav>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <a class="phone" href="tel:5612717911">561-271-7911</a>
       <a class="btn gold hdr-cta" href="/fuel/contact.html">Send an invoice</a>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="wrap" style="max-width:42rem">
-        <div class="kick">If you run a marina</div>
+      <div class="wrap" style="max-width:44rem">
+        <div class="kick">For marinas</div>
         <h1>One invoice.<br><em>The gap.</em></h1>
-        <p class="lede">Most marinas buy fuel from someone who bought it from someone else. The extra hand is on your fuel line. Send us one invoice and we will tell you what that hand cost.</p>
-        <div class="cta-row">
-          <a class="btn gold" href="/fuel/contact.html">Send us an invoice</a>
-        </div>
+        <p class="lede">Every layer between the terminal rack and your dock takes a cut, and most of those arrangements have not been tested in years. We buy where they buy and drive it to you. The difference shows up on your fuel line, not ours.</p>
       </div>
     </section>
     <section class="band">
       <div class="wrap">
         <div class="grid3">
           <div class="card">
-            <div class="kick">Now</div>
-            <h3>A reading.</h3>
-            <p>We are not delivering. We will still look at the invoice and tell you the number. No contract. No deposit.</p>
+            <div class="kick">The rack</div>
+            <h3>Same terminals.</h3>
+            <p>Nothing clever. Fewer people in the chain. You see the rack print and the differential. No “market price,” no monthly surprise.</p>
           </div>
           <div class="card">
-            <div class="kick">2027</div>
-            <h3>The truck.</h3>
-            <p>When we open, we drive it to your dock. Same products. Fewer hands.</p>
+            <div class="kick">The run</div>
+            <h3>Scheduled, not spotted.</h3>
+            <p>We watch your tanks and your season. Full before you are empty, not after somebody notices.</p>
           </div>
           <div class="card">
-            <div class="kick">Always</div>
-            <h3>Your line.</h3>
-            <p>The saving shows up on your fuel line, not ours. That is the whole offer.</p>
+            <div class="kick">The pump</div>
+            <h3>Your price.</h3>
+            <p>What you charge at the pump is entirely your business. We are your cost line, not your pricing department.</p>
           </div>
         </div>
       </div>
     </section>
     <section>
       <div class="wrap split">
+        <form class="sheet" id="wd-sheet" onsubmit="return false">
+          <div class="kick">The sheet</div>
+          <h2>What are you actually paying?</h2>
+          <p class="hint">Five minutes. You keep the sheet. We do not quote a delivered price from a website — you bring the two numbers.</p>
+          <div class="row">
+            <div>
+              <label for="s_rack">1 · Today’s terminal rack, your grade</label>
+              <p class="aside" style="margin:0">A published number. The same one your current supplier pays. Dollars per gallon, excluding tax.</p>
+            </div>
+            <input class="money" id="s_rack" inputmode="decimal" placeholder="2.14">
+          </div>
+          <div class="row">
+            <div>
+              <label for="s_paid">2 · Your delivered price per gallon</label>
+              <p class="aside" style="margin:0">From any recent invoice. Include freight and any surcharge. Exclude taxes.</p>
+            </div>
+            <input class="money" id="s_paid" inputmode="decimal" placeholder="2.49">
+          </div>
+          <div class="row">
+            <div>
+              <label>3 · Your differential</label>
+              <p class="aside" style="margin:0">Line 2 minus line 1. Everything between the rack and your dock, in cents.</p>
+            </div>
+            <div>
+              <div class="out" id="s_diff">—</div>
+              <span class="unit">per gallon</span>
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="s_gal">4 · Your annual gallons</label>
+              <p class="aside" style="margin:0">Last year’s total, or twelve times a typical month. An estimate is fine.</p>
+            </div>
+            <input class="money" id="s_gal" inputmode="numeric" placeholder="250000">
+          </div>
+          <div class="row">
+            <div>
+              <label>5 · Annual exposure</label>
+              <p class="aside" style="margin:0">The differential across a year. This is the number worth knowing.</p>
+            </div>
+            <div>
+              <div class="out" id="s_exp">—</div>
+              <span class="unit">per year</span>
+            </div>
+          </div>
+          <div class="verdict" id="s_verdict">
+            <div class="k">The differential</div>
+            <div class="v">Fill the two prices.</div>
+            <p>Rack and delivered price, excluding tax. Freight and surcharge stay in.</p>
+          </div>
+          <p class="fnote">The sheet stays on this device. We do not see the numbers until you send an invoice.</p>
+        </form>
         <div>
-          <div class="kick">What to send</div>
-          <h2 style="margin-top:14px">Product, gallons, what you paid.</h2>
+          <div class="kick">Where that lands</div>
+          <h2 style="font-size:clamp(28px,3.6vw,40px);margin:10px 0 18px">A 500-slip marina moves roughly 250,000 gallons a year. The differential is the only variable.</h2>
+          <table class="worth">
+            <thead><tr><th>Your volume</th><th>at 15¢</th><th>at 25¢</th><th>at 40¢</th></tr></thead>
+            <tbody>
+              <tr><td>100,000 gal / yr</td><td>$15,000</td><td>$25,000</td><td class="hi">$40,000</td></tr>
+              <tr><td>250,000 gal / yr</td><td>$37,500</td><td>$62,500</td><td class="hi">$100,000</td></tr>
+              <tr><td>500,000 gal / yr</td><td>$75,000</td><td>$125,000</td><td class="hi">$200,000</td></tr>
+              <tr><td>900,000 gal / yr</td><td>$135,000</td><td>$225,000</td><td class="hi">$360,000</td></tr>
+            </tbody>
+          </table>
+          <p class="aside">If you are already buying near rack, we will tell you so and there is nothing here for either of us. That happens. What is far more common is a supply arrangement that was fair in 2019 and has quietly widened since.</p>
+          <div class="cta-row">
+            <a class="btn gold" href="/fuel/contact.html">Send us an invoice</a>
+            <a class="btn line" href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel%20%E2%80%94%20marina%20invoice">Email the PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ink">
+      <div class="wrap split">
+        <div>
+          <div class="kick">The honest part</div>
+          <h2 style="margin-top:14px;font-size:clamp(32px,4vw,48px)">We will not hose your pumps.</h2>
         </div>
         <div>
-          <p class="lede">A recent invoice is enough. Redact what you want. We need the product, the gallons, and the price that hit the dock. Email it, or leave the marina here and send the PDF after.</p>
-          <div class="cta-row">
-            <a class="btn gold" href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel%20%E2%80%94%20marina%20invoice">Email the invoice</a>
-            <a class="btn line" href="/fuel/contact.html">Leave the marina</a>
-          </div>
+          <p class="lede">Waterdog never wet-hoses at a marina with a working fuel dock unless that marina asks. The promise is written into the wholesale conversation because a promise you can enforce is worth ten a salesman can make.</p>
+          <p class="lede" style="margin-top:16px">Opening 2027. We will still look at the invoice now.</p>
         </div>
       </div>
     </section>
@@ -90,24 +159,25 @@
             <img src="/assets/img/leaping-dog.webp" alt="">
             <div>
               <div class="n">Waterdog Fuel Co.</div>
-              <div style="font-size:12px;color:var(--gold-lt);margin-top:5px;letter-spacing:.08em">RACK TO DOCK</div>
+              <div style="font-size:12px;color:var(--gold-lt);margin-top:5px;letter-spacing:.08em">RACK TO DOCK · HOLDS FAST</div>
             </div>
           </div>
-          <p class="flegal">A separate company from Coastal Cavaliers. Marine fuel to marinas on the Texas coast. Opening 2027. We are not delivering fuel now.</p>
+          <p class="flegal">A separate company from Coastal Cavaliers. Wet-hose at marinas without fuel docks. Rack to dock for marinas that run their own. Opening 2027. We are not delivering fuel now.</p>
         </div>
         <div>
           <h4>The company</h4>
           <a href="/fuel/">Home</a>
-          <a href="/fuel/supply.html">Supply</a>
+          <a href="/fuel/boats.html">For boats</a>
           <a href="/fuel/marinas.html">For marinas</a>
-          <a href="/fuel/contact.html">Contact</a>
+            <a href="/fuel/contact.html">Contact</a>
         </div>
         <div>
-          <h4>The club</h4>
+          <h4>Reach us</h4>
+          <a href="tel:5612717911">561-271-7911</a>
+          <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a>
+          <h4 style="margin-top:24px">The club</h4>
           <a href="/">Coastal Cavaliers</a>
           <a href="/waterdog">The intro</a>
-          <h4 style="margin-top:24px">Reach us</h4>
-          <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a>
         </div>
       </div>
       <div class="frule"></div>
