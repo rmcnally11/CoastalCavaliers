@@ -7,6 +7,13 @@
 /sport      /sport.html      200
 /waterdog   /waterdog.html   200
 
+# Waterdog Fuel Co. — separate company site until the domain is ours.
+/fuel/supply      /fuel/supply.html    200
+/fuel/marinas     /fuel/marinas.html   200
+/fuel/contact     /fuel/contact.html   200
+/fuel             /fuel/index.html     200
+/fuel/            /fuel/index.html     200
+
 # Member app lives ON this domain. Existing files (catalog.json, app.js,
 # app.css, icons, sw, manifest, index.html) are served as themselves.
 # SPA routes rewrite to the app shell. Do not 302 /app off-site.

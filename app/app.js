@@ -382,7 +382,7 @@
     const root = document.getElementById("app");
     root.innerHTML =
       '<div class="doors"><div class="wrap"><a class="doors-join" href="/#waitlist">Join the club</a><a class="doors-go" href="/app">The app</a></div></div>' +
-      '<header class="bar"><div class="wrap"><a class="brand" href="/app"><img src="/assets/img/coastal-cavaliers.webp" alt=""><div><div class="n">Coastal Cavaliers</div><div class="t">Local hands, open water</div></div></a></div><div class="wrap cycle"><div class="id">Cycle ' +
+      '<header class="bar"><div class="wrap"><a class="brand" href="/app"><img src="/assets/img/crest-gold.webp" alt=""><div><div class="n">Coastal Cavaliers</div><div class="t">Local hands, open water</div></div></a></div><div class="wrap cycle"><div class="id">Cycle ' +
       cycle.id +
       '</div><div class="tick" id="tick">' +
       formatRemaining(cycle.remainingMs) +

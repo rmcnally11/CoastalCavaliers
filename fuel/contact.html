@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Contact — Waterdog Fuel Co.</title>
+  <meta name="description" content="Send a marina and one fuel invoice. Waterdog Fuel Co., Texas Gulf Coast. Opening 2027.">
+  <meta name="theme-color" content="#F7F5F1">
+  <link rel="icon" type="image/png" href="/fuel/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/fuel/fuel.css">
+</head>
+<body>
+  <header>
+    <div class="wrap bar">
+      <a class="brand" href="/fuel/">
+        <img src="/assets/img/leaping-dog.webp" alt="">
+        <div>
+          <div class="n">Waterdog Fuel Co.</div>
+          <div class="t">Rack to dock</div>
+        </div>
+      </a>
+      <nav class="main" id="main-nav">
+        <a href="/fuel/">Home</a>
+        <a href="/fuel/supply.html">Supply</a>
+        <a href="/fuel/marinas.html">For marinas</a>
+        <a href="/fuel/contact.html" aria-current="page">Contact</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <a class="btn gold hdr-cta" href="/fuel/contact.html">Send an invoice</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" style="padding-bottom:24px">
+      <div class="wrap" style="max-width:40rem">
+        <div class="kick">Contact</div>
+        <h1>Send the<br><em>marina.</em></h1>
+        <p class="lede">Opening 2027. We are not delivering fuel now. Leave the dock and email the invoice. We will tell you what you are leaving on the table.</p>
+      </div>
+    </section>
+    <section style="padding-top:12px">
+      <div class="wrap split">
+        <form class="form" id="wd-form">
+          <label for="r_marina">Marina</label>
+          <input id="r_marina" name="marina" autocomplete="organization" required>
+          <div class="two">
+            <div>
+              <label for="r_name">Your name</label>
+              <input id="r_name" name="name" autocomplete="name" required>
+            </div>
+            <div>
+              <label for="r_role">Role</label>
+              <input id="r_role" name="role" placeholder="Owner, GM, dockmaster">
+            </div>
+          </div>
+          <div class="two">
+            <div>
+              <label for="r_email">Email</label>
+              <input id="r_email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div>
+              <label for="r_phone">Phone</label>
+              <input id="r_phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+          </div>
+          <div class="two">
+            <div>
+              <label for="r_city">City</label>
+              <input id="r_city" name="city" autocomplete="address-level2">
+            </div>
+            <div>
+              <label for="r_slips">Slips</label>
+              <input id="r_slips" name="slips" inputmode="numeric">
+            </div>
+          </div>
+          <label for="r_notes">Notes</label>
+          <textarea id="r_notes" name="notes" placeholder="Product mix, gallons a month, anything the invoice will not say."></textarea>
+          <button class="btn gold fbtn" type="submit">Send the marina</button>
+          <p class="fnote">Then email the invoice to orders@coastalcavaliers.com. We do not take fuel money on this page.</p>
+          <div class="err" id="wd-err" role="alert"></div>
+        </form>
+        <div>
+          <div class="done" id="wd-done">
+            <div class="kick">Received</div>
+            <h2>We have the marina.</h2>
+            <p>Email the invoice to orders@coastalcavaliers.com with the marina in the subject. We will look at the number.</p>
+          </div>
+          <p class="lede" style="margin-top:8px">Prefer to skip the form.</p>
+          <div class="cta-row">
+            <a class="btn line" href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel%20%E2%80%94%20marina%20enquiry">Email us directly</a>
+          </div>
+          <p class="aside">A separate company. The same dog. Not the club, not a membership, not a posted rack on a website.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="fgrid">
+        <div>
+          <div class="fbrand">
+            <img src="/assets/img/leaping-dog.webp" alt="">
+            <div>
+              <div class="n">Waterdog Fuel Co.</div>
+              <div style="font-size:12px;color:var(--gold-lt);margin-top:5px;letter-spacing:.08em">RACK TO DOCK</div>
+            </div>
+          </div>
+          <p class="flegal">A separate company from Coastal Cavaliers. Marine fuel to marinas on the Texas coast. Opening 2027. We are not delivering fuel now.</p>
+        </div>
+        <div>
+          <h4>The company</h4>
+          <a href="/fuel/">Home</a>
+          <a href="/fuel/supply.html">Supply</a>
+          <a href="/fuel/marinas.html">For marinas</a>
+          <a href="/fuel/contact.html">Contact</a>
+        </div>
+        <div>
+          <h4>The club</h4>
+          <a href="/">Coastal Cavaliers</a>
+          <a href="/waterdog">The intro</a>
+          <h4 style="margin-top:24px">Reach us</h4>
+          <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a>
+        </div>
+      </div>
+      <div class="frule"></div>
+      <div class="fbot">
+        <span>&copy; 2026 Waterdog Fuel Co. · Texas Gulf Coast</span>
+        <span>Until the name is ours, this lives here.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="/fuel/fuel.js" defer></script>
+</body>
+</html>
