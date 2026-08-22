@@ -1,6 +1,6 @@
 # Coastal Cavaliers — Netlify configuration
 # Deploys automatically on every push to main.
-# Redeploy trigger: 2026-08-21 hero two-line layout (makers / marinas / apply / home).
+# Redeploy trigger: 2026-08-21e hero two-line layout live push.
 
 [build]
   publish = "."
