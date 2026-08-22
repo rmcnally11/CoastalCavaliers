@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Maker portal — Coastal Cavaliers</title>
+  <meta name="description" content="Approved makers: catalog, weekly capacity, payouts.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F7F5F1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260821f">
+  <link rel="stylesheet" href="/makers/portal/portal.css?v=20260821a">
+</head>
+<body class="mp-shell">
+  <header>
+    <div class="doors" role="navigation" aria-label="Club or app">
+      <div class="wrap">
+        <a class="doors-join" href="/#waitlist">Join the club</a>
+        <a class="doors-go" href="/app">Get the app</a>
+      </div>
+    </div>
+    <div class="wrap bar">
+      <a class="brand" href="/">
+        <img src="/assets/img/coastal-cavaliers.webp" alt="Coastal Cavaliers">
+        <div>
+          <div class="n">Coastal Cavaliers</div>
+          <div class="t">Maker portal</div>
+        </div>
+      </a>
+      <nav class="main" id="main-nav">
+        <a href="/makers.html">Sell with us</a>
+        <a href="/makers/portal" aria-current="page">Portal</a>
+        <a href="/apply.html">Apply</a>
+        <a class="nav-app" href="/app">The app</a>
+      </nav>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
+      <a class="btn line hdr-cta" href="/makers.html">Not a maker yet?</a>
+    </div>
+  </header>
+
+  <main class="mp-main" id="top">
+    <div class="wrap">
+      <div id="mp-banner" class="mp-banner hidden" role="status"></div>
+
+      <section id="mp-login" class="mp-card mp-login">
+        <div class="kick">Makers</div>
+        <h1>Sign in</h1>
+        <p class="lede">For approved makers only. Apply first — we turn on access when you are on the list.</p>
+        <label for="mp-email">Email</label>
+        <input id="mp-email" type="email" autocomplete="email" placeholder="you@example.com">
+        <button type="button" class="btn dark fbtn" id="mp-start">Email me a sign-in code</button>
+        <div id="mp-code-wrap" class="hidden">
+          <label for="mp-code">Code</label>
+          <input id="mp-code" inputmode="numeric" autocomplete="one-time-code" placeholder="6-digit code">
+          <button type="button" class="btn dark fbtn" id="mp-verify">Verify & open portal</button>
+        </div>
+        <p class="fnote" style="margin-top:18px">Public apply: <a href="/makers.html">Sell with us</a>. Ops approve in Airtable — then this door opens.</p>
+        <button type="button" class="btn line fbtn" id="mp-demo">Demo sign-in (UI only)</button>
+      </section>
+
+      <section id="mp-app" class="hidden">
+        <div class="mp-top">
+          <div>
+            <div class="kick">Maker desk</div>
+            <p class="who" id="mp-who"></p>
+          </div>
+          <button type="button" class="btn line" id="mp-signout">Sign out</button>
+        </div>
+
+        <div class="mp-tabs" role="tablist">
+          <button type="button" class="on" data-tab="week">This week</button>
+          <button type="button" data-tab="catalog">Catalog</button>
+          <button type="button" data-tab="payouts">Payouts</button>
+        </div>
+
+        <div class="mp-card wide" id="mp-panel-week">
+          <div class="kick">Capacity</div>
+          <h2 style="font-size:clamp(24px,3vw,32px);margin:10px 0 8px">This week</h2>
+          <p class="small">Raise capacity anytime — even after the member window opens. You cannot go below what is already sold.</p>
+          <div id="mp-week-list"></div>
+        </div>
+
+        <div class="mp-card wide hidden" id="mp-panel-catalog">
+          <div class="kick">Products</div>
+          <h2 style="font-size:clamp(24px,3vw,32px);margin:10px 0 8px">Catalog</h2>
+          <p class="small">New items submit as <b>Pending</b>. We approve before members see them.</p>
+          <div id="mp-catalog-list"></div>
+          <div style="margin-top:28px;padding-top:22px;border-top:1px solid var(--line)">
+            <div class="kick">Add a product</div>
+            <div class="two" style="margin-top:10px">
+              <div>
+                <label for="sku_name">Name</label>
+                <input id="sku_name" placeholder="Banana bread">
+              </div>
+              <div>
+                <label for="sku_category">Category</label>
+                <select id="sku_category">
+                  <option value="">Choose…</option>
+                  <option>Bread</option>
+                  <option>Coffee</option>
+                  <option>Smoked fish</option>
+                  <option>Cheese</option>
+                  <option>Pantry</option>
+                  <option>Sauce</option>
+                  <option>Sweet</option>
+                  <option>Other galley</option>
+                </select>
+              </div>
+            </div>
+            <div class="two">
+              <div>
+                <label for="sku_unit">Unit</label>
+                <input id="sku_unit" placeholder="loaf">
+              </div>
+              <div>
+                <label for="sku_price">Price (USD)</label>
+                <input id="sku_price" inputmode="decimal" placeholder="9.00">
+              </div>
+            </div>
+            <label for="sku_capacity">Starting capacity this week</label>
+            <input id="sku_capacity" inputmode="numeric" placeholder="50">
+            <button type="button" class="btn dark fbtn" id="mp-add-sku">Submit for review</button>
+          </div>
+        </div>
+
+        <div class="mp-card wide hidden" id="mp-panel-payouts">
+          <div class="kick">Friday pay</div>
+          <h2 style="font-size:clamp(24px,3vw,32px);margin:10px 0 8px">Payouts</h2>
+          <div id="mp-payout-list"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="fbot">
+        <span>&copy; 2026 Coastal Cavaliers · Maker portal</span>
+        <span class="build">build portal-20260821a</span>
+        <span><a href="/makers.html">Sell with us</a></span>
+      </div>
+    </div>
+  </footer>
+  <script src="/assets/js/site.js?v=20260821f" defer></script>
+  <script src="/makers/portal/portal.js?v=20260821a" defer></script>
+</body>
+</html>
