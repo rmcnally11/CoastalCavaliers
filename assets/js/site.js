@@ -374,17 +374,14 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     show(list[next].getAttribute("data-cat"));
   });
 })();
-/* build js-20260822a */
+/* build js-20260822b */
 
 /* Live catalog — homepage “This week aboard”. Never fall back to the example box. */
 (function () {
   var box = document.getElementById("week-box");
   if (!box) return;
   var LIVE = "https://rjmrio.app.n8n.cloud/webhook/cc-catalog";
-  var FEE = 0.15;
-  var SLIP = 18;
   var rowsEl = document.getElementById("week-box-rows");
-  var footEl = document.getElementById("week-box-foot");
   var subEl = document.getElementById("week-box-sub");
   var ledeEl = document.getElementById("week-box-lede");
 
@@ -412,10 +409,6 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
       rowsEl.innerHTML =
         '<div class="m-row"><div><div class="n">No live lines this week.</div><div class="mk">The live catalog is empty until a Real Live SKU is on this water.</div></div></div>';
     }
-    if (footEl) {
-      footEl.hidden = true;
-      footEl.innerHTML = "";
-    }
   }
   function renderLive(data) {
     var products = data && data.products ? data.products : [];
@@ -427,10 +420,8 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     }
     if (ledeEl) ledeEl.textContent = "Local makers, one slip delivery. The shape is the same on every coast.";
     if (subEl) subEl.textContent = cluster.name || "Live catalog";
-    var goods = 0;
     var html = "";
     products.forEach(function (p) {
-      goods += Number(p.price) || 0;
       var bits = [];
       if (p.maker) bits.push(p.maker);
       if (p.port) bits.push(p.port);
@@ -448,21 +439,6 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
         "</div></div>";
     });
     if (rowsEl) rowsEl.innerHTML = html;
-    var fee = Math.round(goods * FEE * 100) / 100;
-    var total = Math.round((goods + fee + SLIP) * 100) / 100;
-    if (footEl) {
-      footEl.hidden = false;
-      footEl.innerHTML =
-        '<div class="m-line"><span>Makers&rsquo; prices</span><span>' +
-        money(goods) +
-        '</span></div><div class="m-line"><span>Provisioning fee &middot; 15%</span><span>' +
-        money(fee) +
-        '</span></div><div class="m-line"><span>Slip delivery</span><span>' +
-        money(SLIP) +
-        '</span></div><div class="m-line tot"><span>Aboard, ready</span><span>' +
-        money(total) +
-        "</span></div>";
-    }
   }
 
   emptyState();
