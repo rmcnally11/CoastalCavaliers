@@ -2,12 +2,17 @@
 /apply      /apply.html      200
 /waitlist   /waitlist.html   200
 /join       /waitlist.html   200
+
+# Maker portal (before /makers marketing page)
+/makers/portal    /makers/portal/index.html  200
+/makers/portal/   /makers/portal/index.html  200
+
 /makers     /makers.html     200
 /marinas    /marinas.html    200
 /sport      /sport.html      200
 /waterdog   /waterdog.html   200
 
-# Waterdog Fuel Co. — separate company site until the domain is ours.
+# Waterdog Fuel Co.
 /fuel/boats       /fuel/boats.html     200
 /fuel/supply      /fuel/supply.html    200
 /fuel/marinas     /fuel/marinas.html   200
@@ -15,9 +20,7 @@
 /fuel             /fuel/index.html     200
 /fuel/            /fuel/index.html     200
 
-# Member app lives ON this domain. Existing files (catalog.json, app.js,
-# app.css, icons, sw, manifest, index.html) are served as themselves.
-# SPA routes rewrite to the app shell. Do not 302 /app off-site.
+# Member app ON this domain.
 /app/box          /app/index.html  200
 /app/catalog      /app/index.html  200
 /app/drop         /app/index.html  200
@@ -26,9 +29,6 @@
 /app              /app/index.html  200
 /app/             /app/index.html  200
 
-# Existing homepage anchors.
 /chest      /#chest          302
 
-# Unknown paths must 404. Do not restore "/* /index.html 200" —
-# that made junk URLs look like a live homepage (soft 404).
 /*          /404.html        404
