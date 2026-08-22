@@ -6,7 +6,7 @@ Netlify just serves this folder.
 **Local hands, open water.**
 
 Bots: read `BOTS.md` first. GitHub is the file source of truth for this site
-**and** the member app. n8n owns Airtable. WF0 overwrites `app/catalog.json`.
+**and** the member app. n8n owns Airtable. Live catalog is GET `/webhook/cc-catalog`.
 
 The member app is **on this domain** at `/app`. Do not 302 it to Grok, Vercel,
 or any other host.
@@ -29,7 +29,7 @@ app/
   index.html        member app shell (PWA)
   app.js            catalog, box, cutoff, drop, lock, install
   app.css           app chrome
-  catalog.json      WF0 overwrites this
+  catalog.json      labeled example only — not the live source
   manifest.json     Add to Home Screen
   sw.js             scoped to /app/
 fuel/               Waterdog Fuel Co. site (separate company, same domain)
@@ -81,7 +81,7 @@ automatically.
 * **Zip codes served, webhook, form logic** — assets/js/site.js
   (the served zip list is the SERVED array near the top)
 * **Images** — drop a .webp into assets/img/ and reference it relatively
-* **Weekly catalog** — app/catalog.json (n8n WF0 overwrites this)
+* **Weekly catalog** — GET https://rjmrio.app.n8n.cloud/webhook/cc-catalog (`app/catalog.json` is a labeled example only)
 * **Member app behaviour** — app/app.js
 
 ## Caching, so you are not surprised

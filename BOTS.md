@@ -31,7 +31,7 @@ Static HTML. Push to `main` and Netlify serves it. That is how bots update **the
 - Edit the Waterdog Fuel site in `fuel/` (`index.html`, `boats.html`, `marinas.html`, `supply.html`, `contact.html`, `fuel.css`, `fuel.js`)
 - Edit the member app in `app/` (`index.html`, `app.js`, `app.css`, `manifest.json`, `sw.js`)
 - Add real brand plates to `assets/img/` (change the filename if replacing a cached image)
-- Overwrite **`app/catalog.json`** (WF0). This is the catalog the member app reads.
+- Leave **`app/catalog.json`** on disk as a labeled example only. It is not the live catalog.
 - Keep the apply webhook in `assets/js/site.js` **and** `fuel/fuel.js` as `https://rjmrio.app.n8n.cloud/webhook/cc-apply`
 - Read and update `ops/waterdog/` (Airtable Omni, CSVs, n8n import, quote template). That folder is the Waterdog desk.
 
@@ -63,12 +63,17 @@ Existing files (`app/catalog.json`, `app/app.js`, `app/app.css`, icons, sw, mani
 
 ## Catalog
 
-`app/catalog.json` in this GitHub repo is the file WF0 overwrites.
+Live source is **GET** `https://rjmrio.app.n8n.cloud/webhook/cc-catalog` (n8n `CC_WF_Catalog`). CORS for `https://coastalcavaliers.com`. The webhook reads `CC_Operations` SKUs + Makers and returns the existing catalog.json shape.
 
-- Live URL: `https://coastalcavaliers.com/app/catalog.json`
-- Example box only until a live manifest exists. No photographs. Maker is `Example` or `Cavaliers Galley`.
+- Only **Record class = Real** AND **SKU status = Live**.
+- **TEST never publishes.** A TEST row that is Live still stays off the site.
+- Today that Real + Live set is empty, so `products` is `[]` until a Real Live row exists.
+- Do not invent makers. Do not fall back to the example box (Lake loaf / Example / Bayshore / Fulton) when the webhook is empty or errors.
+- The member app (`app/app.js`) and the homepage “This week aboard” box both fetch this webhook with `cache: "no-store"`. If the JSON has a `products` array — even empty — use that. If the webhook fails, show an honest empty state: **no live lines this week**.
+- WF0 GitHub overwrite of `app/catalog.json` is **no longer the live path**.
+- `app/catalog.json` stays on disk as a labeled example only. It is not shown as live.
 
-When WF0 commits a new catalog to GitHub, Netlify publishes it and the member app fetches that file.
+Price is dollars (not cents). `capRemaining` is `capacity - capacity_sold`.
 
 ## Data (not GitHub)
 
