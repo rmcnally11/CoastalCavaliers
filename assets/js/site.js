@@ -15,6 +15,44 @@ var WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
 var SERVED = ["77565","77573","77586","77058","77059","77062","77546","77598","77504","77505"];
 function val(id){ var e=document.getElementById(id); return e && e.value.trim() ? e.value.trim() : undefined; }
 function seg(id){ var e=document.querySelector("#"+id+" .o.on"); return e ? e.dataset.v : undefined; }
+var CC_AISLES = { Bread:1, Sweet:1, Savory:1, Drink:1, Other:1 };
+function selectedAisles(){
+  var box = document.getElementById("m_aisles");
+  if(!box) return [];
+  var out = [];
+  [].forEach.call(box.querySelectorAll(".o.on"), function(el){
+    var v = el.getAttribute("data-v");
+    if(v && CC_AISLES[v]) out.push(v);
+  });
+  return out;
+}
+function makerProducts(){
+  var text = val("m_products");
+  var aisles = selectedAisles();
+  if(aisles.length){
+    var line = "Aisles: " + aisles.join(", ");
+    return text ? line + "\n" + text : line;
+  }
+  return text;
+}
+function syncMakerReg(){
+  if(!document.getElementById("m_aisles")) return;
+  var lab = document.getElementById("m_reg_label");
+  var hint = document.getElementById("m_reg_hint");
+  var inp = document.getElementById("m_reg");
+  var licensed = seg("m_tier") === "Licensed";
+  if(lab) lab.textContent = licensed ? "Licence / establishment number" : "Texas cottage food registration";
+  if(hint) hint.textContent = licensed ? "Asked for — licence or establishment number." : "If you have one. Optional for cottage kitchens.";
+  if(inp) inp.placeholder = licensed ? "Licence or establishment number" : "If you have one — optional";
+}
+function clearMakerAisles(){
+  var box = document.getElementById("m_aisles");
+  if(!box) return;
+  [].forEach.call(box.querySelectorAll(".o"), function(el){
+    el.classList.remove("on");
+    el.setAttribute("aria-pressed", "false");
+  });
+}
 /* Seawall Applications contract. Never send Producer / Marina / Member link IDs. */
 var CC_KEYS = ["type","name","business","marinaName","email","phone","city","zip","makerTier","regNumber","products","capacity","deliveryPref","slips","shipsStore","dropType","boatType","notes","source","intendedPlan"];
 var CC_TYPES = { Maker:1, Marina:1, Waitlist:1 };
@@ -42,8 +80,20 @@ g.addEventListener("click", function(e){
 var o = e.target.closest(".o"); if(!o) return;
 [].forEach.call(g.children, function(c){ c.classList.remove("on"); });
 o.classList.add("on");
+if(g.id === "m_tier") syncMakerReg();
 });
 });
+var aisleBox = document.getElementById("m_aisles");
+if(aisleBox){
+  aisleBox.addEventListener("click", function(e){
+    var o = e.target.closest(".o");
+    if(!o || !aisleBox.contains(o)) return;
+    var on = !o.classList.contains("on");
+    o.classList.toggle("on", on);
+    o.setAttribute("aria-pressed", on ? "true" : "false");
+  });
+}
+syncMakerReg();
 /* FAQ accordion */
 document.querySelectorAll(".q h3").forEach(function(h){
 h.addEventListener("click", function(){ h.parentElement.classList.toggle("open"); });
@@ -91,7 +141,7 @@ var b = { type: type, source: "Site" };
 if(type === "Maker"){
 b.name=val("m_name"); b.business=val("m_business"); b.city=val("m_city");
 b.zip=val("m_zip"); b.phone=val("m_phone"); b.email=val("m_email");
-b.makerTier=seg("m_tier"); b.regNumber=val("m_reg"); b.products=val("m_products");
+b.makerTier=seg("m_tier"); b.regNumber=val("m_reg"); b.products=makerProducts();
 b.capacity=val("m_capacity"); b.deliveryPref=val("m_delivery");
 b.notes=val("m_notes");
 } else if(type === "Marina"){
@@ -157,6 +207,11 @@ btn.textContent = "Name, email and zip";
 setTimeout(function(){ btn.textContent = label; }, 3000);
 return;
 }
+if(type === "Maker" && (!b.name || !b.email || !b.zip || !val("m_products"))){
+btn.textContent = "Name, email, zip and kitchen";
+setTimeout(function(){ btn.textContent = label; }, 3000);
+return;
+}
 if(!b.email && !b.phone){
 btn.textContent = "Add an email or phone";
 setTimeout(function(){ btn.textContent = label; }, 3000);
@@ -177,6 +232,10 @@ clear.forEach(function(id){
 if(type === "Marina"){
   var store = document.getElementById("r_store");
   if(store) store.checked = false;
+}
+if(type === "Maker"){
+  clearMakerAisles();
+  syncMakerReg();
 }
 if(type === "Waitlist" && src !== "boatSnacks"){
   var g = document.getElementById("w_plan");
@@ -374,7 +433,26 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     show(list[next].getAttribute("data-cat"));
   });
 })();
-/* build js-20260822b */
+
+/* Portal door on /makers — optional email prefill for /makers/portal */
+(function(){
+  var go = document.getElementById("mp-door-go");
+  var email = document.getElementById("mp-door-email");
+  if(!go) return;
+  function href(){
+    var e = email && email.value.trim();
+    go.href = e ? "/makers/portal?email=" + encodeURIComponent(e) : "/makers/portal";
+  }
+  if(email){
+    email.addEventListener("input", href);
+    email.addEventListener("keydown", function(ev){
+      if(ev.key === "Enter"){ ev.preventDefault(); href(); go.click(); }
+    });
+  }
+  href();
+})();
+
+/* build js-20260822c */
 
 /* Live catalog — homepage “This week aboard”. Never fall back to the example box. */
 (function () {
