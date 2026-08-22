@@ -30,9 +30,25 @@
 .how-foot{margin-top:22px;font-size:14px;color:#5E6D85;text-align:center}
 @media(max-width:900px){.how-flow{grid-template-columns:1fr 1fr;gap:14px}.how-arrow{display:none}.how-step{min-height:0}}
 @media(max-width:520px){.how-flow{grid-template-columns:1fr}.how-tab{flex:1;text-align:center}}
+/* Hero: use page width, not a skinny middle column */
+.hero{padding:clamp(40px,6vh,80px) 0 clamp(48px,8vh,96px)}
+.hero-place{max-width:none;width:100%}
+.hero-place .kick{max-width:none}
+.hero h1{font-size:clamp(52px,8.5vw,110px);line-height:.92;margin:14px 0 0;letter-spacing:-.035em;max-width:18ch}
+.hero .lede{margin:22px 0 0;font-size:clamp(18px,2vw,22px);max-width:42ch;color:var(--soft,#4A5D73)}
+.hero .zipbox{margin-top:36px;max-width:36rem;width:100%}
+.hero .zipnote{max-width:48ch}
+@media(min-width:880px){
+  .hero{min-height:0;display:block;align-items:unset;padding:clamp(56px,8vh,100px) 0 clamp(64px,9vh,112px)}
+}
+@media(max-width:640px){
+  .hero{padding:36px 0 48px}
+  .hero h1{font-size:clamp(44px,12vw,68px);max-width:none}
+  .hero .lede{max-width:32ch}
+}
 </style>
-  <link rel="stylesheet" href="assets/css/site.css?v=20260821b">
-  <link rel="stylesheet" href="assets/css/doors.css?v=20260821b">
+  <link rel="stylesheet" href="assets/css/site.css?v=20260821c">
+  <link rel="stylesheet" href="assets/css/doors.css?v=20260821c">
 </head>
 <body>
   <div class="soon-bar" role="status"><span>Coming soon</span></div>
@@ -594,14 +610,14 @@
       <div class="frule"></div>
       <div class="fbot">
         <span>&copy; 2026 Coastal Cavaliers &middot; Wherever there is saltwater</span>
-        <span class="build">build html-20260821b <i id="bc"></i></span>
+        <span class="build">build html-20260821c <i id="bc"></i></span>
         <span>Made ashore. Enjoyed aboard.</span>
       </div>
     </div>
   </footer>
 
   <div class="mdl" id="mdl" hidden style="display:none" role="dialog" aria-modal="true" aria-labelledby="mdl-h" aria-describedby="mdl-p"><div class="mdl-c"><button class="mdl-x" id="mdl-x" aria-label="Close">&times;</button><div class="mdl-plate" aria-hidden="true"><div class="mdl-garments"><img src="assets/img/popup-boat-snacks-toddler_1600.webp" alt=""><img src="assets/img/popup-boat-snacks-youth_1600.webp" alt=""><img src="assets/img/popup-boat-snacks-bib_1600.webp" alt=""></div></div><div class="mdl-b"><h2 id="mdl-h">Boat Snacks. Numbered.</h2><p id="mdl-p">A limited preview of the kids line. Put your name in and you will hear when the hundred exist.</p><form class="mdl-form" id="mdl-form"><div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div><div class="two"><div><label for="bs_name">Your name</label><input id="bs_name" name="name" autocomplete="name" placeholder="Name"></div><div><label for="bs_email">Email</label><input id="bs_email" name="email" type="email" autocomplete="email" placeholder="you@example.com"></div></div><label for="bs_zip">Zip</label><input id="bs_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="Zip" maxlength="10"><button class="btn dark fbtn" id="bs_btn" type="submit">Tell me when they’re real</button><p class="fnote">Preview · coming soon</p></form></div></div></div>
-  <script src="assets/js/site.js?v=20260821b" defer></script>
+  <script src="assets/js/site.js?v=20260821c" defer></script>
   <script>(function(){var m=document.getElementById("mdl");if(m){m.setAttribute("hidden","");m.style.display="none";}})();</script>
 </body>
 </html>
