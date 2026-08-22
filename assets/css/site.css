@@ -90,6 +90,7 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
 .box-stage .sec-head{margin-bottom:36px}
 .box-stage .manifest{box-shadow:0 30px 60px -40px rgba(8,41,82,.34)}
 .box-stage .boxnote{margin-top:18px}
+#week-box-rows .m-row:last-child{border-bottom:none;padding-bottom:18px}
 
 .chest-note{border-top:2px solid var(--green);padding:15px 0 22px;margin-bottom:26px;display:flex;gap:20px;align-items:baseline;flex-wrap:wrap}
 .chest-note p{font-size:15.5px;color:var(--soft);margin:0;flex:1;min-width:280px}
