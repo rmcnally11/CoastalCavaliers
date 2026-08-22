@@ -49,7 +49,9 @@ Member app stays `/app`. Maker portal is a **role**, not a second brand.
 | sku_id | Text | Stable id |
 | maker | Link → Makers | |
 | name | Text | e.g. Banana bread |
-| category | Single select | Allowlist only (see below) |
+| aisle | Single select | Member shelf only: `Bread` / `Sweet` / `Savory` / `Drink` / `Other` |
+| kind | Text | What it actually is, e.g. Chocolate chip cookies |
+| category | Single select | One-release back-compat — same value as `aisle`. Do not use the old 8-item list. |
 | description | Long text | |
 | price_cents | Number | Integer cents — scale-safe |
 | unit | Text | loaf, dozen, 12oz bag |
@@ -58,7 +60,7 @@ Member app stays `/app`. Maker portal is a **role**, not a second brand.
 | status | Single select | `Draft` / `Pending` / `Live` / `Paused` / `Rejected` |
 | capacity | Number | This week; Jerry may **raise anytime** |
 | capacity_sold | Number | Filled by order pipeline; default 0 |
-| photo_url | URL | Optional MVP |
+| photo | Attachment | Optional. n8n writes from the portal file upload. No client-side Airtable key. |
 | notes | Long text | Ops reject reason etc. |
 
 **Approve a product:** `status = Live` only after review. Jerry creates → `Pending`.
@@ -102,9 +104,15 @@ Stubs until ordering is live. Same nouns later in Postgres.
 
 ---
 
-## Category allowlist (SKU)
+## Shelf mapping (SKU)
 
-`Bread`, `Coffee`, `Smoked fish`, `Cheese`, `Pantry`, `Sauce`, `Sweet`, `Other galley`
+Makers do **not** pick from a tight product-type list. Cookies do not belong in Bread. The portal form is:
+
+1. **Aisle** (required select — member shelf only): `Bread`, `Sweet`, `Savory`, `Drink`, `Other`
+2. **Kind** (required text): what it actually is. Placeholder example: Chocolate chip cookies. Not a dropdown.
+3. **Photo** (optional file input): a real upload, not a URL paste. n8n writes an Airtable attachment on `upsert_sku`. Same webhook path. No Airtable keys in the browser.
+
+`category` may still be stored as a copy of `aisle` for one-release back-compat. Do not treat Coffee / Smoked fish / Cheese / Pantry / Sauce / Other galley as the form allowlist.
 
 ---
 
@@ -126,6 +134,16 @@ Existing: `POST https://rjmrio.app.n8n.cloud/webhook/cc-apply`
 |------|-----|
 | `/webhook/cc-maker-auth` | Magic link / code |
 | `/webhook/cc-maker-api` | list_skus, upsert_sku, set_capacity, list_payouts |
+
+`upsert_sku` JSON (no photo):
+
+```
+{ "action": "upsert_sku", "sku": { "name", "aisle", "kind", "unit", "price_cents", "capacity", "sku_id?" } }
+```
+
+`category` may be sent as a copy of `aisle`. Do not send the old 8-item `category` as the only classifier.
+
+When the maker attaches a photo, the portal POSTs `multipart/form-data` to the **same** URL: `action=upsert_sku`, the sku fields (and a `sku` JSON string), plus the file as `photo`. n8n writes the Airtable attachment. No new webhook path.
 
 Portal UI: `/makers/portal` (demo sign-in works offline until these are live).
 

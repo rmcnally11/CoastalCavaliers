@@ -24,6 +24,8 @@
 .mp-banner{background:var(--shell-wash);border-left:3px solid var(--gold);padding:12px 14px;font-size:14px;color:var(--soft);margin-bottom:18px;line-height:1.5}
 .mp-banner b{color:var(--ink)}
 .mp-banner.warn{border-left-color:var(--coral);background:#FBEDE8}
+.mp-file{padding:10px 12px;font-size:14px}
+.mp-file-note{font-size:13px;color:var(--mute);margin-top:6px;max-width:46ch}
 .mp-login label{margin-top:14px}
 .mp-login .fbtn{margin-top:18px}
 .mp-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:8px}
