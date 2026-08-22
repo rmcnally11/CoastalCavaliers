@@ -1,12 +1,12 @@
 /* Coastal Cavaliers member app — lives at /app on coastalcavaliers.com */
 (function () {
-  const LIVE = "/app/catalog.json";
+  const LIVE = "https://rjmrio.app.n8n.cloud/webhook/cc-catalog";
   const FEE = 0.15;
   const SLIP = 18;
   const STORE = "cc.member-box";
-  const FALLBACK = {
-    note: "Example box · not a live manifest. WF0 overwrites this file.",
-    cluster: { id: "CL-01", name: "Clear Lake / Kemah / Seabrook" },
+  const EMPTY = {
+    note: "No live lines this week.",
+    cluster: { id: "CL-01", name: "Clear Lake / Kemah / Seabrook", cutoffLabel: "WED 12:00", deliveryLabel: "SAT" },
     products: [],
   };
 
@@ -91,7 +91,7 @@
     return m + "m to Wednesday noon";
   }
   function money(n) {
-    return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+    return (Number(n) || 0).toLocaleString("en-US", { style: "currency", currency: "USD" });
   }
   function stampClass(s) {
     if (!s) return "";
@@ -117,7 +117,7 @@
     loadState(),
   );
 
-  let catalog = FALLBACK;
+  let catalog = EMPTY;
   let cycle = getCycle();
 
   function persist() {
@@ -241,17 +241,24 @@
     );
   }
 
+  function emptyLines() {
+    return '<p class="lede">No live lines this week.</p>';
+  }
+
   function viewThisWeek() {
+    const live = catalog.products && catalog.products.length;
     return (
       '<p class="kick">Club catalog · holds only · nothing billed</p><h1>This week aboard.</h1><p class="lede">The box the club catalog is publishing. Build a hold against Wednesday noon — Friday staging or Saturday handover. The app does not take a card.</p>' +
       (catalog.note ? '<p class="note">' + catalog.note + "</p>" : "") +
-      '<div class="actions" style="margin-top:20px"><button class="btn line" data-pick="1">Captain’s pick</button><button class="btn line" data-last="1"' +
+      '<div class="actions" style="margin-top:20px"><button class="btn line" data-pick="1"' +
+      (live ? "" : " disabled") +
+      '>Captain’s pick</button><button class="btn line" data-last="1"' +
       (state.lastHold ? "" : " disabled") +
       ">Last box</button></div>" +
       '<div class="sec-h"><h2>This week aboard</h2><span>' +
       (catalog.cluster && catalog.cluster.name ? catalog.cluster.name : "CL-01") +
       "</span></div>" +
-      catalog.products.map(productRow).join("") +
+      (live ? catalog.products.map(productRow).join("") : emptyLines()) +
       '<p class="note" style="margin-top:16px"><span class="swatch"></span>Every box goes out in Gulf Sunrise.</p>' +
       '<div class="actions"><a class="btn" href="/app/box">Review the box →</a><a class="btn line" href="/app/catalog">Full catalog →</a></div>'
     );
@@ -271,7 +278,7 @@
       return p.port === state.filter;
     });
     return (
-      '<p class="kick">Taste where you are.</p><h1>The catalog.</h1><p class="lede">Example lines until the galley overwrites the catalog. Nothing ships.</p>' +
+      '<p class="kick">Taste where you are.</p><h1>The catalog.</h1><p class="lede">Live lines from this water. TEST never publishes. Nothing ships.</p>' +
       '<div class="chips">' +
       chips
         .map(
@@ -286,7 +293,7 @@
         )
         .join("") +
       "</div>" +
-      (shown.length ? shown.map(productRow).join("") : '<p class="lede">Nothing on that water this week.</p>')
+      (shown.length ? shown.map(productRow).join("") : emptyLines())
     );
   }
 
@@ -496,21 +503,17 @@
   }
 
   async function boot() {
+    catalog = EMPTY;
     try {
       const res = await fetch(LIVE, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
-        if (data && data.products && data.products.length) catalog = data;
+        if (data && Array.isArray(data.products)) catalog = data;
       }
     } catch (e) {
-      /* bundled fallback */
+      catalog = EMPTY;
     }
-    if (!catalog.products || !catalog.products.length) {
-      try {
-        const bundled = await fetch("/app/catalog.json", { cache: "no-store" });
-        if (bundled.ok) catalog = await bundled.json();
-      } catch (e) {}
-    }
+    if (!catalog.products) catalog = EMPTY;
     render();
     setInterval(() => {
       const tick = document.getElementById("tick");

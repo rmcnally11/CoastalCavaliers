@@ -374,7 +374,114 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     show(list[next].getAttribute("data-cat"));
   });
 })();
-/* build js-20260821a */
+/* build js-20260822a */
+
+/* Live catalog — homepage “This week aboard”. Never fall back to the example box. */
+(function () {
+  var box = document.getElementById("week-box");
+  if (!box) return;
+  var LIVE = "https://rjmrio.app.n8n.cloud/webhook/cc-catalog";
+  var FEE = 0.15;
+  var SLIP = 18;
+  var rowsEl = document.getElementById("week-box-rows");
+  var footEl = document.getElementById("week-box-foot");
+  var subEl = document.getElementById("week-box-sub");
+  var ledeEl = document.getElementById("week-box-lede");
+
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function money(n) {
+    return (Number(n) || 0).toLocaleString("en-US", { style: "currency", currency: "USD" });
+  }
+  function stampClass(s) {
+    if (!s) return "";
+    var x = String(s).toLowerCase();
+    if (x.indexOf("home") !== -1 || x.indexOf("cottage") !== -1) return "s-home";
+    if (x.indexOf("own") !== -1) return "s-own";
+    return "s-lic";
+  }
+  function emptyState() {
+    if (ledeEl) ledeEl.textContent = "No live lines this week.";
+    if (subEl) subEl.textContent = "No live lines this week";
+    if (rowsEl) {
+      rowsEl.innerHTML =
+        '<div class="m-row"><div><div class="n">No live lines this week.</div><div class="mk">The live catalog is empty until a Real Live SKU is on this water.</div></div></div>';
+    }
+    if (footEl) {
+      footEl.hidden = true;
+      footEl.innerHTML = "";
+    }
+  }
+  function renderLive(data) {
+    var products = data && data.products ? data.products : [];
+    var cluster = data && data.cluster ? data.cluster : {};
+    if (!products.length) {
+      emptyState();
+      if (subEl && cluster.name) subEl.textContent = cluster.name + " · no live lines this week";
+      return;
+    }
+    if (ledeEl) ledeEl.textContent = "Local makers, one slip delivery. The shape is the same on every coast.";
+    if (subEl) subEl.textContent = cluster.name || "Live catalog";
+    var goods = 0;
+    var html = "";
+    products.forEach(function (p) {
+      goods += Number(p.price) || 0;
+      var bits = [];
+      if (p.maker) bits.push(p.maker);
+      if (p.port) bits.push(p.port);
+      var stamp = p.stamp
+        ? '<span class="stamp ' + stampClass(p.stamp) + '">' + escapeHtml(p.stamp) + "</span>"
+        : "";
+      html +=
+        '<div class="m-row"><div><div class="n">' +
+        escapeHtml(p.name || p.kind || p.sku) +
+        '</div><div class="mk">' +
+        escapeHtml(bits.join(" · ")) +
+        stamp +
+        "</div></div><div class=\"p\">" +
+        money(p.price) +
+        "</div></div>";
+    });
+    if (rowsEl) rowsEl.innerHTML = html;
+    var fee = Math.round(goods * FEE * 100) / 100;
+    var total = Math.round((goods + fee + SLIP) * 100) / 100;
+    if (footEl) {
+      footEl.hidden = false;
+      footEl.innerHTML =
+        '<div class="m-line"><span>Makers&rsquo; prices</span><span>' +
+        money(goods) +
+        '</span></div><div class="m-line"><span>Provisioning fee &middot; 15%</span><span>' +
+        money(fee) +
+        '</span></div><div class="m-line"><span>Slip delivery</span><span>' +
+        money(SLIP) +
+        '</span></div><div class="m-line tot"><span>Aboard, ready</span><span>' +
+        money(total) +
+        "</span></div>";
+    }
+  }
+
+  emptyState();
+  if (subEl) subEl.textContent = "Loading the live catalog";
+  if (ledeEl) ledeEl.textContent = "The box this water is publishing. Local makers, one slip delivery.";
+
+  fetch(LIVE, { cache: "no-store" })
+    .then(function (res) {
+      if (!res.ok) throw new Error("catalog");
+      return res.json();
+    })
+    .then(function (data) {
+      if (data && Object.prototype.toString.call(data.products) === "[object Array]") renderLive(data);
+      else emptyState();
+    })
+    .catch(function () {
+      emptyState();
+    });
+})();
 
 /* How it works tabs */
 document.querySelectorAll(".how-tab").forEach(function (tab) {

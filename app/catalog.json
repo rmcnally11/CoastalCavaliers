@@ -1,5 +1,5 @@
 {
-  "note": "Example box · not a live manifest. WF0 overwrites this file. Do not invent makers or photographs.",
+  "note": "EXAMPLE ONLY · not the live catalog. Live source is GET https://rjmrio.app.n8n.cloud/webhook/cc-catalog. WF0 GitHub overwrite is no longer the live path. TEST never publishes. Do not invent makers or photographs.",
   "cluster": {
     "id": "CL-01",
     "name": "Clear Lake / Kemah / Seabrook",
