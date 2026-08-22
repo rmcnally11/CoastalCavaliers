@@ -443,6 +443,13 @@
       refresh();
     });
 
+  try {
+    var q = new URLSearchParams(location.search);
+    var prefill = q.get("email");
+    var emailInp = $("mp-email");
+    if (prefill && emailInp && !emailInp.value) emailInp.value = prefill;
+  } catch (e) {}
+
   renderAuth();
   if (state.token && state.token !== "demo") refresh();
   else if (state.token === "demo") {

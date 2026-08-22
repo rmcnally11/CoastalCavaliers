@@ -11,8 +11,32 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260821f">
-  <style>.page-hero .hero-place{max-width:none!important;width:100%!important}.page-hero h1{font-size:clamp(40px,6.5vw,84px)!important;line-height:1.05!important;max-width:none!important}.page-hero h1 .h1-line{display:block;white-space:nowrap}.page-hero .lede{max-width:48ch!important}</style>
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260822a">
+  <style>
+    .page-hero .hero-place{max-width:none!important;width:100%!important}
+    .page-hero h1{font-size:clamp(40px,6.5vw,84px)!important;line-height:1.05!important;max-width:none!important}
+    .page-hero h1 .h1-line{display:block;white-space:nowrap}
+    .page-hero .lede{max-width:48ch!important}
+    .portal-door{padding:0 0 8px}
+    .portal-strip{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px 32px;align-items:end;background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--shell);border-radius:3px;padding:22px 24px 24px}
+    .portal-strip p{margin-top:10px;font-size:16px;color:var(--soft);max-width:46ch}
+    .portal-go{display:flex;align-items:flex-end;gap:10px}
+    .portal-go label{margin-top:0}
+    .portal-go input{min-width:220px}
+    .portal-go .btn{white-space:nowrap}
+    .aisle-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px}
+    .aisle-chips .o{appearance:none;-webkit-appearance:none;background:#fff;border:1px solid var(--line2);color:var(--ink);font:600 13px/1 Archivo;letter-spacing:.04em;padding:11px 14px;border-radius:2px;cursor:pointer}
+    .aisle-chips .o:hover{border-color:var(--ink)}
+    .aisle-chips .o.on{border-color:var(--green);background:var(--green-lt)}
+    .form .hint{font:400 12.5px/1.45 Archivo;letter-spacing:0;text-transform:none;color:var(--mute);margin:-2px 0 8px}
+    #m_products{min-height:118px}
+    @media(max-width:720px){
+      .portal-strip{grid-template-columns:1fr}
+      .portal-go{flex-wrap:wrap}
+      .portal-go input{min-width:0;flex:1 1 100%}
+      .portal-go .btn{width:100%}
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -53,6 +77,24 @@
       </div>
     </section>
 
+    <section class="portal-door" id="portal">
+      <div class="wrap">
+        <div class="portal-strip rv">
+          <div>
+            <div class="kick">Already approved?</div>
+            <p>Sign in to the portal. Email and a one-time code &mdash; the same door we open when you are on the list.</p>
+          </div>
+          <div class="portal-go">
+            <div>
+              <label for="mp-door-email">Email</label>
+              <input id="mp-door-email" type="email" autocomplete="email" placeholder="you@example.com">
+            </div>
+            <a class="btn dark" id="mp-door-go" href="/makers/portal">Portal login</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="band-tint">
       <div class="wrap">
         <div class="sec-head rv">
@@ -87,17 +129,31 @@
         <div class="form rv">
           <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
           <div class="kick">Sell with us</div>
-          <h3 style="font-size:22px;margin:10px 0 4px">Tell us what you make.</h3>
-          <p class="tiny">Three minutes. Costs nothing.</p>
+          <h3 style="font-size:22px;margin:10px 0 4px">Apply to sell. Tell us the kitchen.</h3>
+          <p class="tiny">A few items you can actually run this month. Costs nothing.</p>
           <div class="two"><div><label for="m_name">Your name</label><input id="m_name" name="name" autocomplete="name" placeholder="Your name"></div><div><label for="m_business">Business name</label><input id="m_business" name="business" autocomplete="organization" placeholder="Your business"></div></div>
           <div class="two"><div><label for="m_city">City / port</label><input id="m_city" name="city" autocomplete="address-level2" placeholder="Your harbor city"></div><div><label for="m_zip">Zip</label><input id="m_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="Zip" maxlength="10"></div></div>
           <div class="two"><div><label for="m_phone">Phone</label><input id="m_phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 555-0110"></div><div><label for="m_email">Email</label><input id="m_email" name="email" type="email" autocomplete="email" placeholder="you@example.com"></div></div>
           <label id="m_tier_label">Which are you?</label>
           <div class="seg" id="m_tier" role="group" aria-labelledby="m_tier_label"><div class="o on" data-v="Cottage">Home kitchen<small>cottage</small></div><div class="o" data-v="Licensed">Licensed<small>commercial</small></div></div>
-          <label for="m_reg">Registration or licence number</label><input id="m_reg" name="registration" placeholder="CFP-000000">
-          <label for="m_products">What do you make? Include your retail prices.</label><textarea id="m_products" name="products" placeholder="Sourdough boule $9"></textarea>
-          <div class="two"><div><label for="m_capacity">Weekly capacity</label><input id="m_capacity" name="capacity" placeholder="60 loaves"></div><div><label for="m_delivery">Delivery or pickup?</label><select id="m_delivery" name="delivery"><option>I can deliver</option><option>Please pick up</option></select></div></div>
-          <label for="m_notes">Anything else</label><textarea id="m_notes" name="notes" placeholder="Seasonality, allergens…"></textarea>
+          <label for="m_reg" id="m_reg_label">Texas cottage food registration</label>
+          <p class="hint" id="m_reg_hint">If you have one. Optional for cottage kitchens.</p>
+          <input id="m_reg" name="registration" placeholder="If you have one — optional">
+          <label id="m_aisles_label">Aisles you can fill</label>
+          <p class="hint">Pick every aisle that fits. More than one is fine.</p>
+          <div class="aisle-chips" id="m_aisles" role="group" aria-labelledby="m_aisles_label">
+            <button type="button" class="o" data-v="Bread" aria-pressed="false">Bread</button>
+            <button type="button" class="o" data-v="Sweet" aria-pressed="false">Sweet</button>
+            <button type="button" class="o" data-v="Savory" aria-pressed="false">Savory</button>
+            <button type="button" class="o" data-v="Drink" aria-pressed="false">Drink</button>
+            <button type="button" class="o" data-v="Other" aria-pressed="false">Other</button>
+          </div>
+          <label for="m_products">What can you put on a boat this month?</label>
+          <p class="hint">A few items, not one loaf. Kind and typical retail price.</p>
+          <textarea id="m_products" name="products" placeholder="Sourdough boule $9&#10;Cinnamon rolls $10&#10;Smoked dip $14"></textarea>
+          <div class="two"><div><label for="m_capacity">Weekly run you can actually hit</label><input id="m_capacity" name="capacity" placeholder="40 loaves and 2 dozen rolls"></div><div><label for="m_delivery">Delivery or pickup?</label><select id="m_delivery" name="delivery"><option>I can deliver</option><option>Please pick up</option></select></div></div>
+          <label for="m_notes">Anything we should know</label>
+          <textarea id="m_notes" name="notes" placeholder="Allergens, seasonality, anything we should know"></textarea>
           <button class="btn dark fbtn" id="m_btn" type="button" onclick="submitForm('Maker')">Submit application</button>
           <p class="fnote">We read every one. You will hear from us by email.</p>
         </div>
@@ -115,9 +171,9 @@
         <div><h4>Work with us</h4><a href="/makers.html" aria-current="page">Sell with us</a><a href="/marinas.html">For marinas</a><a href="/apply.html">Apply</a><h4 style="margin-top:24px">Reach us</h4><a href="mailto:orders@coastalcavaliers.com">orders@coastalcavaliers.com</a></div>
       </div>
       <div class="frule"></div>
-      <div class="fbot"><span>&copy; 2026 Coastal Cavaliers &middot; Wherever there is saltwater</span><span class="build">build makers-20260821f <i id="bc"></i></span><span>Made ashore. Enjoyed aboard.</span></div>
+      <div class="fbot"><span>&copy; 2026 Coastal Cavaliers &middot; Wherever there is saltwater</span><span class="build">build makers-20260822c <i id="bc"></i></span><span>Made ashore. Enjoyed aboard.</span></div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20260821f" defer></script>
+  <script src="/assets/js/site.js?v=20260822c" defer></script>
 </body>
 </html>
