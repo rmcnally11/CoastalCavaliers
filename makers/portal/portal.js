@@ -69,6 +69,21 @@
     return '<span class="mp-badge ' + s + '">' + escapeHtml(st || "Draft") + "</span>";
   }
 
+  function skuAisle(s) {
+    return (s && (s.aisle || s.category)) || "";
+  }
+
+  function skuKind(s) {
+    return (s && (s.kind || s.name)) || "";
+  }
+
+  function resetSkuForm() {
+    ["sku_name", "sku_aisle", "sku_kind", "sku_unit", "sku_price", "sku_capacity"].forEach(function (id) {
+      if ($(id)) $(id).value = "";
+    });
+    if ($("sku_photo")) $("sku_photo").value = "";
+  }
+
   function renderTabs() {
     document.querySelectorAll(".mp-tabs button").forEach(function (btn) {
       btn.classList.toggle("on", btn.getAttribute("data-tab") === state.tab);
@@ -125,7 +140,8 @@
             '<div class="mp-row"><div><div class="name">' +
             escapeHtml(s.name) +
             "</div><div class=\"meta\">" +
-            escapeHtml(s.category || "") +
+            escapeHtml(skuKind(s)) +
+            (skuAisle(s) ? " · " + escapeHtml(skuAisle(s)) : "") +
             (s.unit ? " · " + escapeHtml(s.unit) : "") +
             "</div></div>" +
             statusBadge(s.status) +
@@ -176,6 +192,23 @@
     return { ok: r.ok, status: r.status, data: data };
   }
 
+  async function postForm(url, form, token) {
+    var headers = {};
+    if (token) headers.Authorization = "Bearer " + token;
+    var r = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: form
+    });
+    var data = null;
+    try {
+      data = await r.json();
+    } catch (e) {
+      data = null;
+    }
+    return { ok: r.ok, status: r.status, data: data };
+  }
+
   async function refresh() {
     if (!state.token) return;
     setBanner("Loading your desk…");
@@ -190,7 +223,8 @@
           {
             sku_id: "demo_1",
             name: "Banana bread",
-            category: "Sweet",
+            aisle: "Sweet",
+            kind: "Banana bread",
             unit: "loaf",
             price_cents: 900,
             status: "Pending",
@@ -259,7 +293,8 @@
         {
           sku_id: "demo_1",
           name: "Banana bread",
-          category: "Sweet",
+          aisle: "Sweet",
+          kind: "Banana bread",
           unit: "loaf",
           price_cents: 900,
           status: "Live",
@@ -268,7 +303,8 @@
         {
           sku_id: "demo_2",
           name: "Sourdough boule",
-          category: "Bread",
+          aisle: "Bread",
+          kind: "Sourdough boule",
           unit: "loaf",
           price_cents: 900,
           status: "Pending",
@@ -344,38 +380,66 @@
   $("mp-add-sku") &&
     ($("mp-add-sku").onclick = async function () {
       var name = ($("sku_name") && $("sku_name").value.trim()) || "";
-      var category = ($("sku_category") && $("sku_category").value) || "";
+      var aisle = ($("sku_aisle") && $("sku_aisle").value) || "";
+      var kind = ($("sku_kind") && $("sku_kind").value.trim()) || "";
       var unit = ($("sku_unit") && $("sku_unit").value.trim()) || "";
       var price = parseFloat(($("sku_price") && $("sku_price").value) || "");
       var capacity = parseInt(($("sku_capacity") && $("sku_capacity").value) || "0", 10);
-      if (!name || !category) {
-        setBanner("Name and category are required.", true);
+      var fileEl = $("sku_photo");
+      var file = fileEl && fileEl.files && fileEl.files[0];
+      if (!name || !aisle || !kind) {
+        setBanner("Name, aisle, and kind are required.", true);
         return;
       }
-      var row = {
-        sku_id: "local_" + Date.now(),
+      if (file && file.size > 8 * 1024 * 1024) {
+        setBanner("Photo must be under 8 MB.", true);
+        return;
+      }
+      var sku = {
         name: name,
-        category: category,
+        aisle: aisle,
+        kind: kind,
         unit: unit,
         price_cents: isNaN(price) ? null : Math.round(price * 100),
         capacity: isNaN(capacity) ? 0 : capacity,
-        status: "Pending"
+        category: aisle
       };
       if (state.token === "demo") {
+        var row = {
+          sku_id: "local_" + Date.now(),
+          name: sku.name,
+          aisle: sku.aisle,
+          kind: sku.kind,
+          unit: sku.unit,
+          price_cents: sku.price_cents,
+          capacity: sku.capacity,
+          status: "Pending"
+        };
         state.skus.unshift(row);
         setBanner("Added as <b>Pending</b> (demo). Live ops will require our approval before members see it.");
-        ["sku_name", "sku_unit", "sku_price", "sku_capacity"].forEach(function (id) {
-          if ($(id)) $(id).value = "";
-        });
+        resetSkuForm();
         renderSkus();
         return;
       }
-      var res = await post(API_URL, { action: "upsert_sku", sku: row }, state.token);
+      var res;
+      if (file) {
+        var fd = new FormData();
+        fd.append("action", "upsert_sku");
+        fd.append("sku", JSON.stringify(sku));
+        ["name", "aisle", "kind", "unit", "price_cents", "capacity", "category"].forEach(function (k) {
+          if (sku[k] != null && sku[k] !== "") fd.append(k, String(sku[k]));
+        });
+        fd.append("photo", file, file.name);
+        res = await postForm(API_URL, fd, state.token);
+      } else {
+        res = await post(API_URL, { action: "upsert_sku", sku: sku }, state.token);
+      }
       if (!res.ok) {
         setBanner("Could not add product. Check the API webhook.", true);
         return;
       }
       setBanner("Submitted for review.");
+      resetSkuForm();
       refresh();
     });
 
