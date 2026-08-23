@@ -29,6 +29,12 @@
 /app              /app/index.html  200
 /app/             /app/index.html  200
 
-/chest      /#chest          302
+/chest      /chest.html      200
+/privacy    /privacy.html    200
+
+/ops/*                  /404.html   404
+/sitepkg/*              /404.html   404
+/BOTS.md                /404.html   404
+/GITHUB_NETLIFY_SETUP.txt /404.html 404
 
 /*          /404.html        404

@@ -59,14 +59,12 @@ silently overwrite whatever you dropped.
 
 ## The forms
 
-All three — maker, marina, waitlist — POST to an n8n webhook:
+All three — maker, marina, waitlist — POST to `/.netlify/functions/apply`,
+which forwards to n8n. Optional Netlify env: `N8N_APPLY_WEBHOOK`.
+The live catalog is `/.netlify/functions/catalog` (TEST SKUs are stripped).
 
-```
-https://rjmrio.app.n8n.cloud/webhook/cc-apply
-```
-
-That URL lives in one place, `assets/js/site.js`, near the top. It writes
-straight into the Airtable Applications table.
+To roll back a bad publish: Netlify → Deploys → previous deploy → Publish.
+Git still has every commit.
 
 Each form carries a hidden honeypot field called `company_website`. A person
 never sees it; a bot fills it. If it has a value the submit is dropped silently,

@@ -98,9 +98,34 @@
 
 [[redirects]]
   from = "/chest"
-  to = "/#chest"
-  status = 302
+  to = "/chest.html"
+  status = 200
 
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+
+[[redirects]]
+  from = "/ops/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/sitepkg/*"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/BOTS.md"
+  to = "/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/GITHUB_NETLIFY_SETUP.txt"
+  to = "/404.html"
+  status = 404
 
 [[headers]]
   for = "/ops/*"
