@@ -49,13 +49,25 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://coastalcavaliers.com/waterdog</loc>
+    <loc>https://coastalcavaliers.com/fuel</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://coastalcavaliers.com/fuel/marinas</loc>
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://coastalcavaliers.com/fuel</loc>
+    <loc>https://coastalcavaliers.com/fuel/boats</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://coastalcavaliers.com/fuel/contact</loc>
     <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>

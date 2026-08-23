@@ -10,7 +10,8 @@
 /makers     /makers.html     200
 /marinas    /marinas.html    200
 /sport      /sport.html      200
-/waterdog   /waterdog.html   200
+/waterdog   /fuel/            301
+/waterdog.html /fuel/          301
 
 # Waterdog Fuel Co.
 /fuel/boats       /fuel/boats.html     200
@@ -32,10 +33,9 @@
 /chest      /chest.html      200
 /privacy    /privacy.html    200
 
-# ! = force, even when the file exists in the publish directory.
-/ops/*                  /404.html   404!
-/sitepkg/*              /404.html   404!
-/BOTS.md                /404.html   404!
-/GITHUB_NETLIFY_SETUP.txt /404.html 404!
+/ops/*                  /404.html   404
+/sitepkg/*              /404.html   404
+/BOTS.md                /404.html   404
+/GITHUB_NETLIFY_SETUP.txt /404.html 404
 
 /*          /404.html        404
