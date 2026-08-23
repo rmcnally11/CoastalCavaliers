@@ -53,20 +53,23 @@
               <div class="two"><div><label for="m_phone">Phone</label><input id="m_phone" type="tel" placeholder="(555) 555-0148"></div><div><label for="m_email">Email</label><input id="m_email" type="email" placeholder="you@example.com"></div></div>
               <label>Which are you?</label>
               <div class="seg" id="m_tier"><div class="o on" data-v="Cottage">Home kitchen<br><small>cottage</small></div><div class="o" data-v="Licensed">Licensed<br><small>commercial</small></div></div>
-              <label for="m_reg">Registration number</label><input id="m_reg" placeholder="CFP-000000">
+              <div id="m_reg_wrap" class="hidden">
+                <label for="m_reg">Registration number</label><input id="m_reg" placeholder="CFP-000000" disabled>
+              </div>
               <label for="m_products">What do you make?</label><textarea id="m_products" placeholder="Sourdough boule $9"></textarea>
               <div class="two"><div><label for="m_capacity">Weekly capacity</label><input id="m_capacity" placeholder="60 loaves"></div><div><label for="m_delivery">Delivery or pickup?</label><select id="m_delivery"><option>I can deliver</option><option>Please pick up</option></select></div></div>
               <label for="m_notes">Anything else</label><textarea id="m_notes" placeholder="Seasonality…"></textarea>
             </div>
             <div class="pane hidden" data-p="Marina">
               <div class="pitch"><b>Zero cost, zero work.</b> An amenity for slip holders.</div>
-              <div class="two"><div><label for="r_marina">Marina name</label><input id="r_marina" placeholder="Your marina"></div><div><label for="r_name">Your name</label><input id="r_name" placeholder="Harbormaster"></div></div>
-              <div class="two"><div><label for="r_phone">Phone</label><input id="r_phone" type="tel" placeholder="(555) 555-0110"></div><div><label for="r_email">Email</label><input id="r_email" type="email" placeholder="dock@example.com"></div></div>
-              <div class="two"><div><label for="r_city">City</label><input id="r_city" placeholder="Your harbor city"></div><div><label for="r_slips">Approx. slips</label><input id="r_slips" type="number" placeholder="1000"></div></div>
-              <label>Drop point</label>
-              <div class="seg" id="r_drop"><div class="o on" data-v="Cooler">Cooler<br><small>we supply</small></div><div class="o" data-v="Counter">Counter<br><small>staffed</small></div><div class="o" data-v="Office">Office<br><small>hours only</small></div></div>
-              <label class="chk"><input type="checkbox" id="r_store"> We have a ship&rsquo;s store</label>
-              <label for="r_notes">Anything we should know</label><textarea id="r_notes" placeholder="Gate access…"></textarea>
+              <label for="r_marina">Marina name</label><input id="r_marina" name="marina" placeholder="Your marina">
+              <div class="two"><div><label for="r_name">Your name</label><input id="r_name" name="name" placeholder="Name"></div><div><label for="r_role">Role</label><input id="r_role" name="role" placeholder="Harbormaster"></div></div>
+              <div class="two"><div><label for="r_phone">Phone</label><input id="r_phone" name="phone" type="tel" placeholder="(555) 555-0110"></div><div><label for="r_email">Email</label><input id="r_email" name="email" type="email" placeholder="dock@example.com"></div></div>
+              <div class="two"><div><label for="r_city">City</label><input id="r_city" name="city" placeholder="Your harbor city"></div><div><label for="r_slips">Approx. slips</label><input id="r_slips" name="slips" inputmode="numeric" placeholder="1,000"></div></div>
+              <label id="r_drop_label">Drop point</label>
+              <div class="seg" id="r_drop" role="group"><div class="o on" data-v="Cooler">Cooler<small>we supply</small></div><div class="o" data-v="Counter">Counter<small>staffed</small></div><div class="o" data-v="Office">Office<small>hours only</small></div></div>
+              <label class="chk" for="r_store"><input type="checkbox" id="r_store" name="shipsStore"> We have a ship&rsquo;s store</label>
+              <label for="r_notes">Anything we should know</label><textarea id="r_notes" name="notes" placeholder="Gate access, storm protocol…"></textarea>
             </div>
             <div class="pane hidden" data-p="Waitlist">
               <div class="pitch"><b>Leave your place on the list.</b> Your zip is a vote for the next water.</div>
@@ -97,7 +100,7 @@
         <div><h4>Work with us</h4><a href="/makers.html">Sell with us</a><a href="/marinas.html">For marinas</a><a href="/apply.html" aria-current="page">Apply</a><h4 style="margin-top:24px">Reach us</h4><a href="mailto:orders@coastalcavaliers.com">orders@coastalcavaliers.com</a></div>
       </div>
       <div class="frule"></div>
-      <div class="fbot"><span>&copy; 2026 Coastal Cavaliers &middot; Wherever there is saltwater</span><span class="build">build apply-20260823a</span><span>Made ashore. Enjoyed aboard.</span></div>
+      <div class="fbot"><span>&copy; 2026 Coastal Cavaliers &middot; Wherever there is saltwater</span><!-- build apply-20260823a --><span>Made ashore. Enjoyed aboard.</span></div>
     </div>
   </footer>
   <script src="/assets/js/site.js?v=20260823a" defer></script>
