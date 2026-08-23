@@ -285,6 +285,11 @@
       refresh();
     });
 
+  try {
+    if (new URLSearchParams(location.search).get("demo") === "1" && $("mp-demo")) {
+      $("mp-demo").classList.remove("hidden");
+    }
+  } catch (e) {}
   $("mp-demo") &&
     ($("mp-demo").onclick = function () {
       state.token = "demo";
@@ -383,8 +388,8 @@
       var aisle = ($("sku_aisle") && $("sku_aisle").value) || "";
       var kind = ($("sku_kind") && $("sku_kind").value.trim()) || "";
       var unit = ($("sku_unit") && $("sku_unit").value.trim()) || "";
-      var price = parseFloat(($("sku_price") && $("sku_price").value) || "");
-      var capacity = parseInt(($("sku_capacity") && $("sku_capacity").value) || "0", 10);
+      var price = parseFloat(( $("sku_price") && $("sku_price").value) || "");
+      var capacity = parseInt(( $("sku_capacity") && $("sku_capacity").value) || "0", 10);
       var fileEl = $("sku_photo");
       var file = fileEl && fileEl.files && fileEl.files[0];
       if (!name || !aisle || !kind) {
