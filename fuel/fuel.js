@@ -1,5 +1,5 @@
 (function () {
-  var WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
+  var WEBHOOK = "/.netlify/functions/apply";
   var CC_KEYS = ["type","name","business","marinaName","email","phone","city","zip","makerTier","regNumber","products","capacity","deliveryPref","slips","shipsStore","dropType","boatType","notes","source","intendedPlan"];
   var CC_TYPES = { Maker:1, Marina:1, Waitlist:1 };
 
