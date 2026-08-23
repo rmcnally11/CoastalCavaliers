@@ -1,8 +1,7 @@
 /*
-  X-Frame-Options: DENY
+  X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Link: </assets/css/doors.css?v=20260819e>; rel=stylesheet
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
 /app/index.html

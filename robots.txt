@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /app/
+Disallow: /ops/
+Disallow: /sitepkg/
+Disallow: /makers/portal
 
 Sitemap: https://coastalcavaliers.com/sitemap.xml
