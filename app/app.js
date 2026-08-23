@@ -1,6 +1,26 @@
 /* Coastal Cavaliers member app — lives at /app on coastalcavaliers.com */
 (function () {
-  const LIVE = "https://rjmrio.app.n8n.cloud/webhook/cc-catalog";
+  const LIVE = "/.netlify/functions/catalog";
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function liveProducts(list) {
+    if (!Array.isArray(list)) return [];
+    return list.filter(function (p) {
+      const sku = String((p && p.sku) || "");
+      if (!sku) return false;
+      if (/^sku_test_/i.test(sku)) return false;
+      if (/^test[_-]/i.test(sku)) return false;
+      return true;
+    });
+  }
+  function attr(s) {
+    return escapeHtml(s).replace(/'/g, "&#39;");
+  }
   const FEE = 0.15;
   const SLIP = 18;
   const STORE = "cc.member-box";
@@ -187,7 +207,7 @@
   function productRow(p) {
     const qty = state.lines[p.sku] ? state.lines[p.sku].qty : 0;
     const stamps =
-      (p.stamp ? '<span class="stamp ' + stampClass(p.stamp) + '">' + p.stamp + "</span>" : "") +
+      (p.stamp ? '<span class="stamp ' + stampClass(p.stamp) + '">' + escapeHtml(p.stamp) + "</span>" : "") +
       (p.cold ? '<span class="stamp s-home">Keep cold</span>' : "");
     const drop = p.drop
       ? '<div style="margin-top:4px;font-size:11px;letter-spacing:.04em;color:var(--coral)">Drop · ' +
@@ -198,23 +218,23 @@
       : "";
     const ctrl =
       qty === 0
-        ? '<button class="btn sm" data-add="' + p.sku + '">Add</button>'
+        ? '<button class="btn sm" data-add="' + attr(p.sku) + '">Add</button>'
         : '<div class="qty"><button data-dec="' +
-          p.sku +
+          attr(p.sku) +
           '">−</button><span>' +
           qty +
           '</span><button data-add="' +
-          p.sku +
+          attr(p.sku) +
           '"' +
           (qty >= p.capRemaining ? " disabled" : "") +
           ">+</button></div>";
     return (
       '<article class="row"><div><div class="name">' +
-      p.name +
+      escapeHtml(p.name) +
       '</div><div class="mk">' +
-      p.maker +
+      escapeHtml(p.maker) +
       " · " +
-      p.port +
+      escapeHtml(p.port) +
       stamps +
       "</div>" +
       drop +
@@ -248,15 +268,15 @@
   function viewThisWeek() {
     const live = catalog.products && catalog.products.length;
     return (
-      '<p class="kick">Club catalog · holds only · nothing billed</p><h1>This week aboard.</h1><p class="lede">The box the club catalog is publishing. Build a hold against Wednesday noon — Friday staging or Saturday handover. The app does not take a card.</p>' +
-      (catalog.note ? '<p class="note">' + catalog.note + "</p>" : "") +
+      '<p class="kick">Preview · holds stay on this phone</p><h1>This week aboard.</h1><p class="lede">A preview of the weekly clock. TEST never publishes. Locking a box saves it on this phone only — the galley cannot see it yet. Nothing is billed.</p>' +
+      (catalog.note ? '<p class="note">' + escapeHtml(catalog.note) + "</p>" : "") +
       '<div class="actions" style="margin-top:20px"><button class="btn line" data-pick="1"' +
       (live ? "" : " disabled") +
       '>Captain’s pick</button><button class="btn line" data-last="1"' +
       (state.lastHold ? "" : " disabled") +
       ">Last box</button></div>" +
       '<div class="sec-h"><h2>This week aboard</h2><span>' +
-      (catalog.cluster && catalog.cluster.name ? catalog.cluster.name : "CL-01") +
+      escapeHtml(catalog.cluster && catalog.cluster.name ? catalog.cluster.name : "CL-01") +
       "</span></div>" +
       (live ? catalog.products.map(productRow).join("") : emptyLines()) +
       '<p class="note" style="margin-top:16px"><span class="swatch"></span>Every box goes out in Gulf Sunrise.</p>' +
@@ -284,11 +304,11 @@
         .map(
           (c) =>
             '<button data-filter="' +
-            c.id +
+            attr(c.id) +
             '" class="' +
             (state.filter === c.id ? "on" : "") +
             '">' +
-            c.label +
+            escapeHtml(c.label) +
             "</button>",
         )
         .join("") +
@@ -304,20 +324,20 @@
           .map((l) => {
             return (
               '<div class="row"><div><div class="name">' +
-              l.name +
+              escapeHtml(l.name) +
               '</div><div class="mk">' +
-              l.maker +
+              escapeHtml(l.maker) +
               " · " +
-              l.port +
-              (l.stamp ? '<span class="stamp ' + stampClass(l.stamp) + '">' + l.stamp + "</span>" : "") +
+              escapeHtml(l.port) +
+              (l.stamp ? '<span class="stamp ' + stampClass(l.stamp) + '">' + escapeHtml(l.stamp) + "</span>" : "") +
               '</div></div><div style="text-align:right"><div class="p">' +
               money(l.price * l.qty) +
               '</div><div class="qty" style="margin-top:8px;justify-content:flex-end"><button data-dec="' +
-              l.sku +
+              attr(l.sku) +
               '">−</button><span>' +
               l.qty +
               '</span><button data-add="' +
-              l.sku +
+              attr(l.sku) +
               '">+</button></div></div></div>'
             );
           })
@@ -333,19 +353,21 @@
       (state.drop === "saturday-handover" ? "on" : "") +
       '">Saturday handover<small>Aboard before you leave</small></button></div>' +
       '<h2 style="margin-top:32px;font-size:22px">Your slip</h2><div class="fields"><label><span>Name</span><input id="f-name" autocomplete="name" value="' +
-      (state.name || "") +
-      '"></label><label><span>Marina</span><input id="f-marina" placeholder="Watergate" value="' +
-      (state.marina || "") +
+      attr(state.name || "") +
+      '"></label><label><span>Marina</span><input id="f-marina" placeholder="Your marina" value="' +
+      attr(state.marina || "") +
       '"></label><label><span>Slip</span><input id="f-slip" placeholder="C-14" value="' +
-      (state.slip || "") +
+      attr(state.slip || "") +
       '"></label></div>' +
       totalsCard() +
       (state.locked
-        ? '<div class="ok">Hold locked for ' + state.locked + ". Nothing billed. The galley will see it when we open the route.</div>"
+        ? '<div class="ok">Saved on this phone for ' +
+          escapeHtml(state.locked) +
+          ". The galley cannot see this hold yet. Nothing billed.</div>"
         : "") +
       '<div class="actions"><button class="btn" data-lock="1"' +
-      (lines.length ? "" : " disabled") +
-      '>Lock this box</button><a class="btn line" href="/app/catalog">Add more</a><a class="btn line" href="/app/install">Put it on the phone</a></div>'
+        (lines.length ? "" : " disabled") +
+      '>Save on this phone</button><a class="btn line" href="/app/catalog">Add more</a><a class="btn line" href="/app/install">Put it on the phone</a></div>'
     );
   }
 
@@ -388,7 +410,7 @@
     const t = totals();
     const root = document.getElementById("app");
     root.innerHTML =
-      '<div class="doors"><div class="wrap"><a class="doors-join" href="/#waitlist">Join the club</a><a class="doors-go" href="/app">The app</a></div></div>' +
+      '<div class="doors"><div class="wrap"><a class="doors-join" href="/#waitlist">Join the waitlist</a><span class="doors-go">Preview</span></div></div>' +
       '<header class="bar"><div class="wrap"><a class="brand" href="/app"><img src="/assets/img/crest-gold.webp" alt=""><div><div class="n">Coastal Cavaliers</div><div class="t">Local hands, open water</div></div></a></div><div class="wrap cycle"><div class="id">Cycle ' +
       cycle.id +
       '</div><div class="tick" id="tick">' +
@@ -508,7 +530,9 @@
       const res = await fetch(LIVE, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
-        if (data && Array.isArray(data.products)) catalog = data;
+        if (data && Array.isArray(data.products)) {
+          catalog = Object.assign({}, data, { products: liveProducts(data.products) });
+        }
       }
     } catch (e) {
       catalog = EMPTY;
