@@ -11,8 +11,9 @@ Bots: read `BOTS.md` first. GitHub is the file source of truth for this site
 The member app is **on this domain** at `/app`. Do not 302 it to Grok, Vercel,
 or any other host.
 
-Waterdog Fuel is **on this domain** at `/fuel`. Separate company. Opening 2027.
-Bots: `ops/waterdog/README.md`. Do not take fuel money. Do not invent a second webhook.
+Waterdog Fuel is **on this domain** at `/fuel` until the name is ours. Separate company. Opening 2027.
+Opening bases: Houston, Tampa, Fort Lauderdale. Pensacola on the board. Next: SC, GA, NC.
+Bots: `ops/waterdog/README.md`. Do not take fuel money. Fuel forms POST `/.netlify/functions/waterdog` → n8n `wd-intake` → `WD_Operations`. Not the club Applications table.
 
 ---
 
@@ -59,8 +60,10 @@ silently overwrite whatever you dropped.
 
 ## The forms
 
-All three — maker, marina, waitlist — POST to `/.netlify/functions/apply`,
-which forwards to n8n. Optional Netlify env: `N8N_APPLY_WEBHOOK`.
+Club forms — maker, marina, waitlist — POST to `/.netlify/functions/apply`,
+which forwards to n8n `cc-apply`. Optional Netlify env: `N8N_APPLY_WEBHOOK`.
+Waterdog forms POST to `/.netlify/functions/waterdog` → n8n `wd-intake` →
+`WD_Operations` Leads / Newsletter. Optional: `N8N_WATERDOG_WEBHOOK`.
 The live catalog is `/.netlify/functions/catalog` (TEST SKUs are stripped).
 
 To roll back a bad publish: Netlify → Deploys → previous deploy → Publish.

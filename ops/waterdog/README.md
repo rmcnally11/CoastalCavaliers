@@ -1,37 +1,42 @@
 # Waterdog Fuel — operations
 
-Separate company. Separate books. The site already captures. This folder is the rest of the desk.
+Separate company. Separate books. Until the name is ours, the site lives at
+`https://coastalcavaliers.com/fuel`.
 
-## What already works (do nothing)
+## What already works
 
-The Waterdog site posts to the **same** n8n webhook as the club:
+Fuel pages POST to the **Waterdog** Netlify function, not the club apply webhook:
 
 ```
-POST https://rjmrio.app.n8n.cloud/webhook/cc-apply
+POST /.netlify/functions/waterdog
 ```
 
-WF2 writes `CC_Operations → Applications`. Every Waterdog row has Notes beginning:
+That function forwards to n8n `wd-intake`. n8n writes:
 
-- `Waterdog Fuel — request more info`
-- `Waterdog Fuel — quote request`
-- `Waterdog Fuel — wet-hose waitlist`
+- **Leads** (`tblvrcVJcGxlRkSX2`) for Marina / Boat / Talk
+- **Newsletter** (`tbldZETrSxw2xRsKz`) when `list=newsletter`
 
-In Airtable, filter Applications where Notes contains `Waterdog Fuel`. That is the book, today.
+Base: `WD_Operations` `appeh32eXzdh1leyZ`.
 
-Types WF2 accepts (do not invent a fourth): Maker · Marina · Waitlist.
+A marina conversation is not a club marina application. Do not write Waterdog
+site intake into `CC_Operations` → Applications.
 
-We do **not** take fuel money from the site. No second webhook. Holds and names only.
+We do **not** take fuel money from the site. No diagnose quote from a public form.
+No gallons sold from a flyer.
 
-## What to import
+## Opening bases
 
-1. **Waterdog_Operations.xlsx** — open in Drive (already a Sheet if uploaded as one). Working book. Copy Applications rows into Leads until n8n writes here.
-2. **WD_WF_Notify.json** — n8n → Import. Activate. It does **not** change the webhook. After WF2 saves an Application, if Notes contain "Waterdog Fuel" it emails `orders@coastalcavaliers.com`. Attach your existing Gmail credential when n8n asks.
-3. **WD_Airtable_CSVs.zip** + **WD_Airtable_Omni.txt** — when you are ready to split the books, paste Omni into Airtable, then upload the CSVs in order: Leads → Accounts → Quotes → Invoices → Tickets → Hosts. Rename tables to drop the number prefix.
+Houston · Tampa · Fort Lauderdale. Pensacola on the board. Next: SC, GA, NC.
 
-## Invoices
+The Leads **Base** field is that list. Status starts **New**. Source is **Site**.
 
-The Quotes table is the live desk. Site forms tagged `Waterdog Fuel — quote request` land in Applications (filter Notes). Copy those into Quotes when you write the number back. The Invoices table exists so 2027 has a place to land. Do not bill from the website. A ticket is a wet-hose fill after GATE 5. Neither bills a card.
+## GATE 5
 
-## Covenant
+We do not wet-hose until pollution insurance is bound. Tickets stay empty until then.
 
-Never wet-hose at a marina with a working fuel dock unless that marina asks. Hosts.Has fuel dock = Yes is the kill switch.
+## What not to do
+
+- Do not post Waterdog forms to `cc-apply`.
+- Do not create a diagnose Quote from a website questionnaire (no rack dollars).
+- Do not invent host marinas.
+- Do not take a card.
