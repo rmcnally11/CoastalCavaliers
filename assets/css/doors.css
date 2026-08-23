@@ -16,4 +16,6 @@ nav.main a.nav-app{color:var(--ink);font-weight:600}
   .doors-go{min-height:32px;padding:0 14px}
   .hero-app span{display:none}
 }
+/* build css-20260819e — comment only, never rendered
 #bc::after{content:"\00b7 css-20260819e"}
+*/

@@ -71,11 +71,20 @@ function makerProducts(){
   return text;
 }
 function syncMakerReg(){
-  if(!document.getElementById("m_aisles")) return;
   var lab = document.getElementById("m_reg_label");
   var hint = document.getElementById("m_reg_hint");
   var inp = document.getElementById("m_reg");
+  var wrap = document.getElementById("m_reg_wrap");
+  if(!inp && !lab && !wrap) return;
   var licensed = seg("m_tier") === "Licensed";
+  if(wrap){
+    wrap.classList.toggle("hidden", !licensed);
+    if(inp){
+      inp.disabled = !licensed;
+      if(!licensed) inp.value = "";
+    }
+  }
+  if(!document.getElementById("m_aisles")) return;
   if(lab) lab.textContent = licensed ? "Licence / establishment number" : "Texas cottage food registration";
   if(hint) hint.textContent = licensed ? "Asked for — licence or establishment number." : "If you have one. Optional for cottage kitchens.";
   if(inp) inp.placeholder = licensed ? "Licence or establishment number" : "If you have one — optional";
@@ -88,7 +97,7 @@ function clearMakerAisles(){
     el.setAttribute("aria-pressed", "false");
   });
 }
-/* Seawall Applications rail. Never send Producer / Marina / Member link IDs. */
+/* Seawall Applications contract. Never send Producer / Marina / Member link IDs. */
 var CC_KEYS = ["type","name","business","marinaName","email","phone","city","zip","makerTier","regNumber","products","capacity","deliveryPref","slips","shipsStore","dropType","boatType","notes","source","intendedPlan"];
 var CC_TYPES = { Maker:1, Marina:1, Waitlist:1 };
 var CC_TIERS = { Cottage:1, Licensed:1, House:1 };
@@ -193,7 +202,10 @@ var b = { type: type, source: "Site" };
 if(type === "Maker"){
 b.name=val("m_name"); b.business=val("m_business"); b.city=val("m_city");
 b.zip=val("m_zip"); b.phone=val("m_phone"); b.email=val("m_email");
-b.makerTier=seg("m_tier"); b.regNumber=val("m_reg"); b.products=makerProducts();
+b.makerTier=seg("m_tier");
+var regInp = document.getElementById("m_reg");
+if(regInp && !regInp.disabled) b.regNumber=val("m_reg");
+b.products=makerProducts();
 b.capacity=val("m_capacity"); b.deliveryPref=val("m_delivery");
 b.notes=val("m_notes");
 } else if(type === "Marina"){
