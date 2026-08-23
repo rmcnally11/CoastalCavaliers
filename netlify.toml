@@ -1,6 +1,6 @@
 # Coastal Cavaliers — Netlify configuration
 # Deploys automatically on every push to main.
-# Redeploy trigger: 2026-08-23 force-404 ops/sitepkg.
+# Redeploy trigger: 2026-08-21e hero two-line layout live push.
 
 [build]
   publish = "."
@@ -93,8 +93,13 @@
 
 [[redirects]]
   from = "/waterdog"
-  to = "/waterdog.html"
-  status = 200
+  to = "/fuel/"
+  status = 301
+
+[[redirects]]
+  from = "/waterdog.html"
+  to = "/fuel/"
+  status = 301
 
 [[redirects]]
   from = "/chest"
@@ -106,31 +111,26 @@
   to = "/privacy.html"
   status = 200
 
-# force = true: these paths exist in the publish dir, so Netlify would
-# otherwise serve them as 200 and ignore a soft 404 rewrite.
+
 [[redirects]]
   from = "/ops/*"
   to = "/404.html"
   status = 404
-  force = true
 
 [[redirects]]
   from = "/sitepkg/*"
   to = "/404.html"
   status = 404
-  force = true
 
 [[redirects]]
   from = "/BOTS.md"
   to = "/404.html"
   status = 404
-  force = true
 
 [[redirects]]
   from = "/GITHUB_NETLIFY_SETUP.txt"
   to = "/404.html"
   status = 404
-  force = true
 
 [[headers]]
   for = "/ops/*"
