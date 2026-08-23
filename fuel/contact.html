@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Contact — Waterdog Fuel Co.</title>
-  <meta name="description" content="Request a marina conversation or market update. Waterdog Fuel Co., Texas Gulf Coast. Opening 2027.">
+  <meta name="description" content="Talk to Waterdog Fuel Co. Houston, Tampa, Fort Lauderdale. Leave a name. Leads go to Waterdog operations, not the club Applications table.">
+  <link rel="canonical" href="https://coastalcavaliers.com/fuel/contact">
   <meta name="theme-color" content="#F7F5F1">
   <link rel="icon" type="image/png" href="/fuel/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +31,7 @@
       </nav>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
       <a class="phone" href="tel:5612717911">561-271-7911</a>
-      <a class="btn gold hdr-cta" href="#quote">Request a quote</a>
+      <a class="btn gold hdr-cta" href="#talk">Leave a name</a>
     </div>
   </header>
 
@@ -38,102 +39,58 @@
     <section class="hero" style="padding-bottom:24px">
       <div class="wrap" style="max-width:40rem">
         <div class="kick">Contact</div>
-        <h1>Tell us how<br><em>you buy.</em></h1>
-        <p class="lede">Not a bid form. A short questionnaire so we know whether a conversation is worth both of our time. Opening 2027 — we are not delivering fuel now.</p>
+        <h1>Call, or<br><em>leave a name.</em></h1>
+        <p class="lede">561-271-7911. Fort Lauderdale is a named base — that number is not a Texas leftover. A Waterdog lead is not a club marina application. GATE 5: we do not wet-hose until pollution insurance is bound.</p>
       </div>
     </section>
-    <section id="quote" style="padding-top:12px">
+    <section id="talk" style="padding-top:12px">
       <div class="wrap split">
-        <form class="form" id="wd-form">
+        <form class="form" id="wd-info">
           <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
-
-          <div class="kick">If you run a marina</div>
-          <label for="r_marina">Marina</label>
-          <input id="r_marina" name="marina" autocomplete="organization" required>
-          <div class="two">
-            <div>
-              <label for="r_name">Your name</label>
-              <input id="r_name" name="name" autocomplete="name" required>
-            </div>
-            <div>
-              <label for="r_role">Role</label>
-              <input id="r_role" name="role" placeholder="Owner, GM, dockmaster">
-            </div>
+          <div class="kick">Talk</div>
+          <p class="fnote" style="margin-top:0;margin-bottom:10px">Name, email, base. That is enough. Dockmasters: call if a form is in the way.</p>
+          <div class="kind">
+            <label class="choice"><input type="radio" name="i_kind" value="Talk" checked> Just talking</label>
+            <label class="choice"><input type="radio" name="i_kind" value="Marina"> I run a marina</label>
+            <label class="choice"><input type="radio" name="i_kind" value="Boat"> I keep a boat</label>
           </div>
-          <div class="two">
-            <div>
-              <label for="r_email">Email</label>
-              <input id="r_email" name="email" type="email" autocomplete="email" required>
-            </div>
-            <div>
-              <label for="r_phone">Phone</label>
-              <input id="r_phone" name="phone" type="tel" autocomplete="tel">
-            </div>
-          </div>
-          <div class="two">
-            <div>
-              <label for="r_city">City / basin</label>
-              <input id="r_city" name="city" autocomplete="address-level2" placeholder="Clear Lake, Kemah…">
-            </div>
-            <div>
-              <label for="r_slips">Slips (approx)</label>
-              <input id="r_slips" name="slips" inputmode="numeric">
-            </div>
-          </div>
-
-          <div class="kick" style="margin-top:10px">How you buy</div>
-          <label for="r_pricing">Pricing type today</label>
-          <select id="r_pricing" name="pricing">
-            <option value="">Select one</option>
-            <option>Rack + freight</option>
-            <option>Jobber delivered</option>
-            <option>Branded contract</option>
-            <option>Mix / not sure</option>
+          <label for="i_name">Your name</label>
+          <input id="i_name" name="name" autocomplete="name" required>
+          <label for="i_email">Email</label>
+          <input id="i_email" name="email" type="email" autocomplete="email" required>
+          <label for="i_phone">Phone</label>
+          <input id="i_phone" name="phone" type="tel" autocomplete="tel">
+          <label for="i_base">Base</label>
+          <select id="i_base" name="base" required>
+            <option value="">Choose a base</option>
+            <option value="Houston">Houston — Clear Lake / Kemah / Seabrook</option>
+            <option value="Tampa">Tampa — Tampa Bay</option>
+            <option value="Fort Lauderdale">Fort Lauderdale — Port Everglades water</option>
+            <option value="Pensacola">Pensacola — on the board</option>
+            <option value="Next">Next — SC / GA / NC or elsewhere</option>
           </select>
-          <label for="r_product">Product</label>
-          <select id="r_product" name="product">
-            <option value="">Select one</option>
-            <option>Gasoline</option>
-            <option>Diesel / distillate</option>
-            <option>Both</option>
-          </select>
-          <label for="r_volume">Annual gallons (band)</label>
-          <select id="r_volume" name="volume">
-            <option value="">Select one</option>
-            <option>Under 100,000</option>
-            <option>100,000 – 250,000</option>
-            <option>250,000 – 500,000</option>
-            <option>500,000 – 900,000</option>
-            <option>Over 900,000</option>
-            <option>Not sure yet</option>
-          </select>
-          <label for="r_when">When to talk</label>
-          <select id="r_when" name="when">
-            <option value="">Select one</option>
-            <option>Looking now</option>
-            <option>Next season</option>
-            <option>Just learning</option>
-          </select>
-          <label for="r_notes">Anything else</label>
-          <textarea id="r_notes" name="notes" placeholder="Seasonality, tank size, current contract end — optional."></textarea>
-          <button class="btn gold fbtn" type="submit">Request a quote</button>
-          <p class="fnote">This is not a price bid. No dollars on this form. We will write back when a conversation makes sense.</p>
-          <div class="err" id="wd-err" role="alert"></div>
+          <label for="i_place">Marina or basin</label>
+          <input id="i_place" name="place" autocomplete="organization">
+          <label for="i_notes">Notes</label>
+          <textarea id="i_notes" name="notes"></textarea>
+          <button class="btn gold fbtn" type="submit">Send to Waterdog</button>
+          <p class="fnote">Lands in Waterdog operations. Not the club Applications table. No dollars on this form.</p>
+          <div class="err" id="i-err" role="alert"></div>
         </form>
         <div>
-          <div class="done" id="wd-done">
+          <div class="done" id="i-done">
             <div class="kick">Received</div>
             <h2>In the book.</h2>
-            <p>We will write back. Until 2027 nothing is filled and nothing is billed.</p>
+            <p>We will write back. Until the hose is bound, nothing is filled and nothing is billed.</p>
           </div>
-          <p class="aside">Prefer the phone: <a href="tel:5612717911">561-271-7911</a> · <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel%20%E2%80%94%20quote%20request">orders@coastalcavaliers.com</a></p>
+          <p class="aside">Prefer the phone: <a href="tel:5612717911">561-271-7911</a> · <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a></p>
           <div class="rule"></div>
           <div class="kick">If you keep a boat</div>
-          <p class="aside" style="margin-top:8px">No fuel dock? <a href="/fuel/boats.html">Hold a slip</a> instead. Not a quote.</p>
+          <p class="aside" style="margin-top:8px">No fuel dock? <a href="/fuel/boats.html">Hold a slip</a> instead.</p>
           <div class="rule"></div>
-          <div class="kick">Market updates</div>
-          <p class="aside" style="margin-top:8px">Weekly rack context for the Gulf Coast — not a sales blast. <a href="#news">Subscribe</a>.</p>
-          <p class="aside">A separate company. The same dog. Bobby McNally. Holds fast.</p>
+          <div class="kick">If you run a marina</div>
+          <p class="aside" style="margin-top:8px">Call. The marina page is web-only — no print sheet, no nine-field form. <a href="/fuel/marinas.html">For the dockmaster</a>.</p>
+          <p class="aside">A separate company. The same dog. Robert McNally. Holds fast.</p>
         </div>
       </div>
     </section>
@@ -142,27 +99,32 @@
       <div class="wrap split">
         <form class="form" id="wd-news">
           <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
-          <div class="kick">Newsletter</div>
+          <div class="kick">Fuel list</div>
           <h2 style="font-size:28px;margin:10px 0 6px">Want to learn more?</h2>
-          <p class="fnote" style="margin-top:0;margin-bottom:10px">Subscribe for a weekly market update. Rack context, Gulf Coast tone. No fuel bid in the email.</p>
-          <label for="n_name">Name</label>
-          <input id="n_name" name="name" autocomplete="name">
+          <p class="fnote" style="margin-top:0;margin-bottom:10px">Rack and insurance notes when there is something to say. Not a club newsletter.</p>
           <label for="n_email">Email</label>
           <input id="n_email" name="email" type="email" autocomplete="email" required>
-          <label for="n_marina">Marina (optional)</label>
-          <input id="n_marina" name="marina" autocomplete="organization">
-          <button class="btn gold fbtn" type="submit">Subscribe to market updates</button>
+          <label for="n_base">Base (optional)</label>
+          <select id="n_base" name="base">
+            <option value="">Any / not sure</option>
+            <option value="Houston">Houston</option>
+            <option value="Tampa">Tampa</option>
+            <option value="Fort Lauderdale">Fort Lauderdale</option>
+            <option value="Pensacola">Pensacola</option>
+            <option value="Next">Next — SC / GA / NC</option>
+          </select>
+          <button class="btn gold fbtn" type="submit">Add me</button>
           <p class="fnote">You can unsubscribe any time. We do not sell the list.</p>
           <div class="err" id="n-err" role="alert"></div>
         </form>
         <div>
           <div class="done" id="n-done">
-            <div class="kick">Subscribed</div>
+            <div class="kick">Listed</div>
             <h2>You are on the list.</h2>
-            <p>Weekly when we have something worth saying. Not a daily noise feed.</p>
+            <p>When we have something worth saying. Not a daily noise feed.</p>
           </div>
           <p class="lede">What the update is for.</p>
-          <p class="aside" style="margin-top:10px">Terminal rack movement, freight reality, and when a conversation with Waterdog would actually matter — not a price sheet dressed up as content.</p>
+          <p class="aside" style="margin-top:10px">When a conversation with Waterdog would actually matter — not a price sheet dressed up as content.</p>
         </div>
       </div>
     </section>
@@ -179,15 +141,15 @@
               <div style="font-size:12px;color:var(--gold-lt);margin-top:5px;letter-spacing:.08em">RACK TO DOCK · HOLDS FAST</div>
             </div>
           </div>
-          <p class="flegal">A separate company from Coastal Cavaliers. Wet-hose at marinas without fuel docks. Rack to dock for marinas that run their own. Opening 2027. We are not delivering fuel now.</p>
+          <p class="flegal">A separate company from Coastal Cavaliers. Houston, Tampa, and Fort Lauderdale at open. Pensacola on the board. Next: South Carolina, Georgia, North Carolina. We are not delivering fuel now.</p>
         </div>
         <div>
           <h4>The company</h4>
           <a href="/fuel/">Home</a>
           <a href="/fuel/boats.html">For boats</a>
           <a href="/fuel/marinas.html">For marinas</a>
+          <a href="/fuel/supply.html">Supply</a>
           <a href="/fuel/contact.html">Contact</a>
-          <a href="/fuel/contact.html#news">Market updates</a>
         </div>
         <div>
           <h4>Reach us</h4>
@@ -195,12 +157,11 @@
           <a href="mailto:orders@coastalcavaliers.com?subject=Waterdog%20Fuel">orders@coastalcavaliers.com</a>
           <h4 style="margin-top:24px">The club</h4>
           <a href="/">Coastal Cavaliers</a>
-          <a href="/waterdog">The intro</a>
         </div>
       </div>
       <div class="frule"></div>
       <div class="fbot">
-        <span>&copy; 2026 Waterdog Fuel Co. · Texas Gulf Coast</span>
+        <span>&copy; 2026 Waterdog Fuel Co. · Houston · Tampa · Fort Lauderdale</span>
         <span>Until the name is ours, this lives here.</span>
       </div>
     </div>
