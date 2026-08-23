@@ -11,16 +11,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260819e">
+  <meta property="og:image" content="https://coastalcavaliers.com/assets/img/crest-gold.webp">
+  <link rel="canonical" href="https://coastalcavaliers.com/waitlist">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260823a">
 </head>
 <body>
   <header>
-    <div class="doors" role="navigation" aria-label="Club or app">
-      <div class="wrap">
-        <a class="doors-join" href="/#waitlist">Join the club</a>
-        <a class="doors-go" href="/app">Get the app</a>
-      </div>
-    </div>
     <div class="wrap bar">
       <a class="brand" href="/">
         <img src="/assets/img/coastal-cavaliers.webp" alt="Coastal Cavaliers">
@@ -30,13 +26,8 @@
         </div>
       </a>
       <nav class="main" id="main-nav">
-        <a href="/#box">The box</a>
-        <a href="/#chest">Slop Chest</a>
+        <a href="/#how">How it works</a>
         <a href="/waitlist.html" aria-current="page">Waitlist</a>
-        <a href="/makers.html">Makers</a>
-        <a href="/marinas.html">Marinas</a>
-        <a href="/apply.html">Apply</a>
-        <a class="nav-app" href="/app">The app</a>
       </nav>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="nav-toggle-bars" aria-hidden="true"></span></button>
       <a class="btn dark hdr-cta" href="#waitlist">Leave your name</a>
@@ -96,12 +87,19 @@
     <section id="waitlist">
       <div class="wrap">
         <div class="wait-card rv">
+          <div id="wait-confirm" class="wait-confirm" hidden>
+            <div class="kick">You are on the list</div>
+            <h2 id="wait-confirm-title" style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">We have your place.</h2>
+            <p class="lede" id="wait-confirm-body" style="margin-top:14px;font-size:17px"></p>
+            <p class="fnote" style="margin-top:18px">We write when this water opens. Nothing is billed.</p>
+          </div>
+          <div id="wait-form-fields">
           <div class="split" style="gap:44px;align-items:start">
             <div>
               <div class="kick">Leave your place on the list</div>
               <h2 style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">Name, email, zip, and a plan.</h2>
               <p class="lede" style="margin-top:14px;font-size:17px">Same form as the homepage. If a plan was in the link you followed, it is already marked below.</p>
-              <p class="small" style="margin-top:18px">Opening first around Clear Lake, Kemah and Seabrook &mdash; zip <strong>77565</strong> and the water around Watergate Yachting Center. Maker or marina? <a href="/apply.html">The hub is apply</a>, or go straight to <a href="/makers.html">makers</a> or <a href="/marinas.html">marinas</a>.</p>
+              <p class="small" style="margin-top:18px">Opening first around Clear Lake, Kemah and Seabrook. We will not name a host marina until the yard has said yes. Maker or marina? <a href="/apply.html">Apply</a>.</p>
             </div>
             <div>
               <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
@@ -149,9 +147,11 @@
               </div>
               <label for="w_notes">Anything else</label>
               <textarea id="w_notes" name="notes" placeholder="How often you get out, what you would want aboard&hellip;"></textarea>
+              <label class="chk" for="w_chest"><input type="checkbox" id="w_chest"> Tell me when the Slop Chest opens</label>
               <button class="btn dark fbtn" id="w_btn" type="button" onclick="submitForm('Waitlist')">Get on the list</button>
-              <p class="fnote">No checkout. We write when we have a date.</p>
+              <p class="fnote">No checkout. We write when we have a date. <a href="/privacy.html">Privacy</a>.</p>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -210,6 +210,6 @@
       </div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20260819e" defer></script>
+  <script src="/assets/js/site.js?v=20260823a" defer></script>
 </body>
 </html>
