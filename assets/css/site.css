@@ -46,10 +46,12 @@
 
 .page-hero{padding:clamp(40px,6vh,80px) 0 clamp(40px,6vh,72px)}.page-hero .hero-place{max-width:none;width:100%}.page-hero h1{font-size:clamp(40px,6.5vw,84px);margin:14px 0 0;line-height:1.05;letter-spacing:-.03em;max-width:none}.page-hero h1 em{font-style:italic;font-weight:600;color:var(--coral)}.page-hero h1 .h1-line{display:block;white-space:nowrap}.page-hero .lede{margin-top:22px;font-size:clamp(18px,2.1vw,22px);max-width:48ch}.err404{padding:0 0 8px}.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px}.cta-row .btn{min-height:48px}nav.main a[aria-current="page"]{color:var(--ink);font-weight:600}
 
-/* build stamp -- proves THIS stylesheet is the one that loaded */
+/* build stamp -- proves THIS stylesheet is the one that loaded
+   build css-20260821f — comment only, never rendered
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
 #bc::after{content:"\00b7 css-20260821f"}
+*/
 :focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* mobile nav — same destinations as desktop, drawer under the sticky bar */
