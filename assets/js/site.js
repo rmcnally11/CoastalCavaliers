@@ -11,8 +11,43 @@ if ('serviceWorker' in navigator) {
     });
   }).catch(function () {});
 }
-var WEBHOOK = "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
+var WEBHOOK = "/.netlify/functions/apply";
 var SERVED = ["77565","77573","77586","77058","77059","77062","77546","77598","77504","77505"];
+function digitsZip(s){ return String(s || "").replace(/\D/g, "").slice(0, 5); }
+function liveProducts(list){
+  if (!list || !list.length) return [];
+  return list.filter(function (p) {
+    var sku = String((p && p.sku) || "");
+    if (!sku) return false;
+    if (/^sku_test_/i.test(sku)) return false;
+    if (/^test[_-]/i.test(sku)) return false;
+    return true;
+  });
+}
+function showWaitConfirm(body){
+  var fields = document.getElementById("wait-form-fields");
+  var box = document.getElementById("wait-confirm");
+  var title = document.getElementById("wait-confirm-title");
+  var copy = document.getElementById("wait-confirm-body");
+  if (!box) return false;
+  var plan = (body && body.intendedPlan) || "Deckhand";
+  var zip = (body && body.zip) || "";
+  var first = zip && SERVED.indexOf(zip) > -1;
+  var extra = "";
+  if (plan === "Cavalier" || plan === "Commodore") {
+    extra = " " + plan + " hears first on the founding burgee.";
+  }
+  if (title) title.textContent = first ? "You are in the first water." : "Your zip is a vote.";
+  if (copy) {
+    copy.textContent = first
+      ? ("Clear Lake, Kemah, Seabrook" + (zip ? " · " + zip : "") + ". We write when this coast opens." + extra)
+      : ((zip ? zip + " is on the board. " : "") + "We write when we can open your water." + extra);
+  }
+  if (fields) fields.hidden = true;
+  box.hidden = false;
+  box.scrollIntoView({ behavior: "smooth", block: "start" });
+  return true;
+}
 function val(id){ var e=document.getElementById(id); return e && e.value.trim() ? e.value.trim() : undefined; }
 function seg(id){ var e=document.querySelector("#"+id+" .o.on"); return e ? e.dataset.v : undefined; }
 var CC_AISLES = { Bread:1, Sweet:1, Savory:1, Drink:1, Other:1 };
@@ -53,7 +88,7 @@ function clearMakerAisles(){
     el.setAttribute("aria-pressed", "false");
   });
 }
-/* Seawall Applications contract. Never send Producer / Marina / Member link IDs. */
+/* Seawall Applications rail. Never send Producer / Marina / Member link IDs. */
 var CC_KEYS = ["type","name","business","marinaName","email","phone","city","zip","makerTier","regNumber","products","capacity","deliveryPref","slips","shipsStore","dropType","boatType","notes","source","intendedPlan"];
 var CC_TYPES = { Maker:1, Marina:1, Waitlist:1 };
 var CC_TIERS = { Cottage:1, Licensed:1, House:1 };
@@ -78,8 +113,12 @@ function contractBody(b){
 document.querySelectorAll(".seg").forEach(function(g){
 g.addEventListener("click", function(e){
 var o = e.target.closest(".o"); if(!o) return;
-[].forEach.call(g.children, function(c){ c.classList.remove("on"); });
+[].forEach.call(g.children, function(c){
+  c.classList.remove("on");
+  if (c.getAttribute("role") === "radio") c.setAttribute("aria-checked", "false");
+});
 o.classList.add("on");
+if (o.getAttribute("role") === "radio") o.setAttribute("aria-checked", "true");
 if(g.id === "m_tier") syncMakerReg();
 });
 });
@@ -100,19 +139,32 @@ h.addEventListener("click", function(){ h.parentElement.classList.toggle("open")
 });
 /* zip check */
 function checkZip(){
-var z = (document.getElementById("zip").value || "").trim();
+var raw = document.getElementById("zip");
+var z = digitsZip(raw && raw.value);
+if (raw) raw.value = z;
 var box = document.getElementById("zipres");
-if(z.length < 5){ box.className="zipresult in no"; box.innerHTML="Give us five digits and we will tell you straight."; return; }
+if(!box) return;
+if(z.length < 5){ box.className="zipresult in no"; box.textContent="Give us five digits and we will tell you straight."; return; }
 if(SERVED.indexOf(z) > -1){
 box.className = "zipresult in yes";
-box.innerHTML = "<b>You are in a first-wave water.</b> Leave your name and the plan you have in mind &mdash; you will hear when that coast opens. <a href='#waitlist' onclick=\"reservePlan('Cavalier');return false;\" style='color:#163867'>Get on the list &rarr;</a>";
+box.innerHTML = "<b>You are in the first water.</b> Clear Lake, Kemah, Seabrook. Leave your name &mdash; you will hear when this coast opens. <a href='#waitlist' class='zip-go' style='color:#163867'>Get on the list &rarr;</a>";
 } else {
 box.className = "zipresult in no";
-box.innerHTML = "<b>Not first-wave yet &mdash; but you just moved the map.</b> Tell us where you keep her. Anywhere saltwater reaches is on the board. <a href='#w_zip' onclick=\"document.getElementById('w_zip').value='"+z+"';var el=document.getElementById('waitlist')||document.getElementById('w_zip');el.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){document.getElementById('w_name').focus()},500);return false;\">Add me to the list &rarr;</a>";
+box.innerHTML = "<b>Not first-wave yet &mdash; but you just moved the map.</b> Your zip is a vote for the next water. <a href='#waitlist' class='zip-go' style='color:#163867'>Add me to the list &rarr;</a>";
 }
+var go = box.querySelector(".zip-go");
+if (go) go.addEventListener("click", function (e) {
+  e.preventDefault();
+  var wZip = document.getElementById("w_zip");
+  if (wZip) wZip.value = z;
+  reservePlan(SERVED.indexOf(z) > -1 ? "Cavalier" : undefined);
+});
 }
 var zipInput = document.getElementById("zip");
-if(zipInput) zipInput.addEventListener("keydown", function(e){ if(e.key === "Enter") checkZip(); });
+if(zipInput){
+  zipInput.addEventListener("input", function(){ zipInput.value = digitsZip(zipInput.value); });
+  zipInput.addEventListener("keydown", function(e){ if(e.key === "Enter") checkZip(); });
+}
 function reservePlan(plan){
   var zipEl = document.getElementById("zip");
   var wZip = document.getElementById("w_zip");
@@ -163,6 +215,8 @@ var parts = [];
 var wNotes = val("w_notes");
 if(wNotes) parts.push(wNotes);
 if(b.intendedPlan) parts.push("Intended plan: " + b.intendedPlan);
+var chest = document.getElementById("w_chest");
+if (chest && chest.checked) parts.push("Chest: tell me when the Slop Chest opens");
 if(parts.length) b.notes = parts.join(" · ");
 }
 return contractBody(b);
@@ -197,7 +251,7 @@ return false;
 }
 function submitForm(type, src){
 if (ccBotCheck()) { return; }
-var btn = document.getElementById(src === "boatSnacks" ? "bs_btn" : BTN[type]);
+var btn = document.getElementById(src === "boatSnacks" ? "bs_btn" : BTN[type]) || document.getElementById("submit");
 var label = btn.getAttribute("data-l") || btn.textContent;
 btn.setAttribute("data-l", label);
 var b = payload(type, src);
@@ -222,6 +276,24 @@ send(b).then(function(ok){
 btn.disabled = false;
 if(ok){
 btn.textContent = DONE[type];
+if (type === "Waitlist" && src !== "boatSnacks" && showWaitConfirm(b)) {
+  var applyDone = document.getElementById("done");
+  if (applyDone && document.getElementById("form-area")) {
+    document.getElementById("form-area").classList.add("hidden");
+    applyDone.classList.remove("hidden");
+    var dp = document.getElementById("done-p");
+    if (dp) dp.textContent = DONE.Waitlist;
+  }
+  return;
+}
+if (document.getElementById("form-area") && document.getElementById("done")) {
+  document.getElementById("form-area").classList.add("hidden");
+  document.getElementById("done").classList.remove("hidden");
+  var doneP = document.getElementById("done-p");
+  if (doneP) doneP.textContent = DONE[type];
+  window.scrollTo(0, 0);
+  return;
+}
 var clear = src === "boatSnacks" ? ["bs_name","bs_email","bs_zip"] : FIELDS[type];
 clear.forEach(function(id){
   var e=document.getElementById(id);
@@ -452,13 +524,13 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   href();
 })();
 
-/* build js-20260822c */
+/* build js-20260823a */
 
 /* Live catalog — homepage “This week aboard”. Never fall back to the example box. */
 (function () {
   var box = document.getElementById("week-box");
   if (!box) return;
-  var LIVE = "https://rjmrio.app.n8n.cloud/webhook/cc-catalog";
+  var LIVE = "/.netlify/functions/catalog";
   var rowsEl = document.getElementById("week-box-rows");
   var subEl = document.getElementById("week-box-sub");
   var ledeEl = document.getElementById("week-box-lede");
@@ -489,7 +561,7 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
     }
   }
   function renderLive(data) {
-    var products = data && data.products ? data.products : [];
+    var products = liveProducts(data && data.products ? data.products : []);
     var cluster = data && data.cluster ? data.cluster : {};
     if (!products.length) {
       emptyState();
@@ -553,3 +625,32 @@ document.querySelectorAll(".how-tab").forEach(function (tab) {
     });
   });
 });
+
+/* apply.html hub — one site.js path, no inline webhook */
+(function () {
+  var tabs = document.querySelectorAll(".hub-tabs .tab");
+  if (!tabs.length) return;
+  var current = "Maker";
+  function show(type) {
+    current = type;
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-t") === type;
+      t.classList.toggle("on", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    document.querySelectorAll(".pane").forEach(function (p) {
+      p.classList.toggle("hidden", p.getAttribute("data-p") !== type);
+    });
+    var err = document.getElementById("err");
+    if (err) err.innerHTML = "";
+  }
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () { show(t.getAttribute("data-t")); });
+  });
+  var btn = document.getElementById("submit");
+  if (btn) btn.addEventListener("click", function () { submitForm(current); });
+  try {
+    var tab = new URLSearchParams(location.search).get("t");
+    if (tab && /^(Maker|Marina|Waitlist)$/.test(tab)) show(tab);
+  } catch (e) {}
+})();
