@@ -32,9 +32,10 @@
 /chest      /chest.html      200
 /privacy    /privacy.html    200
 
-/ops/*                  /404.html   404
-/sitepkg/*              /404.html   404
-/BOTS.md                /404.html   404
-/GITHUB_NETLIFY_SETUP.txt /404.html 404
+# ! = force, even when the file exists in the publish directory.
+/ops/*                  /404.html   404!
+/sitepkg/*              /404.html   404!
+/BOTS.md                /404.html   404!
+/GITHUB_NETLIFY_SETUP.txt /404.html 404!
 
 /*          /404.html        404
