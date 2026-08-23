@@ -163,3 +163,24 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
 .err{background:#FBEDE8;border-left:3px solid var(--coral);padding:12px 14px;font-size:14px;margin-top:16px;color:var(--ink)}
 .err a{color:var(--coral-dk)}
 .note{font-size:13px;color:var(--mute);margin-top:14px;line-height:1.5}
+
+/* 20260823a — first water, confirm, marina leave-behind, privacy */
+.water-sec{padding:56px 0;border-top:1px solid var(--line)}
+.zip-map{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:28px 0 0;padding:0}
+.zip-map li{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 12px}
+.zip-map b{display:block;font:700 14px/1 Archivo;letter-spacing:.04em}
+.zip-map span{display:block;margin-top:6px;font-size:13px;color:var(--mute)}
+.trust-sec{padding:64px 0;background:var(--panel);border-top:1px solid var(--line)}
+.wait-confirm{padding:8px 0 4px}
+.chest.inaugural{max-width:360px}
+.leave-behind{padding:8px 0 48px}
+.leave-card{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--shell);border-radius:3px;padding:32px 28px}
+.leave-card h2{font-size:clamp(26px,3vw,36px);margin:12px 0 18px}
+.prose-page{max-width:62ch;padding-bottom:72px}
+.prose-page h2{font-size:28px;margin:36px 0 12px}
+.prose-page p{color:var(--soft);font-size:17px;line-height:1.6}
+@media(max-width:900px){.zip-map{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{
+  header,footer,.nav-toggle,.hdr-cta,.soon-bar,#marina-form{display:none!important}
+  .leave-card,.page-hero{break-inside:avoid}
+}
