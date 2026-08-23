@@ -10,7 +10,7 @@ Authoritative package: Drive folder `00 CURRENT — Coastal Cavaliers package (v
 | **Member app** | Catalog, box, cutoff, drop, last-box reorder, home-screen install | GitHub `app/` in the same repo | Netlify serves `https://coastalcavaliers.com/app` |
 | **Waterdog Fuel** | Rack-to-dock / wet-hose site. Opening 2027. Not taking fuel money. | GitHub `fuel/` | Netlify serves `https://coastalcavaliers.com/fuel` |
 | **Operations** | Applications, orders, members, POs | Airtable `CC_Operations` | n8n is the only writer |
-| **Waterdog ops** | Leads, quotes, invoices, tickets, hosts | `ops/waterdog/` (schema + n8n import). Live names land in `CC_Operations` → Applications until `WD_Operations` exists. | n8n is the only writer |
+| **Waterdog ops** | Leads, quotes, invoices, tickets, hosts | Airtable `WD_Operations` (`appeh32eXzdh1leyZ`). Site intake writes Leads and Newsletter via n8n `wd-intake`. | n8n is the only writer |
 
 **Do not send `/app` to a Grok, Vercel, or other side URL.** Robert reversed that on 2026-08-21. The member app is part of coastalcavaliers.com. Bots update it by pushing files in `app/` to this repo.
 
@@ -27,12 +27,12 @@ Static HTML. Push to `main` and Netlify serves it. That is how bots update **the
 
 ### You may
 
-- Edit copy in `index.html`, `makers.html`, `marinas.html`, `apply.html`, `waitlist.html`, `sport.html`, `waterdog.html`
+- Edit copy in `index.html`, `makers.html`, `marinas.html`, `apply.html`, `waitlist.html`, `sport.html`. `/waterdog` redirects to `/fuel`.
 - Edit the Waterdog Fuel site in `fuel/` (`index.html`, `boats.html`, `marinas.html`, `supply.html`, `contact.html`, `fuel.css`, `fuel.js`)
 - Edit the member app in `app/` (`index.html`, `app.js`, `app.css`, `manifest.json`, `sw.js`)
 - Add real brand plates to `assets/img/` (change the filename if replacing a cached image)
 - Leave **`app/catalog.json`** on disk as a labeled example only. It is not the live catalog.
-- Keep the apply webhook in `assets/js/site.js` **and** `fuel/fuel.js` as `https://rjmrio.app.n8n.cloud/webhook/cc-apply`
+- Keep club apply behind `/.netlify/functions/apply`. Keep Waterdog intake behind `/.netlify/functions/waterdog` → n8n `wd-intake`. Never put the n8n URL in page source.
 - Read and update `ops/waterdog/` (Airtable Omni, CSVs, n8n import, quote template). That folder is the Waterdog desk.
 
 ### You must not
@@ -42,9 +42,9 @@ Static HTML. Push to `main` and Netlify serves it. That is how bots update **the
 - Collapse the marketing homepage and the member app into one page
 - Invent makers, baker profiles, food photography, or heraldry
 - Take money. Stripe lives on the website later. The app holds only. Waterdog does **not** take fuel money from `/fuel`.
-- Invent `/webhook/cc-order` or `/webhook/wd-apply`. Holds are WF1-shaped. Waterdog names use the **same** `cc-apply` URL, tagged in Notes.
+- Invent `/webhook/cc-order`. Holds are WF1-shaped. Waterdog site names go to `WD_Operations` via `wd-intake`, not club Applications.
 - Dump a Node/Vite/TanStack build here. This repo has **no build step**. The app is static HTML/CSS/JS.
-- Change the club homepage when you are working on Waterdog. Fuel lives after **Launch fuel site** on `/waterdog` and at `/fuel`.
+- Change the club homepage when you are working on Waterdog. Fuel lives at `/fuel`. `/waterdog` 301s there until the name is ours.
 - Mix Waterdog books with club bread. Separate company. Separate Airtable when `WD_Operations` exists.
 
 ### `_redirects` for the app
@@ -80,13 +80,13 @@ Price is dollars (not cents). `capRemaining` is `capacity - capacity_sold`.
 | Event | Path |
 |---|---|
 | Site waitlist / maker / marina | POST `https://rjmrio.app.n8n.cloud/webhook/cc-apply` (WF2, source = Site) |
-| Waterdog request / marina invoice / wet-hose waitlist | Same webhook. Notes begin `Waterdog Fuel —`. Filter Applications on that. |
+| Waterdog marina / boat / talk / fuel list | POST `/.netlify/functions/waterdog` → n8n `wd-intake` → `WD_Operations` Leads or Newsletter. Not club Applications. |
 | App hold | Browser localStorage, WF1-shaped payload. App never bills. |
 | Cycle | America/Chicago, Wednesday-noon cutoff, Saturday delivery, cluster `CL-01` |
 
 n8n writes Airtable. GitHub does not.
 
-Bots: read `ops/waterdog/README.md` before touching Waterdog intake. Import files live there (`WD_WF_Notify.json`, `WD_Airtable_Omni.txt`, `airtable-csvs/`). Do not invent a second webhook to make those files "live" — they are imports for n8n / Airtable, not something Netlify runs.
+Bots: read `ops/waterdog/README.md` before touching Waterdog intake. Live path is `/.netlify/functions/waterdog` → n8n `WD_WF_Site_Intake` (`wd-intake`) → `WD_Operations`. The files in `ops/waterdog/` are desk notes, not a second public webhook.
 
 ## Branding (do not freelance)
 
