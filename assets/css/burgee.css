@@ -1,0 +1,21 @@
+/* founding burgee — whole pennant, not a square crop of the crest */
+.chest.inaugural{max-width:680px}
+.item .shot.shot-flag{
+  background:#D3C7BD;
+  padding:22px 20px;
+  overflow:hidden;
+}
+.item .shot.shot-flag img,
+#chest .item .shot.shot-flag img,
+#chest .item[data-cat="accessories"] .shot.shot-flag img,
+#chest .item[data-cat="pets"] .shot.shot-flag img{
+  aspect-ratio:auto;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  object-position:center;
+  transform:none;
+}
+.item:hover .shot.shot-flag img{
+  transform:none;
+}
