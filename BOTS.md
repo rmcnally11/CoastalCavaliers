@@ -47,6 +47,15 @@ Static HTML. Push to `main` and Netlify serves it. That is how bots update **the
 - Change the club homepage when you are working on Waterdog. Fuel lives at `/fuel`. `/waterdog` 301s there until the name is ours.
 - Mix Waterdog books with club bread. Separate company. Separate Airtable when `WD_Operations` exists.
 
+### Search (do not undo)
+
+Chart Room, 2026-09-05. The name collides with the Cleveland Cavaliers.
+
+- Club title, H1, and Organization schema must carry a qualifier: **boat provisioning club** plus **Galveston Bay / Clear Lake / Kemah / Seabrook**. Do not ship a title that is only “Coastal Cavaliers — Local hands, open water.”
+- `twitter:card` is `summary_large_image`. Club share card: `assets/img/og-club.jpg`. Waterdog: `assets/img/og-waterdog.jpg`. Both 1200×630. Do not point `og:image` at the square crest.
+- Waterdog titles say **trucked marine diesel**. Never “marina fuel” and never “fuel at the slip” — that is Dock Posted. One footer link on `/fuel`: “What they posted on the pump” → `https://www.dockposted.com/`.
+- Club footer links On This Water once: “Tide and wind before you leave” → `https://onthiswater.com/`.
+
 ### `_redirects` for the app
 
 ```
