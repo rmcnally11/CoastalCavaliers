@@ -112,15 +112,32 @@
   status = 200
 
 
+# force = true: static files in the publish dir otherwise win (HTTP 200).
+# sitepkg/index.html is a 553KB stale package ("provisions delivered to your slip").
+# /ops/* already 404s live (no index); force keeps it consistent with sitepkg.
 [[redirects]]
   from = "/ops/*"
   to = "/404.html"
   status = 404
+  force = true
+
+[[redirects]]
+  from = "/sitepkg"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/sitepkg/"
+  to = "/404.html"
+  status = 404
+  force = true
 
 [[redirects]]
   from = "/sitepkg/*"
   to = "/404.html"
   status = 404
+  force = true
 
 [[redirects]]
   from = "/BOTS.md"
