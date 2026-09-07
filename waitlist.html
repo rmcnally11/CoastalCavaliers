@@ -46,7 +46,7 @@
         "name": "What is the difference between Deckhand, Cavalier, and Commodore?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Deckhand is free, per box. Cavalier is $120 a year at launch and includes the founding burgee when it is sewn. Commodore is $360 a year at launch, with first call when this water opens. Cavalier and Commodore are reserved, not billed yet."
+          "text": "Deckhand is free. Cavalier is $120 a year at launch. Commodore is $360 a year at launch, with first call when this water opens. Plans are reserved, not billed yet. The founding burgee is not for sale today."
         }
       },
       {
@@ -64,7 +64,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/site.css?v=20260823a">
+    <link rel="stylesheet" href="/assets/css/site.css?v=20260906a">
 </head>
 <body>
   <header>
@@ -91,7 +91,10 @@
       <div class="wrap hero-place">
         <div class="kick">Coastal Cavaliers &middot; Clear Lake &middot; Kemah &middot; Seabrook</div>
         <h1>Leave your name.<br><em>Not your card.</em></h1>
-        <p class="lede">We are not delivering yet, and we are not taking payment. Name, email, zip, and the plan you have in mind. In the first water you will hear the launch date before anyone else. Anywhere else, your zip is a vote for the next coast.</p>
+        <p class="lede">Not delivering. Not taking payment. First-wave zips hear first. Any other zip is a vote for the next water. We are seeking a host marina &mdash; we will not name a yard until it has said yes.</p>
+        <div class="cta-row">
+          <a class="btn dark" href="#waitlist">Leave your name</a>
+        </div>
       </div>
     </section>
 
@@ -102,21 +105,23 @@
             <h3>Deckhand</h3>
             <div class="tag">On the list. Free.</div>
             <div class="price">$0<span> / year, always</span></div>
+            <p class="plan-rail">Reserved. Not billed. Nothing ships. No checkout.</p>
             <ul>
               <li>Name on the list. Hear first when this water opens.</li>
               <li>Outside the first wave, your zip is a vote.</li>
-              <li>Nothing ships. No card charged.</li>
+              <li>Free. No card. Nothing ships.</li>
             </ul>
             <a class="btn line" href="#waitlist" onclick="reservePlan('Deckhand');return false;">I have Deckhand in mind</a>
           </div>
           <div class="plan hero-plan">
             <h3>Cavalier</h3>
-            <div class="tag">The full club.</div>
+            <div class="tag">The club you have in mind.</div>
             <div class="price">$120<span> / year &mdash; reserved, not billed yet</span></div>
+            <p class="plan-rail">Reserved. Not billed. Nothing ships. No checkout.</p>
             <ul>
               <li>Name on the list. Hear first when this water opens.</li>
               <li>The founding burgee when it is sewn &mdash; not for sale today.</li>
-              <li>Reserved. Not billed. Nothing ships.</li>
+              <li>$120 at launch. Reserved. Not billed yet.</li>
             </ul>
             <a class="btn dark" href="#waitlist" onclick="reservePlan('Cavalier');return false;">I have Cavalier in mind</a>
           </div>
@@ -124,15 +129,16 @@
             <h3>Commodore</h3>
             <div class="tag">First when this water opens.</div>
             <div class="price">$360<span> / year &mdash; reserved, not billed yet</span></div>
+            <p class="plan-rail">Reserved. Not billed. Nothing ships. No checkout.</p>
             <ul>
               <li>Everything in Cavalier</li>
               <li>First call when this water opens.</li>
-              <li>Reserved. Not billed. Nothing ships.</li>
+              <li>$360 at launch. Reserved. Not billed yet.</li>
             </ul>
             <a class="btn line" href="#waitlist" onclick="reservePlan('Commodore');return false;">I have Commodore in mind</a>
           </div>
         </div>
-        <p class="small rv" style="margin-top:22px;max-width:62ch">The $120 founding burgee is not for sale today. There is no checkout on this site. Deckhand is free. Cavalier and Commodore are reserved and not billed yet. Nothing ships. We will not name a host marina until the yard has said yes.</p>
+        <p class="small rv" style="margin-top:22px;max-width:62ch">The founding burgee is not for sale today. Deckhand is free. Cavalier and Commodore are reserved at launch, not billed yet. We will not name a host marina until the yard has said yes.</p>
       </div>
     </section>
 
@@ -146,11 +152,12 @@
             <p class="fnote" style="margin-top:18px">We write when this water opens. Nothing is billed.</p>
           </div>
           <div id="wait-form-fields">
+          <p class="honesty-rail">Reserved, not billed. Nothing ships. No checkout on this site.</p>
           <div class="split" style="gap:44px;align-items:start">
             <div>
-              <div class="kick">Leave your place on the list</div>
+              <div class="kick">Leave your name. Not your card.</div>
               <h2 style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">Name, email, zip, and a plan.</h2>
-              <p class="lede" style="margin-top:14px;font-size:17px">Same form as the homepage. If a plan was in the link you followed, it is already marked below.</p>
+              <p class="lede" style="margin-top:14px;font-size:17px">Same form as the homepage. Name, email, zip, and the plan you have in mind. First-wave zips hear first. Anywhere else, your zip is a vote for the next water. If a plan was in the link you followed, it is already marked below.</p>
               <p class="small" style="margin-top:18px">Opening first around Clear Lake, Kemah and Seabrook. We will not name a host marina until the yard has said yes. Maker or marina? <a href="/apply.html">Apply</a>.</p>
             </div>
             <div>
@@ -168,17 +175,17 @@
               <div class="two">
                 <div>
                   <label for="w_zip">Zip</label>
-                  <input id="w_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="77565" maxlength="10">
+                  <input id="w_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="Zip" maxlength="5">
                 </div>
                 <div>
                   <label for="w_city">City</label>
-                  <input id="w_city" name="city" autocomplete="address-level2" placeholder="Kemah">
+                  <input id="w_city" name="city" autocomplete="address-level2" placeholder="City">
                 </div>
               </div>
               <div class="two">
                 <div>
-                  <label for="w_marina">Your marina <span style="font-weight:400;letter-spacing:0;text-transform:none">(optional)</span></label>
-                  <input id="w_marina" name="marina" placeholder="Watergate Yachting Center">
+                  <label for="w_marina">Your marina</label>
+                  <input id="w_marina" name="marina" placeholder="Your marina">
                 </div>
                 <div>
                   <label for="w_boat">What do you run?</label>
@@ -192,16 +199,14 @@
                 </div>
               </div>
               <label id="w_plan_label">Which plan do you have in mind?</label>
-              <div class="seg" id="w_plan" role="group" aria-labelledby="w_plan_label">
-                <div class="o on" data-v="Deckhand">Deckhand<small>free, per box</small></div>
-                <div class="o" data-v="Cavalier">Cavalier<small>$120 at launch</small></div>
-                <div class="o" data-v="Commodore">Commodore<small>$360 at launch</small></div>
+              <div class="seg" id="w_plan" role="radiogroup" aria-labelledby="w_plan_label">
+                <div class="o on" data-v="Deckhand" role="radio" aria-checked="true" tabindex="0">Deckhand<small>free</small></div>
+                <div class="o" data-v="Cavalier" role="radio" aria-checked="false" tabindex="0">Cavalier<small>$120 reserved</small></div>
+                <div class="o" data-v="Commodore" role="radio" aria-checked="false" tabindex="0">Commodore<small>$360 reserved</small></div>
               </div>
-              <label for="w_notes">Anything else</label>
-              <textarea id="w_notes" name="notes" placeholder="How often you get out, what you would want aboard&hellip;"></textarea>
               <label class="chk" for="w_chest"><input type="checkbox" id="w_chest"> Tell me when the Slop Chest opens</label>
-              <button class="btn dark fbtn" id="w_btn" type="button" onclick="submitForm('Waitlist')">Get on the list</button>
-              <p class="fnote">No checkout. We write when we have a date. <a href="/privacy.html">Privacy</a>.</p>
+              <button class="btn dark fbtn" id="w_btn" type="button" onclick="submitForm('Waitlist')">Leave your name</button>
+              <p class="fnote">No checkout. We write when this water opens. Nothing is billed. <a href="/privacy.html">How we use this</a>.</p>
             </div>
           </div>
           </div>
@@ -220,8 +225,8 @@
         <ul class="pts light rv">
           <li><b>Are you taking payment?</b> No. Name, email, zip, and a plan. Nothing is billed and nothing ships.</li>
           <li><b>Where do you open first?</b> Clear Lake, Kemah, and Seabrook. Other zips vote for the next water.</li>
-          <li><b>Deckhand, Cavalier, Commodore?</b> Deckhand is free, per box. Cavalier is $120 a year at launch. Commodore is $360, with first call. Reserved, not billed yet.</li>
-          <li><b>Do you deliver to my boat?</b> Not yet. We are seeking a host marina. When a yard on that water agrees to hold the cooler, Saturday at your slip.</li>
+          <li><b>Deckhand, Cavalier, Commodore?</b> Deckhand is free. Cavalier is $120 and Commodore is $360 at launch &mdash; reserved, not billed yet. The founding burgee is not for sale today.</li>
+          <li><b>Do you deliver to my boat?</b> Not yet. We are seeking a host marina. We will not name a yard until it has said yes.</li>
         </ul>
       </div>
     </section>
@@ -275,11 +280,11 @@
       <div class="frule"></div>
       <div class="fbot">
         <span>&copy; 2026 Coastal Cavaliers &middot; Texas Gulf Coast</span>
-        <!-- build waitlist-20260905a -->
+        <!-- build waitlist-20260906a -->
         <span>Made ashore. Enjoyed aboard.</span>
       </div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20260823a" defer></script>
+  <script src="/assets/js/site.js?v=20260906a" defer></script>
 </body>
 </html>

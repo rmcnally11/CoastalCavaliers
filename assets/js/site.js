@@ -37,11 +37,11 @@ function showWaitConfirm(body){
   if (plan === "Cavalier" || plan === "Commodore") {
     extra = " " + plan + " hears first on the founding burgee.";
   }
-  if (title) title.textContent = first ? "You are in the first water." : "Your zip is a vote.";
+  if (title) title.textContent = "We have your place.";
   if (copy) {
     copy.textContent = first
-      ? ("Clear Lake, Kemah, Seabrook" + (zip ? " · " + zip : "") + ". We write when this coast opens." + extra)
-      : ((zip ? zip + " is on the board. " : "") + "We write when we can open your water." + extra);
+      ? ("Clear Lake, Kemah, Seabrook" + (zip ? " · " + zip : "") + ". We write when this water opens. Nothing is billed." + extra)
+      : ((zip ? zip + " is on the board. " : "") + "We write when this water opens. Nothing is billed." + extra);
   }
   if (fields) fields.hidden = true;
   box.hidden = false;
@@ -182,7 +182,11 @@ function reservePlan(plan){
   }
   var g = document.getElementById("w_plan");
   if(g && plan){
-    [].forEach.call(g.children, function(c){ c.classList.toggle("on", c.getAttribute("data-v") === plan); });
+    [].forEach.call(g.children, function(c){
+      var on = c.getAttribute("data-v") === plan;
+      c.classList.toggle("on", on);
+      if (c.getAttribute("role") === "radio") c.setAttribute("aria-checked", on ? "true" : "false");
+    });
   }
   var target = document.getElementById("waitlist") || document.getElementById("w_name");
   if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
@@ -536,7 +540,7 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   href();
 })();
 
-/* build js-20260823a */
+/* build js-20260906a */
 
 /* Live catalog — homepage “This week aboard”. Never fall back to the example box. */
 (function () {
