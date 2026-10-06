@@ -45,7 +45,97 @@ function showWaitConfirm(body){
   }
   if (fields) fields.hidden = true;
   box.hidden = false;
+  var share = document.getElementById("wait-share");
+  if (!share) {
+    share = document.createElement("button");
+    share.type = "button";
+    share.id = "wait-share";
+    share.className = "btn line share-btn";
+    box.appendChild(share);
+  }
+  share.textContent = "Send this to a boat you know";
+  share.onclick = function () { passItOn(share, zip); };
   box.scrollIntoView({ behavior: "smooth", block: "start" });
+  return true;
+}
+/* Five digits only. Longer digit strings are not a zip. */
+function fiveZip(s){
+  var d = String(s == null ? "" : s).replace(/\D/g, "");
+  return /^\d{5}$/.test(d) ? d : "";
+}
+function waitShareUrl(zip){
+  var z = fiveZip(zip);
+  return z ? "https://coastalcavaliers.com/waitlist?z=" + z : "https://coastalcavaliers.com/waitlist";
+}
+function legacyCopy(text){
+  return new Promise(function (resolve, reject) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "absolute";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      if (document.execCommand("copy")) resolve();
+      else reject();
+    } catch (err) { reject(err); }
+    document.body.removeChild(ta);
+  });
+}
+function copyLink(text){
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+  }
+  return legacyCopy(text);
+}
+/* Share when the browser can. Otherwise copy the link and say Copied. */
+function passItOn(btn, zip){
+  var url = waitShareUrl(zip);
+  var text = "We write when this water opens. Nothing is billed. Nothing ships.";
+  if (typeof navigator.share === "function") {
+    try {
+      var pending = navigator.share({ title: "Coastal Cavaliers", text: text, url: url });
+      if (pending && typeof pending.catch === "function") pending.catch(function () {});
+    } catch (err) {}
+    return;
+  }
+  copyLink(url).then(function () { btn.textContent = "Copied"; }).catch(function () {});
+}
+var SHARED_ZIP_KEY = "cc_shared_zip";
+var sharedFrom = "";
+var DOOR_FROM = { "/makers":1, "/marinas":1, "/chest":1, "/sport":1, "/fuel":1 };
+function rememberSharedZip(){
+  var fromQuery = "";
+  try { fromQuery = fiveZip(new URLSearchParams(location.search).get("z")); } catch (e) {}
+  if (fromQuery) {
+    sharedFrom = fromQuery;
+    try { sessionStorage.setItem(SHARED_ZIP_KEY, fromQuery); } catch (e2) {}
+  } else {
+    try { sharedFrom = fiveZip(sessionStorage.getItem(SHARED_ZIP_KEY)); } catch (e3) {}
+  }
+  var path = location.pathname.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+  if (path.length > 1 && path.charAt(path.length - 1) === "/") path = path.slice(0, -1);
+  var onList = path === "" || path === "/" || path === "/waitlist";
+  if (!(fromQuery && onList)) return;
+  var wZip = document.getElementById("w_zip");
+  if (wZip) wZip.value = fromQuery;
+  var line = document.getElementById("w_shared_line");
+  if (line) line.hidden = false;
+}
+function showDoorDone(body){
+  var fields = document.getElementById("db-fields");
+  var done = document.getElementById("db-done");
+  if (!done) return false;
+  if (fields) fields.hidden = true;
+  done.hidden = false;
+  var share = document.getElementById("db_share");
+  var zip = (body && body.zip) || "";
+  if (share) {
+    share.textContent = "Send this to a boat you know";
+    share.onclick = function () { passItOn(share, zip); };
+  }
+  done.scrollIntoView({ behavior: "smooth", block: "nearest" });
   return true;
 }
 function val(id){ var e=document.getElementById(id); return e && e.value.trim() ? e.value.trim() : undefined; }
@@ -200,7 +290,10 @@ function reservePlan(plan){
    Temporary fallback (not a second capture path): WF2 Shape Application still
    does not map intendedPlan → Intended plan. Keep the intendedPlan key
    (Deckhand / Cavalier / Commodore) AND write "Intended plan: …" into notes
-   until n8n adds "Intended plan": s(b.intendedPlan). */
+   until n8n adds "Intended plan": s(b.intendedPlan).
+   Visit memory only (sessionStorage, this tab): a sanitized ?z= rides in
+   notes as "Shared from 77565". An inner-page band adds "Came from /chest".
+   Same notes field, joined with " · ". No new contract keys. */
 function payload(type, src){
 var b = { type: type, source: "Site" };
 if(type === "Maker"){
@@ -223,6 +316,14 @@ b.notes = role ? (notes ? notes + " · Role: " + role : "Role: " + role) : notes
 } else if(src === "boatSnacks"){
 b.name=val("bs_name"); b.email=val("bs_email"); b.zip=val("bs_zip");
 b.notes="Boat Snacks popup";
+} else if(src === "door"){
+b.name=val("db_name"); b.email=val("db_email"); b.zip=val("db_zip");
+var band = document.getElementById("door-list");
+var from = band && band.getAttribute("data-from");
+var doorParts = [];
+if(from && DOOR_FROM[from]) doorParts.push("Came from " + from);
+if(sharedFrom) doorParts.push("Shared from " + sharedFrom);
+if(doorParts.length) b.notes = doorParts.join(" · ");
 } else {
 b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
 b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
@@ -233,6 +334,7 @@ if(wNotes) parts.push(wNotes);
 if(b.intendedPlan) parts.push("Intended plan: " + b.intendedPlan);
 var chest = document.getElementById("w_chest");
 if (chest && chest.checked) parts.push("Chest: tell me when the Slop Chest opens");
+if(sharedFrom) parts.push("Shared from " + sharedFrom);
 if(parts.length) b.notes = parts.join(" · ");
 }
 return contractBody(b);
@@ -267,7 +369,7 @@ return false;
 }
 function submitForm(type, src){
 if (ccBotCheck()) { return; }
-var btn = document.getElementById(src === "boatSnacks" ? "bs_btn" : BTN[type]) || document.getElementById("submit");
+var btn = document.getElementById(src === "boatSnacks" ? "bs_btn" : (src === "door" ? "db_btn" : BTN[type])) || document.getElementById("submit");
 var label = btn.getAttribute("data-l") || btn.textContent;
 btn.setAttribute("data-l", label);
 var b = payload(type, src);
@@ -292,6 +394,7 @@ send(b).then(function(ok){
 btn.disabled = false;
 if(ok){
 btn.textContent = DONE[type];
+if (src === "door" && showDoorDone(b)) return;
 if (type === "Waitlist" && src !== "boatSnacks" && showWaitConfirm(b)) {
   var applyDone = document.getElementById("done");
   if (applyDone && document.getElementById("form-area")) {
@@ -420,6 +523,7 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
 })();
 
 (function(){
+  rememberSharedZip();
   try {
     var q = new URLSearchParams(location.search);
     var plan = q.get("plan");
@@ -429,8 +533,10 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   } catch (e) {}
 })();
 
-/* public sticky-header menu — desktop nav stays as-is above 1000px */
+/* public sticky-header menu — desktop nav stays as-is above 1000px.
+   /fuel has its own header script; do not take that menu. */
 (function(){
+  if (location.pathname.indexOf("/fuel") === 0) return;
   var header = document.querySelector("header");
   var nav = header && header.querySelector("nav.main");
   var btn = header && header.querySelector(".nav-toggle");
@@ -540,7 +646,7 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
   href();
 })();
 
-/* build js-20260906a */
+/* build js-20261006a */
 
 /* Live catalog — homepage “This week aboard”. Never fall back to the example box. */
 (function () {
