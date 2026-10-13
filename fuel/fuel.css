@@ -197,3 +197,12 @@ input.money{text-align:right;font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
 }
+
+/* Club list on /fuel — not a fuel route. */
+.door-list{padding:56px 0}
+.door-list .form{max-width:40rem}
+.door-list h2{font-size:clamp(26px,3vw,36px);margin:10px 0 0}
+.door-list .lede{font-size:17px;margin-top:12px}
+.door-list .plain{margin-top:14px;font-size:16px;line-height:1.5;color:var(--ink);max-width:48ch}
+.share-btn{margin-top:18px}
+/* build fuelcss-20261006a */

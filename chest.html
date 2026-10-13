@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260823a">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20261006a">
   <link rel="stylesheet" href="/assets/css/burgee.css?v=20260831a">
 </head>
 <body>
@@ -86,6 +86,27 @@
         <p class="small rv" style="margin-top:30px;text-align:center"><em>Every burgee is numbered. When the hundred are gone they are gone.</em> &nbsp;&middot;&nbsp; <a href="/waitlist.html">Join the waitlist</a></p>
       </div>
     </section>
+    <section class="band-tint door-list" id="door-list" data-from="/chest">
+      <div class="wrap">
+        <div class="form">
+          <div class="kick">The club list</div>
+          <h2>Leave your name.</h2>
+          <p class="lede">We write when this water opens. Nothing is billed. Nothing ships.</p>
+          <div id="db-fields">
+            <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+            <div class="two"><div><label for="db_name">Your name</label><input id="db_name" name="name" autocomplete="name" placeholder="Name"></div><div><label for="db_email">Email</label><input id="db_email" name="email" type="email" autocomplete="email" placeholder="you@example.com"></div></div>
+            <label for="db_zip">Zip</label><input id="db_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="Zip" maxlength="5">
+            <button class="btn dark fbtn" id="db_btn" type="button" onclick="submitForm('Waitlist','door')">Leave your name</button>
+            <p class="fnote">No checkout. We write when this water opens. Nothing is billed.</p>
+          </div>
+          <div id="db-done" hidden>
+            <h2>We have your place.</h2>
+            <p class="lede">We write when this water opens. Nothing is billed. Nothing ships.</p>
+            <button class="btn line share-btn" id="db_share" type="button">Send this to a boat you know</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   <footer>
     <div class="wrap">
@@ -99,9 +120,9 @@
         </p>
       </div>
       <div class="frule"></div>
-      <div class="fbot"><span>&copy; 2026 Coastal Cavaliers</span><!-- build chest-20260831b --><span>Made ashore. Enjoyed aboard.</span></div>
+      <div class="fbot"><span>&copy; 2026 Coastal Cavaliers</span><!-- build chest-20261006a --><span>Made ashore. Enjoyed aboard.</span></div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20260823a" defer></script>
+  <script src="/assets/js/site.js?v=20261006a" defer></script>
 </body>
 </html>
