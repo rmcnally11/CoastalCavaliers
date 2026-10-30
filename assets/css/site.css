@@ -47,10 +47,10 @@
 .page-hero{padding:clamp(40px,6vh,80px) 0 clamp(40px,6vh,72px)}.page-hero .hero-place{max-width:none;width:100%}.page-hero h1{font-size:clamp(40px,6.5vw,84px);margin:14px 0 0;line-height:1.05;letter-spacing:-.03em;max-width:none}.page-hero h1 em{font-style:italic;font-weight:600;color:var(--coral)}.page-hero h1 .h1-line{display:block;white-space:nowrap}.page-hero .lede{margin-top:22px;font-size:clamp(18px,2.1vw,22px);max-width:48ch}.err404{padding:0 0 8px}.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px}.cta-row .btn{min-height:48px}nav.main a[aria-current="page"]{color:var(--ink);font-weight:600}
 
 /* build stamp -- proves THIS stylesheet is the one that loaded
-   build css-20261006a — comment only, never rendered
+   build css-20261030a — comment only, never rendered
 .build{font:500 10px/1 Archivo;letter-spacing:.08em;opacity:.5}
 #bc{font-style:normal}
-#bc::after{content:"\00b7 css-20261006a"}
+#bc::after{content:"\00b7 css-20261030a"}
 */
 :focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
@@ -201,3 +201,24 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
 .door-list .lede{margin-top:12px;font-size:17px}
 .share-btn{margin-top:18px}
 #w_shared_line{margin:0 0 4px}
+
+/* ---- waitlist zip vote 20261030a — schematic, not a map library ---- */
+#zip-map{padding-top:8px;scroll-margin-top:86px}
+#zip-map [hidden]{display:none!important}
+.zip-vote{background:var(--shell-wash);border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:3px;padding:22px 18px 26px;max-width:680px}
+.zip-vote svg{display:block;width:100%;height:auto;margin:0;pointer-events:none;user-select:none;-webkit-user-select:none}
+.zip-vote .tile rect{fill:var(--panel);stroke:var(--line2);stroke-width:1.25}
+.zip-vote .tile.wave rect{stroke:var(--ink);stroke-width:2.4}
+.zip-vote .tile.is-waiting rect{fill:var(--green-lt)}
+.zip-vote .bay-cell rect{fill:var(--shell);stroke:none}
+.zip-vote .zip-label{font-family:Archivo,system-ui,sans-serif;font-size:18px;font-weight:700;letter-spacing:.02em;fill:var(--ink)}
+.zip-vote .bay-label{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:600;font-size:15px;fill:var(--on-shell-dim)}
+.zip-vote-cap{margin:18px 0 0;font-size:16px;line-height:1.5;color:var(--soft);max-width:62ch}
+.zip-vote-next{margin:8px 0 0;font-size:15px;color:var(--soft);max-width:62ch}
+.zip-vote .honesty-rail{margin:22px 0 0}
+.vote-got{margin-top:14px;font-size:17px;line-height:1.5;color:var(--soft);max-width:46ch}
+.vote-see{margin-top:4px}
+.vote-see a{display:inline-flex;align-items:center;min-height:44px;font-weight:600}
+@media(max-width:640px){
+  .zip-vote{padding:18px 12px 22px;max-width:none}
+}

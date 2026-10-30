@@ -41,6 +41,12 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Hand-edited zip list. Must revalidate so a refresh of data/zips.json shows up.
+[[headers]]
+  for = "/data/zips.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "/*"
   [headers.values]

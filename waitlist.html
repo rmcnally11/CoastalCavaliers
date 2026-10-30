@@ -64,7 +64,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/site.css?v=20261006a">
+    <link rel="stylesheet" href="/assets/css/site.css?v=20261030a">
 </head>
 <body>
   <header>
@@ -150,6 +150,8 @@
             <h2 id="wait-confirm-title" style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">We have your place.</h2>
             <p class="lede" id="wait-confirm-body" style="margin-top:14px;font-size:17px"></p>
             <p class="fnote" style="margin-top:18px">We write when this water opens. Nothing is billed.</p>
+            <p class="vote-got">Got it. Your vote&rsquo;s in. We&rsquo;ll write when there&rsquo;s something real to share.</p>
+            <p class="vote-see"><a href="#zip-map">See where your neighbors are waiting</a></p>
           </div>
           <div id="wait-form-fields">
           <p class="honesty-rail">Reserved, not billed. Nothing ships. No checkout on this site.</p>
@@ -211,6 +213,42 @@
             </div>
           </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="zip-map">
+      <div class="wrap">
+        <div class="sec-head rv">
+          <div>
+            <div class="kick">Clear Lake &middot; Kemah &middot; Seabrook</div>
+            <h2>Where the list is waiting</h2>
+          </div>
+          <p class="lede">Tell us where you keep your boat. Wherever folks want us first is where we start.</p>
+        </div>
+        <div class="zip-vote rv">
+          <svg viewBox="0 0 364 448" xmlns="http://www.w3.org/2000/svg" aria-label="Schematic of Clear Lake, Kemah, Seabrook, and upper Galveston Bay zip codes">
+            <g class="tile wave" data-zip="77505"><rect x="8" y="8" width="110" height="86"/><text class="zip-label" x="63" y="51" text-anchor="middle" dominant-baseline="middle">77505</text></g>
+            <g class="tile wave" data-zip="77504"><rect x="126" y="8" width="110" height="86"/><text class="zip-label" x="181" y="51" text-anchor="middle" dominant-baseline="middle">77504</text></g>
+            <g class="tile" data-zip="77571"><rect x="244" y="8" width="110" height="86"/><text class="zip-label" x="299" y="51" text-anchor="middle" dominant-baseline="middle">77571</text></g>
+            <g class="tile wave" data-zip="77598"><rect x="8" y="102" width="110" height="86"/><text class="zip-label" x="63" y="145" text-anchor="middle" dominant-baseline="middle">77598</text></g>
+            <g class="tile wave" data-zip="77059"><rect x="126" y="102" width="110" height="86"/><text class="zip-label" x="181" y="145" text-anchor="middle" dominant-baseline="middle">77059</text></g>
+            <g class="tile wave" data-zip="77586"><rect x="244" y="102" width="110" height="86"/><text class="zip-label" x="299" y="145" text-anchor="middle" dominant-baseline="middle">77586</text></g>
+            <g class="tile wave" data-zip="77058"><rect x="8" y="196" width="110" height="86"/><text class="zip-label" x="63" y="239" text-anchor="middle" dominant-baseline="middle">77058</text></g>
+            <g class="tile wave" data-zip="77062"><rect x="126" y="196" width="110" height="86"/><text class="zip-label" x="181" y="239" text-anchor="middle" dominant-baseline="middle">77062</text></g>
+            <g class="tile wave" data-zip="77565"><rect x="244" y="196" width="110" height="86"/><text class="zip-label" x="299" y="239" text-anchor="middle" dominant-baseline="middle">77565</text></g>
+            <g class="tile wave" data-zip="77546"><rect x="8" y="290" width="110" height="86"/><text class="zip-label" x="63" y="333" text-anchor="middle" dominant-baseline="middle">77546</text></g>
+            <g class="tile wave" data-zip="77573"><rect x="126" y="290" width="110" height="86"/><text class="zip-label" x="181" y="333" text-anchor="middle" dominant-baseline="middle">77573</text></g>
+            <g class="tile" data-zip="77518"><rect x="244" y="290" width="110" height="86"/><text class="zip-label" x="299" y="333" text-anchor="middle" dominant-baseline="middle">77518</text></g>
+            <g class="bay-cell">
+              <rect x="8" y="384" width="346" height="56"/>
+              <text class="bay-label" x="181" y="412" text-anchor="middle" dominant-baseline="middle">Galveston Bay</text>
+            </g>
+          </svg>
+          <p class="zip-vote-cap" id="zip-map-shade" hidden>Shaded zips have neighbors on the list. We write when this water opens.</p>
+          <p class="zip-vote-cap" id="zip-map-empty">Your zip could be first.</p>
+          <p class="zip-vote-next">Any other zip is a vote for the next water.</p>
+          <p class="honesty-rail">We&rsquo;re not delivering yet and we&rsquo;re not taking orders. Leave your name. Not your card.</p>
         </div>
       </div>
     </section>
@@ -281,11 +319,53 @@
       <div class="frule"></div>
       <div class="fbot">
         <span>&copy; 2026 Coastal Cavaliers &middot; Texas Gulf Coast</span>
-        <!-- build waitlist-20261006a -->
+        <!-- build waitlist-20261030a -->
         <span>Made ashore. Enjoyed aboard.</span>
       </div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20261006a" defer></script>
+  <script src="/assets/js/site.js?v=20261030a" defer></script>
+  <script>
+  (function () {
+    var map = document.getElementById("zip-map");
+    if (!map) return;
+    var emptyCap = document.getElementById("zip-map-empty");
+    var shadeCap = document.getElementById("zip-map-shade");
+    function showEmpty() {
+      if (shadeCap) shadeCap.hidden = true;
+      if (emptyCap) emptyCap.hidden = false;
+    }
+    fetch("/data/zips.json", { cache: "no-store", credentials: "same-origin" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("zips");
+        return res.json();
+      })
+      .then(function (data) {
+        var list = data && Array.isArray(data.zips) ? data.zips : [];
+        var want = {};
+        var n = 0;
+        var i, z;
+        for (i = 0; i < list.length; i++) {
+          z = String(list[i] == null ? "" : list[i]).replace(/\D/g, "");
+          if (/^\d{5}$/.test(z)) { want[z] = true; n++; }
+        }
+        if (!n) { showEmpty(); return; }
+        var tiles = map.querySelectorAll("[data-zip]");
+        var shaded = false;
+        var j, code;
+        for (j = 0; j < tiles.length; j++) {
+          code = tiles[j].getAttribute("data-zip");
+          if (want[code]) {
+            tiles[j].classList.add("is-waiting");
+            shaded = true;
+          }
+        }
+        if (!shaded) { showEmpty(); return; }
+        if (emptyCap) emptyCap.hidden = true;
+        if (shadeCap) shadeCap.hidden = false;
+      })
+      .catch(showEmpty);
+  })();
+  </script>
 </body>
 </html>
