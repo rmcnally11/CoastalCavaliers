@@ -24,6 +24,7 @@ exports.handler = async function (event) {
   }
   try {
     const res = await fetch(UPSTREAM, { cache: "no-store" });
+    if (!res.ok) throw new Error("catalog");
     const data = await res.json();
     const products = Array.isArray(data.products) ? data.products.filter(isLiveSku) : [];
     const body = {
