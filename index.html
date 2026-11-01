@@ -139,7 +139,7 @@
           <a class="btn line" href="#how">How it works</a>
         </div>
         <div class="zipbox" style="margin-top:22px">
-          <input id="zip" type="text" inputmode="numeric" placeholder="Your zip code" maxlength="5" autocomplete="postal-code" pattern="[0-9]{5}">
+          <input id="zip" type="text" inputmode="numeric" placeholder="Your zip code" aria-label="Zip code" maxlength="5" autocomplete="postal-code" pattern="[0-9]{5}">
           <button class="btn line" type="button" onclick="checkZip()">Check my water</button>
         </div>
         <div class="zipnote">Optional &mdash; first-wave zips hear first. Any other zip is a vote for the next water we open.</div>
@@ -221,11 +221,11 @@
           <p class="lede">This is the weekly clock when the water opens. Wednesday noon is the cutoff &mdash; same rule for members, makers, and marinas. Late rolls.</p>
         </div>
         <div class="how-tabs rv" role="tablist" aria-label="How it works">
-          <button type="button" class="how-tab on" data-how="member" role="tab" aria-selected="true">Members</button>
-          <button type="button" class="how-tab" data-how="maker" role="tab" aria-selected="false">Makers</button>
-          <button type="button" class="how-tab" data-how="marina" role="tab" aria-selected="false">Marinas</button>
+          <button type="button" class="how-tab on" id="how-tab-member" data-how="member" role="tab" aria-selected="true" aria-controls="how-panel-member" tabindex="0">Members</button>
+          <button type="button" class="how-tab" id="how-tab-maker" data-how="maker" role="tab" aria-selected="false" aria-controls="how-panel-maker" tabindex="-1">Makers</button>
+          <button type="button" class="how-tab" id="how-tab-marina" data-how="marina" role="tab" aria-selected="false" aria-controls="how-panel-marina" tabindex="-1">Marinas</button>
         </div>
-        <div class="how-panel on rv" data-how="member" role="tabpanel">
+        <div class="how-panel on rv" id="how-panel-member" data-how="member" role="tabpanel" aria-labelledby="how-tab-member">
           <div class="how-flow">
             <div class="how-step"><div class="n">01</div><h3>Order by Wednesday noon</h3><p>When we open: pick from local makers. One box. One slip.</p></div>
             <div class="how-arrow" aria-hidden="true"></div>
@@ -237,7 +237,7 @@
           </div>
           <p class="how-foot">Not taking orders yet. <a href="#waitlist">Join the waitlist</a>.</p>
         </div>
-        <div class="how-panel rv" data-how="maker" role="tabpanel" hidden>
+        <div class="how-panel rv" id="how-panel-maker" data-how="maker" role="tabpanel" aria-labelledby="how-tab-maker" hidden>
           <div class="how-flow">
             <div class="how-step"><div class="n">01</div><h3>Apply once</h3><p>Home kitchen or licensed. You set the price.</p></div>
             <div class="how-arrow" aria-hidden="true"></div>
@@ -249,7 +249,7 @@
           </div>
           <p class="how-foot">Zero listing fee. Your kitchen, your price, your coast. <a href="makers.html">Apply to sell</a>.</p>
         </div>
-        <div class="how-panel rv" data-how="marina" role="tabpanel" hidden>
+        <div class="how-panel rv" id="how-panel-marina" data-how="marina" role="tabpanel" aria-labelledby="how-tab-marina" hidden>
           <div class="how-flow">
             <div class="how-step"><div class="n">01</div><h3>Host a drop</h3><p>A cooler and a window. No staff burden.</p></div>
             <div class="how-arrow" aria-hidden="true"></div>
@@ -317,7 +317,7 @@
           <div class="item" data-cat="accessories">
             <div class="shot shot-flag">
               <div class="tag">MEMBERS ONLY</div>
-              <img src="assets/img/chest-founding-burgee.webp" alt="Founding burgee, numbered 001, swallowtail" loading="lazy" width="1600" height="1600">
+              <img src="assets/img/chest-founding-burgee-960.webp" alt="Founding burgee, numbered 001, swallowtail" loading="lazy" width="960" height="960">
             </div>
             <div class="b">
               <h3>Founding burgee</h3>
@@ -349,7 +349,7 @@
       </div>
       <div class="fgrid">
         <div>
-          <div class="fbrand"><img src="assets/img/crest-gold.webp" alt=""><div><div class="n">Coastal Cavaliers</div><div style="font-size:12px;color:var(--gold-lt);margin-top:4px">Local hands, open water</div></div></div>
+          <div class="fbrand"><img src="assets/img/crest-gold.webp" alt=""><div><div class="n">Coastal Cavaliers</div><div style="font-size:12px;color:var(--on-shell-gold);margin-top:4px">Local hands, open water</div></div></div>
           <p class="flegal">When we sell cottage goods, labels carry the maker&rsquo;s name and the home-kitchen mark.</p>
         </div>
         <div><h4>The club</h4><a href="#how">How it works</a><a href="#box">The box</a><a href="chest.html">Slop Chest</a><a href="#waitlist">Waitlist</a><a href="https://onthiswater.com/">Tide and wind before you leave</a></div>
@@ -359,6 +359,6 @@
       <div class="fbot"><span>&copy; 2026 Coastal Cavaliers &middot; Wherever there is saltwater</span><!-- build html-20261006a --><span>Made ashore. Enjoyed aboard.</span></div>
     </div>
   </footer>
-  <script src="assets/js/site.js?v=20261006a" defer></script>
+  <script src="assets/js/site.js?v=20261101a" defer></script>
 </body>
 </html>
