@@ -39,7 +39,10 @@
 /sitepkg                /404.html   404!
 /sitepkg/               /404.html   404!
 /sitepkg/*              /404.html   404!
-/BOTS.md                /404.html   404
-/GITHUB_NETLIFY_SETUP.txt /404.html 404
+# Root notes are real files. A soft 404 loses to the file and returns 200.
+/BOTS.md                  /404.html   404!
+/GITHUB_NETLIFY_SETUP.txt /404.html   404!
+/CURSOR_LESSONS.md        /404.html   404!
+/README.md                /404.html   404!
 
 /*          /404.html        404
