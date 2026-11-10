@@ -208,18 +208,59 @@ function contractBody(b){
   }
   return out;
 }
-/* segmented controls */
+/* segmented controls — divs, so the keyboard has to be wired by hand */
+function segOptions(g){
+  return [].filter.call(g.children, function(c){ return c.classList && c.classList.contains("o"); });
+}
+function paintSeg(g){
+  var radios = g.getAttribute("role") === "radiogroup";
+  segOptions(g).forEach(function(o){
+    var on = o.classList.contains("on");
+    if(radios){
+      o.setAttribute("role", "radio");
+      o.setAttribute("aria-checked", on ? "true" : "false");
+      o.setAttribute("tabindex", on ? "0" : "-1");
+    } else if(!o.hasAttribute("tabindex")){
+      o.setAttribute("tabindex", "0");
+    }
+  });
+}
+function chooseSeg(g, o){
+  if(!o) return;
+  [].forEach.call(g.children, function(c){
+    c.classList.remove("on");
+    if (c.getAttribute("role") === "radio") c.setAttribute("aria-checked", "false");
+  });
+  o.classList.add("on");
+  if (o.getAttribute("role") === "radio") o.setAttribute("aria-checked", "true");
+  paintSeg(g);
+  if(g.id === "m_tier") syncMakerReg();
+}
 document.querySelectorAll(".seg").forEach(function(g){
-g.addEventListener("click", function(e){
-var o = e.target.closest(".o"); if(!o) return;
-[].forEach.call(g.children, function(c){
-  c.classList.remove("on");
-  if (c.getAttribute("role") === "radio") c.setAttribute("aria-checked", "false");
-});
-o.classList.add("on");
-if (o.getAttribute("role") === "radio") o.setAttribute("aria-checked", "true");
-if(g.id === "m_tier") syncMakerReg();
-});
+  paintSeg(g);
+  g.addEventListener("click", function(e){
+    var o = e.target.closest(".o"); if(!o || !g.contains(o)) return;
+    chooseSeg(g, o);
+  });
+  g.addEventListener("keydown", function(e){
+    var opts = segOptions(g);
+    if(!opts.length) return;
+    var i = opts.indexOf(document.activeElement);
+    var found = -1;
+    var n;
+    for(n=0;n<opts.length;n++){ if(opts[n].classList.contains("on") && found < 0) found = n; }
+    if(i < 0) i = found < 0 ? 0 : found;
+    var key = e.key;
+    if(key !== "ArrowRight" && key !== "ArrowLeft" && key !== "ArrowDown" && key !== "ArrowUp" && key !== "Enter" && key !== " " && key !== "Home" && key !== "End") return;
+    e.preventDefault();
+    var next = i;
+    if(key === "ArrowRight" || key === "ArrowDown") next = (i + 1) % opts.length;
+    else if(key === "ArrowLeft" || key === "ArrowUp") next = (i - 1 + opts.length) % opts.length;
+    else if(key === "Home") next = 0;
+    else if(key === "End") next = opts.length - 1;
+    chooseSeg(g, opts[next]);
+    opts[next].focus();
+  });
 });
 var aisleBox = document.getElementById("m_aisles");
 if(aisleBox){
@@ -732,19 +773,36 @@ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.u
 })();
 
 /* How it works tabs */
+function showHowTab(tab) {
+  var key = tab.getAttribute("data-how");
+  document.querySelectorAll(".how-tab").forEach(function (t) {
+    var on = t === tab;
+    t.classList.toggle("on", on);
+    t.setAttribute("aria-selected", on ? "true" : "false");
+    t.tabIndex = on ? 0 : -1;
+  });
+  document.querySelectorAll(".how-panel").forEach(function (p) {
+    var on = p.getAttribute("data-how") === key;
+    p.classList.toggle("on", on);
+    if (on) p.removeAttribute("hidden");
+    else p.setAttribute("hidden", "");
+  });
+}
 document.querySelectorAll(".how-tab").forEach(function (tab) {
-  tab.addEventListener("click", function () {
-    var key = tab.getAttribute("data-how");
-    document.querySelectorAll(".how-tab").forEach(function (t) {
-      t.classList.toggle("on", t === tab);
-      t.setAttribute("aria-selected", t === tab ? "true" : "false");
-    });
-    document.querySelectorAll(".how-panel").forEach(function (p) {
-      var on = p.getAttribute("data-how") === key;
-      p.classList.toggle("on", on);
-      if (on) p.removeAttribute("hidden");
-      else p.setAttribute("hidden", "");
-    });
+  tab.addEventListener("click", function () { showHowTab(tab); });
+  tab.addEventListener("keydown", function (e) {
+    var tabs = [].slice.call(document.querySelectorAll(".how-tab"));
+    var i = tabs.indexOf(tab);
+    if (i < 0) return;
+    var next = -1;
+    if (e.key === "ArrowRight") next = (i + 1) % tabs.length;
+    else if (e.key === "ArrowLeft") next = (i - 1 + tabs.length) % tabs.length;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = tabs.length - 1;
+    else return;
+    e.preventDefault();
+    showHowTab(tabs[next]);
+    tabs[next].focus();
   });
 });
 

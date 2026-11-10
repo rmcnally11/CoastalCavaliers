@@ -3,10 +3,12 @@
   --panel:#FFFDF9;
   --ink:#082952;
   --deep:#041934;
-  --gold:#966E22;
+  /* #966E22 is the brand gold. #8C6A24 is the same gold darkened just enough
+     for 10–16px type on oyster to clear WCAG AA. Buttons stay white on it. */
+  --gold:#8C6A24;
   --gold-lt:#E0CFA4;
   --soft:#4A5D73;
-  --mute:#8494A6;
+  --mute:#5E6D85;
   --dim:#A8BDD8;
   --line:#CCD6E3;
   --max:1120px;
@@ -82,7 +84,7 @@ section{padding:88px 0}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
 .step{padding:28px 26px 32px;border-right:1px solid var(--line)}
 .step:last-child{border-right:none}
-.step .n{font-family:Fraunces,serif;font-size:42px;color:var(--gold-lt);font-weight:600;letter-spacing:-.03em}
+.step .n{font-family:Fraunces,serif;font-size:42px;color:var(--gold);font-weight:600;letter-spacing:-.03em}
 .step h3{font-size:22px;margin:10px 0 10px}
 .step p{font-size:14.5px;color:var(--soft);line-height:1.55}
 @media(max-width:800px){.steps{grid-template-columns:1fr}.step{border-right:none;border-bottom:1px solid var(--line)}}
