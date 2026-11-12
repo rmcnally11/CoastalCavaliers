@@ -59,3 +59,13 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - Live `/CURSOR_LESSONS.md`, `/BOTS.md`, `/GITHUB_NETLIFY_SETUP.txt`, and `/README.md` returned 200. Those four are internal notes in the publish root. A soft 404 does not hide a file that exists. `_redirects` now uses `404!` for them, and `netlify.toml` sets `force = true`. `/robots.txt` returned 200 and stays, because it is the public crawler file. Notes under `ops/` and `sitepkg/` were already forced 404s.
 - The sentence above, that this file is not in the hide list and to leave the redirects alone unless Robert asks, is the state before this hide.
 - The Waterdog inner pages `fuel/boats.html`, `fuel/marinas.html`, `fuel/supply.html`, and `fuel/contact.html` now link `/fuel/fuel.css?v=20261101a`, the same stamp as the fuel homepage. That landed in `d6b955c`. The "no stamp" sentence above is the state before that commit.
+
+## 2026-11-12 — three fields, then the boat
+
+- The homepage and `/waitlist` join with name, email, and zip. City, marina, boat, plan, and the Slop Chest box are an optional second step on the thank-you. Skipping that step still leaves the person on the list.
+- Both posts go through `submitForm` in `assets/js/site.js` to `/.netlify/functions/apply`. That function only forwards the body. It cannot patch an Airtable row. The same signup is tied by a client UUID in the existing `notes` field, written as `Application: <uuid>`. No new contract key, no new secret, no second webhook.
+- n8n `CC_WF2_Applications_v4_CORS` (webhook `cc-apply`) still inserts a row per post until it upserts on that token. Do not change that workflow from this repo. The exact match is in the pull request.
+- `apply.html` has no `#wait-boat`, so it still sends every waitlist field in one post and does not mint an Application token. Door bands and the Boat Snacks popup do not either.
+- A plan card's "I have X in mind" only pre-selects the step-two plan. It is stored when they save step two. The card copy stayed word for word.
+- FAQ and the host-marina lines were left as written. The rails "No checkout" and "No checkout on this site" stay. The line under the three-field button is "Free. No card. Nothing ships."
+- `ops/live-check/check.sh` is on `main` (pull request 39 merged). The sentence above, that the script is only on the draft branch, is the state before that merge.
