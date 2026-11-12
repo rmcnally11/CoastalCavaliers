@@ -58,6 +58,13 @@ function showWaitConfirm(body){
   box.scrollIntoView({ behavior: "smooth", block: "start" });
   return true;
 }
+function showBoatSaved(){
+  var boat = document.getElementById("wait-boat");
+  var done = document.getElementById("wait-boat-done");
+  if (boat) boat.hidden = true;
+  if (done) done.hidden = false;
+  return true;
+}
 /* Five digits only. Longer digit strings are not a zip. */
 function fiveZip(s){
   var d = String(s == null ? "" : s).replace(/\D/g, "");
@@ -105,6 +112,36 @@ function passItOn(btn, zip){
 var SHARED_ZIP_KEY = "cc_shared_zip";
 var sharedFrom = "";
 var DOOR_FROM = { "/makers":1, "/marinas":1, "/chest":1, "/sport":1, "/fuel":1 };
+/* Homepage and /waitlist sign up in two posts on the same path.
+   Step one mints a UUID and writes it into the existing notes field
+   as "Application: <id>". Step two repeats that token. No new contract
+   key. apply.js only forwards the body, so n8n has to upsert on it. */
+var waitRowId = "";
+var waitDraft = null;
+function newApplicationId(){
+  var c = typeof crypto !== "undefined" ? crypto : null;
+  if (c && typeof c.randomUUID === "function") return c.randomUUID();
+  return "cc-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+}
+function ensureWaitId(){
+  if (!waitRowId) waitRowId = newApplicationId();
+  return waitRowId;
+}
+function applicationNote(id){
+  return "Application: " + id;
+}
+function joinNotes(parts){
+  var out = [], i;
+  for (i = 0; i < parts.length; i++) { if (parts[i]) out.push(parts[i]); }
+  return out.length ? out.join(" · ") : undefined;
+}
+function waitlistTwoStep(){
+  return !!document.getElementById("wait-boat");
+}
+function rememberWaitDraft(b, id){
+  if (!b || !b.name || !b.email || !b.zip || !id) return;
+  waitDraft = { name: b.name, email: b.email, zip: b.zip, applicationId: id };
+}
 function rememberSharedZip(){
   var fromQuery = "";
   try { fromQuery = fiveZip(new URLSearchParams(location.search).get("z")); } catch (e) {}
@@ -318,12 +355,27 @@ function reservePlan(plan){
       c.classList.toggle("on", on);
       if (c.getAttribute("role") === "radio") c.setAttribute("aria-checked", on ? "true" : "false");
     });
+    paintSeg(g);
   }
+  var confirm = document.getElementById("wait-confirm");
+  var boat = document.getElementById("wait-boat");
+  var joined = confirm && !confirm.hidden;
   var target = document.getElementById("waitlist") || document.getElementById("w_name");
-  if(target) target.scrollIntoView({behavior:"smooth", block:"start"});
+  if(joined && boat){
+    boat.hidden = false;
+    var boatDone = document.getElementById("wait-boat-done");
+    if(boatDone) boatDone.hidden = true;
+    var detailsBtn = document.getElementById("w_details_btn");
+    if(detailsBtn){
+      detailsBtn.disabled = false;
+      detailsBtn.textContent = detailsBtn.getAttribute("data-l") || "Save these details";
+    }
+    target = boat;
+  }
+  if(target && target.scrollIntoView) target.scrollIntoView({behavior:"smooth", block:"start"});
   setTimeout(function(){
-    var n = document.getElementById("w_name");
-    if(n) n.focus();
+    var n = document.getElementById(joined ? "w_city" : "w_name");
+    if(n && n.focus) n.focus();
   }, 400);
   return false;
 }
@@ -334,7 +386,12 @@ function reservePlan(plan){
    until n8n adds "Intended plan": s(b.intendedPlan).
    Visit memory only (sessionStorage, this tab): a sanitized ?z= rides in
    notes as "Shared from 77565". An inner-page band adds "Came from /chest".
-   Same notes field, joined with " · ". No new contract keys. */
+   Same notes field, joined with " · ". No new contract keys.
+   Two-step list (#wait-boat on the homepage and /waitlist): step one is
+   name, email, zip, plus "Application: <uuid>" in notes. Step two
+   (src "details") repeats that token and adds city, marina, boat, plan,
+   and the Slop Chest line. Same submitForm, same /.netlify/functions/apply.
+   apply.html has no #wait-boat, so it still sends one full post. */
 function payload(type, src){
 var b = { type: type, source: "Site" };
 if(type === "Maker"){
@@ -365,6 +422,27 @@ var doorParts = [];
 if(from && DOOR_FROM[from]) doorParts.push("Came from " + from);
 if(sharedFrom) doorParts.push("Shared from " + sharedFrom);
 if(doorParts.length) b.notes = doorParts.join(" · ");
+} else if(src === "details"){
+var draft = waitDraft;
+var detailId = draft && draft.applicationId;
+if(draft && detailId){
+b.name=draft.name; b.email=draft.email; b.zip=draft.zip;
+b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
+b.intendedPlan=seg("w_plan");
+var detailParts = [applicationNote(detailId)];
+if(b.intendedPlan) detailParts.push("Intended plan: " + b.intendedPlan);
+var detailChest = document.getElementById("w_chest");
+if(detailChest && detailChest.checked) detailParts.push("Chest: tell me when the Slop Chest opens");
+if(sharedFrom) detailParts.push("Shared from " + sharedFrom);
+b.notes = joinNotes(detailParts);
+}
+} else if(waitlistTwoStep()){
+b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
+var stepId = ensureWaitId();
+var stepParts = [applicationNote(stepId)];
+if(sharedFrom) stepParts.push("Shared from " + sharedFrom);
+b.notes = joinNotes(stepParts);
+rememberWaitDraft(b, stepId);
 } else {
 b.name=val("w_name"); b.email=val("w_email"); b.zip=val("w_zip");
 b.city=val("w_city"); b.marinaName=val("w_marina"); b.boatType=val("w_boat");
@@ -410,11 +488,18 @@ return false;
 }
 function submitForm(type, src){
 if (ccBotCheck()) { return; }
-var btn = document.getElementById(src === "boatSnacks" ? "bs_btn" : (src === "door" ? "db_btn" : BTN[type])) || document.getElementById("submit");
+var btnId = src === "boatSnacks" ? "bs_btn" : (src === "door" ? "db_btn" : (src === "details" ? "w_details_btn" : BTN[type]));
+var btn = document.getElementById(btnId) || document.getElementById("submit");
+if(!btn) return;
 var label = btn.getAttribute("data-l") || btn.textContent;
 btn.setAttribute("data-l", label);
 var b = payload(type, src);
 if(!b) return;
+if(src === "details" && (!waitDraft || !waitDraft.applicationId || !b.name || !b.email || !b.zip)){
+btn.textContent = "Leave your name first";
+setTimeout(function(){ btn.textContent = label; }, 3000);
+return;
+}
 if(type === "Waitlist" && (!b.name || !b.email || !b.zip)){
 btn.textContent = "Name, email and zip";
 setTimeout(function(){ btn.textContent = label; }, 3000);
@@ -431,10 +516,11 @@ setTimeout(function(){ btn.textContent = label; }, 3000);
 return;
 }
 btn.textContent = "Sending…"; btn.disabled = true;
-send(b).then(function(ok){
+return send(b).then(function(ok){
 btn.disabled = false;
 if(ok){
-btn.textContent = DONE[type];
+btn.textContent = src === "details" ? "Saved" : DONE[type];
+if (src === "details") { showBoatSaved(); return; }
 if (src === "door" && showDoorDone(b)) return;
 if (type === "Waitlist" && src !== "boatSnacks" && showWaitConfirm(b)) {
   var applyDone = document.getElementById("done");
