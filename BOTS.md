@@ -88,7 +88,7 @@ Price is dollars (not cents). `capRemaining` is `capacity - capacity_sold`.
 
 | Event | Path |
 |---|---|
-| Site waitlist / maker / marina | POST `https://rjmrio.app.n8n.cloud/webhook/cc-apply` (WF2, source = Site) |
+| Site waitlist / maker / marina | POST `https://rmc11.app.n8n.cloud/webhook/cc-apply` (WF2, source = Site) |
 | Waterdog marina / boat / talk / fuel list | POST `/.netlify/functions/waterdog` → n8n `wd-intake` → `WD_Operations` Leads or Newsletter. Not club Applications. |
 | App hold | Browser localStorage, WF1-shaped payload. App never bills. |
 | Cycle | America/Chicago, Wednesday-noon cutoff, Saturday delivery, cluster `CL-01` |

@@ -61,7 +61,7 @@ silently overwrite whatever you dropped.
 ## The forms
 
 Club forms — maker, marina, waitlist — POST to `/.netlify/functions/apply`,
-which forwards to n8n `cc-apply`. Optional Netlify env: `N8N_APPLY_WEBHOOK`.
+which forwards to `https://rmc11.app.n8n.cloud/webhook/cc-apply`. Optional Netlify env: `N8N_APPLY_WEBHOOK`.
 Waterdog forms POST to `/.netlify/functions/waterdog` → n8n `wd-intake` →
 `WD_Operations` Leads / Newsletter. Optional: `N8N_WATERDOG_WEBHOOK`.
 The live catalog is `/.netlify/functions/catalog` (TEST SKUs are stripped).
