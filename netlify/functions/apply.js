@@ -1,6 +1,6 @@
 // Same-origin apply proxy. Browser posts here; n8n URL stays off the page.
 // Optional Netlify env: N8N_APPLY_WEBHOOK
-const UPSTREAM = process.env.N8N_APPLY_WEBHOOK || "https://rjmrio.app.n8n.cloud/webhook/cc-apply";
+const UPSTREAM = process.env.N8N_APPLY_WEBHOOK || "https://rmc11.app.n8n.cloud/webhook/cc-apply";
 
 const CORS = {
   "Access-Control-Allow-Origin": "https://coastalcavaliers.com",

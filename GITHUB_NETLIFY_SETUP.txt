@@ -53,8 +53,8 @@ FORM PROTECTION, as requested
   check for. If it has a value, submitForm returns silently. Failing silently
   matters: an error message tells a bot to try something else.
 
-  The n8n webhook is untouched:
-  https://rjmrio.app.n8n.cloud/webhook/cc-apply
+  The n8n webhook the function forwards to:
+  https://rmc11.app.n8n.cloud/webhook/cc-apply
 
 
 --------------------------------------------------------------------------------

@@ -222,3 +222,10 @@ header.nav-open .nav-toggle{border-color:var(--gold);background:var(--shell-wash
 @media(max-width:640px){
   .zip-vote{padding:18px 12px 22px;max-width:none}
 }
+
+/* ---- three fields, then the boat. 20261112a ---- */
+#waitlist,#wait-boat{scroll-margin-top:86px}
+.wait-boat{margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+.wait-boat h3{font-size:clamp(22px,2.4vw,28px);margin:8px 0 0}
+.wait-boat .lede{margin-top:10px;font-size:16px;max-width:52ch}
+.wait-boat-done{margin-top:22px;font-size:17px;line-height:1.5;color:var(--soft);max-width:46ch}

@@ -64,7 +64,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/site.css?v=20261030a">
+    <link rel="stylesheet" href="/assets/css/site.css?v=20261112a">
 </head>
 <body>
   <header>
@@ -98,7 +98,86 @@
       </div>
     </section>
 
-    <section style="padding-top:0">
+    <section id="waitlist" style="padding-top:0">
+      <div class="wrap">
+        <div class="wait-card rv">
+          <div id="wait-confirm" class="wait-confirm" hidden>
+            <div class="kick">You are on the list</div>
+            <h2 id="wait-confirm-title" style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">We have your place.</h2>
+            <p class="lede" id="wait-confirm-body" style="margin-top:14px;font-size:17px"></p>
+            <p class="fnote" style="margin-top:18px">We write when this water opens. Nothing is billed.</p>
+            <div id="wait-boat" class="wait-boat">
+              <div class="kick">Optional</div>
+              <h3>Tell us about your boat</h3>
+              <p class="lede">City, marina, the boat you run, and the plan you have in mind. Skip this and you are still on the list.</p>
+              <div class="two">
+                <div>
+                  <label for="w_city">City</label>
+                  <input id="w_city" name="city" autocomplete="address-level2" placeholder="City">
+                </div>
+                <div>
+                  <label for="w_marina">Your marina</label>
+                  <input id="w_marina" name="marina" placeholder="Your marina">
+                </div>
+              </div>
+              <label for="w_boat">What do you run?</label>
+              <select id="w_boat" name="boat">
+                <option>Sail &middot; cruising</option>
+                <option>Center console</option>
+                <option>Sportfish</option>
+                <option>Trawler</option>
+                <option>Charter fleet</option>
+              </select>
+              <label id="w_plan_label">Which plan do you have in mind?</label>
+              <div class="seg" id="w_plan" role="radiogroup" aria-labelledby="w_plan_label">
+                <div class="o on" data-v="Deckhand" role="radio" aria-checked="true" tabindex="0">Deckhand<small>free</small></div>
+                <div class="o" data-v="Cavalier" role="radio" aria-checked="false" tabindex="0">Cavalier<small>$120 reserved</small></div>
+                <div class="o" data-v="Commodore" role="radio" aria-checked="false" tabindex="0">Commodore<small>$360 reserved</small></div>
+              </div>
+              <label class="chk" for="w_chest"><input type="checkbox" id="w_chest"> Tell me when the Slop Chest opens</label>
+              <button class="btn dark fbtn" id="w_details_btn" type="button" onclick="submitForm('Waitlist','details')">Save these details</button>
+              <p class="fnote">Skip this. You are already on the list. Nothing is billed.</p>
+            </div>
+            <div id="wait-boat-done" class="wait-boat-done" hidden>
+              <p>Saved. You were already on the list.</p>
+            </div>
+            <p class="vote-got">Got it. Your vote&rsquo;s in. We&rsquo;ll write when there&rsquo;s something real to share.</p>
+            <p class="vote-see"><a href="#zip-map">See where your neighbors are waiting</a></p>
+          </div>
+          <div id="wait-form-fields">
+          <p class="honesty-rail">Reserved, not billed. Nothing ships. No checkout on this site.</p>
+          <div class="split" style="gap:44px;align-items:start">
+            <div>
+              <div class="kick">Leave your name. Not your card.</div>
+              <h2 style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">Three fields, then you&rsquo;re in.</h2>
+              <p class="lede" style="margin-top:14px;font-size:17px">Same three fields as the homepage. Name, email, and zip. First-wave zips hear first. Anywhere else, your zip is a vote for the next water.</p>
+              <p class="small" style="margin-top:18px">Opening first around Clear Lake, Kemah and Seabrook. We will not name a host marina until the yard has said yes. Maker or marina? <a href="/apply.html">Apply</a>.</p>
+            </div>
+            <div>
+              <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
+              <p class="small" id="w_shared_line" hidden>We write when this water opens.</p>
+              <div class="two">
+                <div>
+                  <label for="w_name">Your name</label>
+                  <input id="w_name" name="name" autocomplete="name" placeholder="Name">
+                </div>
+                <div>
+                  <label for="w_email">Email</label>
+                  <input id="w_email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+                </div>
+              </div>
+              <label for="w_zip">Zip</label>
+              <input id="w_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="Zip" maxlength="5">
+              <button class="btn dark fbtn" id="w_btn" type="button" onclick="submitForm('Waitlist')">Leave your name</button>
+              <p class="fnote">Free. No card. Nothing ships. <a href="/privacy.html">How we use this</a>.</p>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <div class="wrap">
         <div class="plans rv">
           <div class="plan">
@@ -139,81 +218,6 @@
           </div>
         </div>
         <p class="small rv" style="margin-top:22px;max-width:62ch">The founding burgee is not for sale today. Deckhand is free. Cavalier and Commodore are reserved at launch, not billed yet. We will not name a host marina until the yard has said yes.</p>
-      </div>
-    </section>
-
-    <section id="waitlist">
-      <div class="wrap">
-        <div class="wait-card rv">
-          <div id="wait-confirm" class="wait-confirm" hidden>
-            <div class="kick">You are on the list</div>
-            <h2 id="wait-confirm-title" style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">We have your place.</h2>
-            <p class="lede" id="wait-confirm-body" style="margin-top:14px;font-size:17px"></p>
-            <p class="fnote" style="margin-top:18px">We write when this water opens. Nothing is billed.</p>
-            <p class="vote-got">Got it. Your vote&rsquo;s in. We&rsquo;ll write when there&rsquo;s something real to share.</p>
-            <p class="vote-see"><a href="#zip-map">See where your neighbors are waiting</a></p>
-          </div>
-          <div id="wait-form-fields">
-          <p class="honesty-rail">Reserved, not billed. Nothing ships. No checkout on this site.</p>
-          <div class="split" style="gap:44px;align-items:start">
-            <div>
-              <div class="kick">Leave your name. Not your card.</div>
-              <h2 style="font-size:clamp(26px,3vw,36px);margin:12px 0 0">Name, email, zip, and a plan.</h2>
-              <p class="lede" style="margin-top:14px;font-size:17px">Same form as the homepage. Name, email, zip, and the plan you have in mind. First-wave zips hear first. Anywhere else, your zip is a vote for the next water. If a plan was in the link you followed, it is already marked below.</p>
-              <p class="small" style="margin-top:18px">Opening first around Clear Lake, Kemah and Seabrook. We will not name a host marina until the yard has said yes. Maker or marina? <a href="/apply.html">Apply</a>.</p>
-            </div>
-            <div>
-              <div class="hp" aria-hidden="true"><label>Do not fill this in<input type="text" name="company_website" tabindex="-1" autocomplete="off"></label></div>
-              <p class="small" id="w_shared_line" hidden>We write when this water opens.</p>
-              <div class="two">
-                <div>
-                  <label for="w_name">Your name</label>
-                  <input id="w_name" name="name" autocomplete="name" placeholder="Name">
-                </div>
-                <div>
-                  <label for="w_email">Email</label>
-                  <input id="w_email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
-                </div>
-              </div>
-              <div class="two">
-                <div>
-                  <label for="w_zip">Zip</label>
-                  <input id="w_zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="Zip" maxlength="5">
-                </div>
-                <div>
-                  <label for="w_city">City</label>
-                  <input id="w_city" name="city" autocomplete="address-level2" placeholder="City">
-                </div>
-              </div>
-              <div class="two">
-                <div>
-                  <label for="w_marina">Your marina</label>
-                  <input id="w_marina" name="marina" placeholder="Your marina">
-                </div>
-                <div>
-                  <label for="w_boat">What do you run?</label>
-                  <select id="w_boat" name="boat">
-                    <option>Sail &middot; cruising</option>
-                    <option>Center console</option>
-                    <option>Sportfish</option>
-                    <option>Trawler</option>
-                    <option>Charter fleet</option>
-                  </select>
-                </div>
-              </div>
-              <label id="w_plan_label">Which plan do you have in mind?</label>
-              <div class="seg" id="w_plan" role="radiogroup" aria-labelledby="w_plan_label">
-                <div class="o on" data-v="Deckhand" role="radio" aria-checked="true" tabindex="0">Deckhand<small>free</small></div>
-                <div class="o" data-v="Cavalier" role="radio" aria-checked="false" tabindex="0">Cavalier<small>$120 reserved</small></div>
-                <div class="o" data-v="Commodore" role="radio" aria-checked="false" tabindex="0">Commodore<small>$360 reserved</small></div>
-              </div>
-              <label class="chk" for="w_chest"><input type="checkbox" id="w_chest"> Tell me when the Slop Chest opens</label>
-              <button class="btn dark fbtn" id="w_btn" type="button" onclick="submitForm('Waitlist')">Leave your name</button>
-              <p class="fnote">No checkout. We write when this water opens. Nothing is billed. <a href="/privacy.html">How we use this</a>.</p>
-            </div>
-          </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -319,12 +323,12 @@
       <div class="frule"></div>
       <div class="fbot">
         <span>&copy; 2026 Coastal Cavaliers &middot; Texas Gulf Coast</span>
-        <!-- build waitlist-20261030a -->
+        <!-- build waitlist-20261112a -->
         <span>Made ashore. Enjoyed aboard.</span>
       </div>
     </div>
   </footer>
-  <script src="/assets/js/site.js?v=20261101a" defer></script>
+  <script src="/assets/js/site.js?v=20261112a" defer></script>
   <script>
   (function () {
     var map = document.getElementById("zip-map");
