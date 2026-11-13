@@ -69,3 +69,7 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - A plan card's "I have X in mind" only pre-selects the step-two plan. It is stored when they save step two. The card copy stayed word for word.
 - FAQ and the host-marina lines were left as written. The rails "No checkout" and "No checkout on this site" stay. The line under the three-field button is "Free. No card. Nothing ships."
 - `ops/live-check/check.sh` is on `main` (pull request 39 merged). The sentence above, that the script is only on the draft branch, is the state before that merge.
+
+## 2026-11-13 — intake on the main n8n account
+
+- `/.netlify/functions/apply` posts to `https://rmc11.app.n8n.cloud/webhook/cc-apply` (`CC_WF2_Applications_v5_rmc11`, id `EJuHsYalrBailiqs`); the old account's workflow is left as it was, and the v4 insert sentence above is the state before this move.
