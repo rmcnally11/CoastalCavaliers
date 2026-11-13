@@ -2,6 +2,7 @@
 
 const { test, beforeEach } = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("fs");
 const path = require("path");
 
 function load(rel) {
@@ -97,4 +98,57 @@ test("waterdog forwards an allowlisted boat lead and drops extra fields", async 
   assert.equal(sent.body.type, undefined);
   assert.equal(sent.body.secret, undefined);
   assert.equal(String(sent.url).includes("cc-apply"), false);
+});
+
+test("apply posts the unchanged body to the rmc11 intake", async () => {
+  const previous = process.env.N8N_APPLY_WEBHOOK;
+  delete process.env.N8N_APPLY_WEBHOOK;
+  let sent;
+  global.fetch = async (url, opts) => {
+    sent = { url, opts };
+    return { status: 200, text: async () => "{\"ok\":true}", headers: { get: () => "application/json" } };
+  };
+  const body = JSON.stringify({
+    type: "Waitlist",
+    source: "Site",
+    name: "Ada",
+    email: "ada@example.com",
+    zip: "77565",
+    notes: "Application: cc-test",
+  });
+  try {
+    const res = await load("netlify/functions/apply.js").handler({ httpMethod: "POST", body });
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.body, "{\"ok\":true}");
+    assert.equal(sent.url, "https://rmc11.app.n8n.cloud/webhook/cc-apply");
+    assert.equal(sent.opts.method, "POST");
+    assert.equal(sent.opts.headers["Content-Type"], "application/json");
+    assert.equal(sent.opts.body, body);
+  } finally {
+    if (previous === undefined) delete process.env.N8N_APPLY_WEBHOOK;
+    else process.env.N8N_APPLY_WEBHOOK = previous;
+  }
+});
+
+test("the deployable site has no old cc-apply webhook", () => {
+  const needle = ["https://", "rj", "mrio.app.n8n.cloud", "/webhook/", "cc-apply"].join("");
+  const root = path.join(__dirname, "..");
+  const skipDir = new Set([".git", "node_modules"]);
+  const skipExt = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".ico", ".woff", ".woff2", ".pdf", ".zip"]);
+  const hits = [];
+  function walk(dir) {
+    for (const name of fs.readdirSync(dir)) {
+      if (skipDir.has(name)) continue;
+      const abs = path.join(dir, name);
+      const st = fs.statSync(abs);
+      if (st.isDirectory()) {
+        walk(abs);
+        continue;
+      }
+      if (skipExt.has(path.extname(name).toLowerCase())) continue;
+      if (fs.readFileSync(abs, "utf8").includes(needle)) hits.push(path.relative(root, abs));
+    }
+  }
+  walk(root);
+  assert.deepEqual(hits, []);
 });
