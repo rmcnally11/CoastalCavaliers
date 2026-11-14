@@ -80,3 +80,10 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - The makers page forces that title to `clamp(40px, 6.5vw, 84px) !important`, so a 390px window stays at 40px. "Not signing kitchens yet." in Fraunces 600 italic is about 411px wide. The line box is 350px, and the glyphs run past the viewport. That headline stayed "Zero fees." / "Friday pay." Do not drop `nowrap` or the size clamp to force a longer line in.
 - Body copy in `waitlist.html` writes the em dash as `&mdash;`. That is the same character as a typed em dash.
 - Page stamps are the footer comments (`waitlist-`, `makers-`, `apply-`, `html-`). Bump the comment on a page whose copy changed. Leave the `?v=` on a stylesheet or script alone when that file did not change.
+
+## 2026-11-14 — the short makers line fits
+
+- "Not signing yet." in Fraunces 600 italic at 40px, with the hero's letter-spacing of -0.03em, is 260.56px wide. The 390px content box is 350px, so that second line fits with both spans still `nowrap` and the size clamp left alone. "Not signing kitchens yet." is still about 411px and still runs past the box. The makers H1 is now "Zero fees." / "Not signing yet." The sentence above, that the headline stayed "Friday pay.", is the state before this change.
+- A `.h1-line` is `display:block`, so its box width is the content box, not the glyphs. Measure the text with a range. On the deploy preview at 390px, "Zero fees." is 170.47px and "Not signing yet." is 260.56px. At 1280px the type is 83.2px, and those lines are 304.89px and 470.39px.
+- The makers Open Graph title, Twitter title, and FAQ JSON-LD do not contain the phrase "Friday pay". Leave them when the headline changes. The portal kick "Friday pay" and the unpublished `sitepkg` line are not this H1.
+- `ops/live-check/check.sh` prints `?v=` stamps. It does not print the footer build comment, so a makers copy change can pass while `/makers` still shows the older stylesheet stamp.
