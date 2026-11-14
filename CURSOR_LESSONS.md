@@ -95,3 +95,9 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - The sport mark is `width:100%` and `max-width:340px`, and `site.css` sets no height. A height attribute alone is a fixed pixel height, so under that cap the mark stretches. `height:auto` on `.mark-clear` keeps the current scale. Attributes 340×293 are the cap times 292/339, rounded. Leave that `height:auto` in place.
 - Do not add `loading=lazy` to a header logo. An attribute-only edit does not change copy, so leave the `?v=` stamps and the footer build comments alone.
 - `waitlist.html`, `makers.html`, and `apply.html` still have the same bare logo images. Do those in a later pull request.
+
+## 2026-11-14 — the three doors, and one delivery string
+
+- The sentence above, that those three pages still have bare logo images, is the state before this follow-up. Their headers are now 42×42 and their footers are 46×46, the same boxes as the other club pages. On `makers.html` that is the only change. The H1 stays "Zero fees." / "Not signing yet." and the footer comment stays `makers-20261114b`.
+- `/apply` and `/makers` both post `deliveryPref` from the `#m_delivery` select. `val()` in `assets/js/site.js` copies the option text. Nothing in that file compares it to "I can deliver". The shared option is "I can bring them". The apply label is the makers label, word for word: "Can you get goods to us, or should we pick up?"
+- The apply footer comment is `apply-20261114b` because that label and option are copy. The `?v=` on `site.js` stayed, because the script did not change. Do not post a form to check this. `sitepkg/` still says "I can deliver" and must stay unpublished.
