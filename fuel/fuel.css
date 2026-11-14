@@ -198,6 +198,9 @@ input.money{text-align:right;font-variant-numeric:tabular-nums}
 /* Below 500px the wordmark, menu button, and header CTA cannot share one
    nowrap row. A second row keeps every CTA word on screen. */
 @media(max-width:520px){
+  /* The two-row bar is ~130px and sticky. In-page jumps (#wait, #talk, #news)
+     would otherwise land under it. */
+  html{scroll-padding-top:144px}
   .bar{
     display:grid;
     grid-template-columns:minmax(0,1fr) auto;
