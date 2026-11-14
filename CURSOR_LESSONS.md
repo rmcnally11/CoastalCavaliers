@@ -73,3 +73,10 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 ## 2026-11-13 — intake on the main n8n account
 
 - `/.netlify/functions/apply` posts to `https://rmc11.app.n8n.cloud/webhook/cc-apply` (`CC_WF2_Applications_v5_rmc11`, id `EJuHsYalrBailiqs`); the old account's workflow is left as it was, and the v4 insert sentence above is the state before this move.
+
+## 2026-11-14 — rendered lines, and the makers headline
+
+- Match a handoff sentence across inline markup and across the makers hero's two lines. The makers H1 is not a `<br>`. It is two `.h1-line` spans, the second inside `<em>`, and `.h1-line` is `white-space:nowrap`. A `<b>` on a deal bullet or the apply pitch is the same kind of split. Keep the bold on the lead phrase when that phrase still opens the replacement.
+- The makers page forces that title to `clamp(40px, 6.5vw, 84px) !important`, so a 390px window stays at 40px. "Not signing kitchens yet." in Fraunces 600 italic is about 411px wide. The line box is 350px, and the glyphs run past the viewport. That headline stayed "Zero fees." / "Friday pay." Do not drop `nowrap` or the size clamp to force a longer line in.
+- Body copy in `waitlist.html` writes the em dash as `&mdash;`. That is the same character as a typed em dash.
+- Page stamps are the footer comments (`waitlist-`, `makers-`, `apply-`, `html-`). Bump the comment on a page whose copy changed. Leave the `?v=` on a stylesheet or script alone when that file did not change.
