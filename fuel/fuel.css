@@ -195,6 +195,37 @@ input.money{text-align:right;font-variant-numeric:tabular-nums}
   .cta-row .btn{width:100%}
   section{padding:64px 0}
 }
+/* Below 500px the wordmark, menu button, and header CTA cannot share one
+   nowrap row. A second row keeps every CTA word on screen. */
+@media(max-width:520px){
+  .bar{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"brand toggle" "cta cta";
+    align-items:center;
+    height:auto;
+    min-height:76px;
+    row-gap:10px;
+    column-gap:12px;
+    padding-top:12px;
+    padding-bottom:12px;
+  }
+  .brand{grid-area:brand;min-width:0}
+  .brand > div{min-width:0}
+  .brand .n,.brand .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nav-toggle{grid-area:toggle;margin-left:0}
+  .hdr-cta{grid-area:cta;justify-self:end}
+}
+/* The volume table's min-content is wider than a 390px wrap. Fix the
+   columns so the page itself does not scroll sideways. */
+@media(max-width:440px){
+  .split > *{min-width:0}
+  .worth{width:100%;max-width:100%;table-layout:fixed}
+  .worth th,.worth td{padding:10px 4px}
+  .worth td{font-size:13.5px}
+  .worth th:first-child,.worth td:first-child{width:38%}
+  .worth th:nth-child(n+2),.worth td:nth-child(n+2){white-space:nowrap}
+}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
