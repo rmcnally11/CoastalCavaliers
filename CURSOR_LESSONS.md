@@ -83,5 +83,7 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 
 ## 2026-11-14 — the short makers line fits
 
-- "Not signing yet." in Fraunces 600 italic at 40px, with the hero's letter-spacing of -0.03em, is about 261px wide. The 390px content box is 350px, so that second line fits with both spans still `nowrap` and the size clamp left alone. "Not signing kitchens yet." is still about 411px and still runs past the box. The makers H1 is now "Zero fees." / "Not signing yet." The sentence above, that the headline stayed "Friday pay.", is the state before this change.
+- "Not signing yet." in Fraunces 600 italic at 40px, with the hero's letter-spacing of -0.03em, is 260.56px wide. The 390px content box is 350px, so that second line fits with both spans still `nowrap` and the size clamp left alone. "Not signing kitchens yet." is still about 411px and still runs past the box. The makers H1 is now "Zero fees." / "Not signing yet." The sentence above, that the headline stayed "Friday pay.", is the state before this change.
+- A `.h1-line` is `display:block`, so its box width is the content box, not the glyphs. Measure the text with a range. On the deploy preview at 390px, "Zero fees." is 170.47px and "Not signing yet." is 260.56px. At 1280px the type is 83.2px, and those lines are 304.89px and 470.39px.
 - The makers Open Graph title, Twitter title, and FAQ JSON-LD do not contain the phrase "Friday pay". Leave them when the headline changes. The portal kick "Friday pay" and the unpublished `sitepkg` line are not this H1.
+- `ops/live-check/check.sh` prints `?v=` stamps. It does not print the footer build comment, so a makers copy change can pass while `/makers` still shows the older stylesheet stamp.
