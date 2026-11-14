@@ -87,3 +87,11 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - A `.h1-line` is `display:block`, so its box width is the content box, not the glyphs. Measure the text with a range. On the deploy preview at 390px, "Zero fees." is 170.47px and "Not signing yet." is 260.56px. At 1280px the type is 83.2px, and those lines are 304.89px and 470.39px.
 - The makers Open Graph title, Twitter title, and FAQ JSON-LD do not contain the phrase "Friday pay". Leave them when the headline changes. The portal kick "Friday pay" and the unpublished `sitepkg` line are not this H1.
 - `ops/live-check/check.sh` prints `?v=` stamps. It does not print the footer build comment, so a makers copy change can pass while `/makers` still shows the older stylesheet stamp.
+
+## 2026-11-14 — logo width and height
+
+- Club header logos display at 42×42 and footers at 46×46. Fuel header and footer logos display at 48×48. CSS sets both sides and `object-fit:contain`. The width and height attributes match that box. The files are not square: crest 339×330, wordmark 360×350, leaping dog 334×296, dog and anchor 339×292.
+- The fuel hero leaping dog is CSS width 220px and `height:auto` (160px below 800px). Attributes 220×195 keep the 334×296 ratio, because 220 × 296/334 rounds to 195. `fuel.css` already sets `height:auto`, so the painted height stays the file's ratio.
+- The sport mark is `width:100%` and `max-width:340px`, and `site.css` sets no height. A height attribute alone is a fixed pixel height, so under that cap the mark stretches. `height:auto` on `.mark-clear` keeps the current scale. Attributes 340×293 are the cap times 292/339, rounded. Leave that `height:auto` in place.
+- Do not add `loading=lazy` to a header logo. An attribute-only edit does not change copy, so leave the `?v=` stamps and the footer build comments alone.
+- `waitlist.html`, `makers.html`, and `apply.html` still have the same bare logo images. Do those in a later pull request.
