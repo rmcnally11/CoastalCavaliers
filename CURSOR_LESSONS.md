@@ -101,3 +101,11 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - The sentence above, that those three pages still have bare logo images, is the state before this follow-up. Their headers are now 42×42 and their footers are 46×46, the same boxes as the other club pages. On `makers.html` that is the only change. The H1 stays "Zero fees." / "Not signing yet." and the footer comment stays `makers-20261114b`.
 - `/apply` and `/makers` both post `deliveryPref` from the `#m_delivery` select. `val()` in `assets/js/site.js` copies the option text. Nothing in that file compares it to "I can deliver". The shared option is "I can bring them". The apply label is the makers label, word for word: "Can you get goods to us, or should we pick up?"
 - The apply footer comment is `apply-20261114b` because that label and option are copy. The `?v=` on `site.js` stayed, because the script did not change. Do not post a form to check this. `sitepkg/` still says "I can deliver" and must stay unpublished.
+
+## 2026-11-20 — pretty paths were unlinked
+
+- `/makers`, `/marinas`, `/apply`, `/chest`, `/privacy`, and `/waitlist` are 200 rewrites to the `.html` files. A link to `/makers.html` is a different URL from `/makers`. Before this pass those six pretty paths had no inbound link from any page. The sitemap and the canonical tags use the pretty paths.
+- The shared footer is the club footer: `.also` ("Also from us") plus `.fgrid`. Waterdog pages and `makers/portal/index.html` use other footers. `/sport` was left unchanged, so its footer still uses the `.html` hrefs. `/app` was left unchanged.
+- Makers, marinas, apply, and waitlist mark the current page with `aria-current="page"`. Chest and privacy omit a self-link. Match that. Do not add a second copy of a label the footer already has. Privacy already linked Waitlist in the club column, so the new Also row does not repeat it; that column link now points at `/waitlist`.
+- The apply page's own footer and nav say Apply. The H1 is Partner. Do not invent the link text "Partner/Apply".
+- An href-only edit does not change copy. Leave the `?v=` stamps and the footer build comments alone. Header and body links on these pages still use `.html`. Those files return 200. Do not retarget them in a pass that was told not to change copy.
