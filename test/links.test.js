@@ -110,3 +110,27 @@ test("published pages and the sitemap point at files that exist", () => {
   }
   assert.deepEqual(missing, []);
 });
+
+test("the six club paths have an inbound link from another page", () => {
+  const targets = ["/makers", "/marinas", "/apply", "/chest", "/privacy", "/waitlist"];
+  const pages = walk(root, []).filter((file) => !file.split(path.sep).includes("ops"));
+  const inbound = new Map(targets.map((target) => [target, []]));
+  for (const file of pages) {
+    const html = fs.readFileSync(file, "utf8");
+    for (const raw of attrs(html)) {
+      const local = resolveLocal(file, raw);
+      if (!local) continue;
+      let p = local;
+      if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
+      if (!inbound.has(p)) continue;
+      inbound.get(p).push(path.relative(root, file));
+    }
+  }
+  const orphans = [];
+  for (const target of targets) {
+    const page = target.slice(1) + ".html";
+    const fromOther = inbound.get(target).filter((file) => file !== page);
+    if (fromOther.length === 0) orphans.push(target);
+  }
+  assert.deepEqual(orphans, []);
+});
