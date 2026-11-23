@@ -116,3 +116,10 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - `.btn.gold` is two classes, so it still beats `.ink a`. The "Talk to us" button in that band stays white on gold. Do not paint it pale gold: `#E0CFA4` on `#8C6A24` is 3.24:1.
 - The only text links inside `.ink` are "Market updates" and "Gasoline and distillate" on `/fuel/`. The marinas ink band has no links.
 - `/fuel/fuel.css` is outside the `/assets/css/*` must-revalidate header. The five fuel pages share one `?v=` stamp. Bump all five when the sheet changes. The `20261101a` stamp in the 10 Nov note is the state before this change. The stamp is now `20261123a`.
+
+## 2026-11-23 — a catalog 404 is not an empty week
+
+- `netlify/functions/catalog.js` still returns status 200, the note `No live lines this week.`, `cluster: {}`, and `products: []` when `fetch` throws or the upstream status is not OK. A quiet week from a healthy webhook can look the same. `ok` is `false` on the catch path and `true` after a parsed body. `console.error` prints the error message. A non-OK status is thrown as `catalog upstream ` plus that status, so a 404 is in the function log.
+- Leave the note text, the 200, the TEST SKU filter, the CORS headers, the success `Cache-Control`, and `N8N_CATALOG_WEBHOOK` (default `https://rjmrio.app.n8n.cloud/webhook/cc-catalog`). Do not retarget the webhook from this repo, and do not change n8n or Airtable to paper over the 404.
+- `app/app.js` checks the HTTP status, then copies the JSON when `products` is an array. It does not read `data.ok`. An outage is still an empty board in the app. Leave `app/` alone. The homepage script still returns when `#week-box` is missing.
+- `test/functions.test.js` still only checks that a failure has an empty `products` list. Those two cases now print the error line. `test/catalog-fallback.test.js` is the test that asserts `ok`.
