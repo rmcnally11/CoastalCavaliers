@@ -110,6 +110,13 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - The apply page's own footer and nav say Apply. The H1 is Partner. Do not invent the link text "Partner/Apply".
 - An href-only edit does not change copy. Leave the `?v=` stamps and the footer build comments alone. Header and body links on these pages still use `.html`. Those files return 200. Do not retarget them in a pass that was told not to change copy.
 
+## 2026-11-23 — ink links on /fuel
+
+- `a { color: var(--gold) }` is `#8C6A24`. That clears AA on oyster. On `section.ink` (`#082952`) it is 2.90:1. `a:hover { color: var(--ink) }` is not overridden inside `.ink`, so the hover is ink on ink, 1.00:1. `.ink a` is now `--gold-lt` (`#E0CFA4`, 9.40:1) and `.ink a:hover` is `--bg` (`#F7F5F1`, 13.31:1).
+- `.btn.gold` is two classes, so it still beats `.ink a`. The "Talk to us" button in that band stays white on gold. Do not paint it pale gold: `#E0CFA4` on `#8C6A24` is 3.24:1.
+- The only text links inside `.ink` are "Market updates" and "Gasoline and distillate" on `/fuel/`. The marinas ink band has no links.
+- `/fuel/fuel.css` is outside the `/assets/css/*` must-revalidate header. The five fuel pages share one `?v=` stamp. Bump all five when the sheet changes. The `20261101a` stamp in the 10 Nov note is the state before this change. The stamp is now `20261123a`.
+
 ## 2026-11-23 — the zip check does not vote
 
 - `checkZip()` in `assets/js/site.js` only paints `#zipres`. It does not post. The out-of-area line must not say the zip already counted. The line is now "Not first-wave yet." plus "Add your name" and "your zip counts as a vote for the next water." "Add your name" uses the same `zip-go` anchor and color as the in-area link, and its href is `/waitlist`. The in-area sentence stayed word for word.
