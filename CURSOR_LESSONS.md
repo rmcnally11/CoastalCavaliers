@@ -109,3 +109,11 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - Makers, marinas, apply, and waitlist mark the current page with `aria-current="page"`. Chest and privacy omit a self-link. Match that. Do not add a second copy of a label the footer already has. Privacy already linked Waitlist in the club column, so the new Also row does not repeat it; that column link now points at `/waitlist`.
 - The apply page's own footer and nav say Apply. The H1 is Partner. Do not invent the link text "Partner/Apply".
 - An href-only edit does not change copy. Leave the `?v=` stamps and the footer build comments alone. Header and body links on these pages still use `.html`. Those files return 200. Do not retarget them in a pass that was told not to change copy.
+
+## 2026-11-23 — the zip check does not vote
+
+- `checkZip()` in `assets/js/site.js` only paints `#zipres`. It does not post. The out-of-area line must not say the zip already counted. The line is now "Not first-wave yet." plus "Add your name" and "your zip counts as a vote for the next water." "Add your name" uses the same `zip-go` anchor and color as the in-area link, and its href is `/waitlist`. The in-area sentence stayed word for word.
+- A click on `.zip-go` still runs `preventDefault` and `reservePlan`. On the homepage that scrolls to the on-page list and fills the zip. The href is what a new tab, or a browser with that handler absent, follows.
+- The sentence "Your zip is a vote" was not in `index.html`. Two nearby lines were left. The homepage `.zipnote` still says "Any other zip is a vote for the next water we open." The apply Waitlist pitch still says "Leave your place on the list. Your zip is a vote for the next water." That pitch sits on a form that posts. `sitepkg/` has its own checker and was left unpublished.
+- `site.js?v=` is `20261123a` on every page that loads the script except `fuel/index.html`. This pass was told not to touch `/fuel`, so that page still requests `?v=20261101a`. The footer build comments stayed, because the page copy did not change.
+- Do not add a beacon, a counter, or a post to make the old sentence true.
