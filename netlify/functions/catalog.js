@@ -24,10 +24,11 @@ exports.handler = async function (event) {
   }
   try {
     const res = await fetch(UPSTREAM, { cache: "no-store" });
-    if (!res.ok) throw new Error("catalog");
+    if (!res.ok) throw new Error("catalog upstream " + res.status);
     const data = await res.json();
     const products = Array.isArray(data.products) ? data.products.filter(isLiveSku) : [];
     const body = {
+      ok: true,
       note: data.note || "Live catalog. TEST excluded.",
       cluster: data.cluster || {},
       products: products,
@@ -42,10 +43,11 @@ exports.handler = async function (event) {
       body: JSON.stringify(body),
     };
   } catch (err) {
+    console.error(err && err.message ? err.message : err);
     return {
       statusCode: 200,
       headers: { ...CORS, "Content-Type": "application/json" },
-      body: JSON.stringify({ note: "No live lines this week.", cluster: {}, products: [] }),
+      body: JSON.stringify({ ok: false, note: "No live lines this week.", cluster: {}, products: [] }),
     };
   }
 };
