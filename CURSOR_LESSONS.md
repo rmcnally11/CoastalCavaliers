@@ -131,3 +131,10 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - The homepage footer comment moved to `html-20261123a` because that note is page copy. The `?v=` on `site.js` stayed `20261123a`.
 - The apply Waitlist pitch still says "Your zip is a vote for the next water." That form posts. Leave it.
 - `waitlist.html` still says "Any other zip is a vote for the next water" in the lede, the map caption, and one FAQ answer. This pass was the homepage `.zipnote` only.
+
+## 2026-11-23 — a catalog 404 is not an empty week
+
+- `netlify/functions/catalog.js` still returns status 200, the note `No live lines this week.`, `cluster: {}`, and `products: []` when `fetch` throws or the upstream status is not OK. A quiet week from a healthy webhook can look the same. `ok` is `false` on the catch path and `true` after a parsed body. `console.error` prints the error message. A non-OK status is thrown as `catalog upstream ` plus that status, so a 404 is in the function log.
+- Leave the note text, the 200, the TEST SKU filter, the CORS headers, the success `Cache-Control`, and `N8N_CATALOG_WEBHOOK` (default `https://rjmrio.app.n8n.cloud/webhook/cc-catalog`). Do not retarget the webhook from this repo, and do not change n8n or Airtable to paper over the 404.
+- `app/app.js` checks the HTTP status, then copies the JSON when `products` is an array. It does not read `data.ok`. An outage is still an empty board in the app. Leave `app/` alone. The homepage script still returns when `#week-box` is missing.
+- `test/functions.test.js` still only checks that a failure has an empty `products` list. Those two cases now print the error line. `test/catalog-fallback.test.js` is the test that asserts `ok`.
