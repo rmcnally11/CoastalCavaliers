@@ -75,6 +75,9 @@ section{padding:88px 0}
 .ink h2,.ink h3{color:var(--bg)}
 .ink .lede,.ink p{color:var(--dim)}
 .ink .kick{color:var(--gold-lt)}
+/* --gold on this band is 2.90:1, and a:hover paints ink on ink. */
+.ink a{color:var(--gold-lt)}
+.ink a:hover{color:var(--bg)}
 .ink a.btn.line{background:transparent;border-color:rgba(224,207,164,.45);color:var(--bg)}
 .ink a.btn.line:hover{border-color:var(--gold-lt);color:var(--gold-lt)}
 .sec-head{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:end;margin-bottom:44px}
