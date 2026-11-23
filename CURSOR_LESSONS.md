@@ -116,3 +116,18 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - `.btn.gold` is two classes, so it still beats `.ink a`. The "Talk to us" button in that band stays white on gold. Do not paint it pale gold: `#E0CFA4` on `#8C6A24` is 3.24:1.
 - The only text links inside `.ink` are "Market updates" and "Gasoline and distillate" on `/fuel/`. The marinas ink band has no links.
 - `/fuel/fuel.css` is outside the `/assets/css/*` must-revalidate header. The five fuel pages share one `?v=` stamp. Bump all five when the sheet changes. The `20261101a` stamp in the 10 Nov note is the state before this change. The stamp is now `20261123a`.
+
+## 2026-11-23 — the zip check does not vote
+
+- `checkZip()` in `assets/js/site.js` only paints `#zipres`. It does not post. The out-of-area line must not say the zip already counted. The line is now "Not first-wave yet." plus "Add your name" and "your zip counts as a vote for the next water." "Add your name" uses the same `zip-go` anchor and color as the in-area link, and its href is `/waitlist`. The in-area sentence stayed word for word.
+- A click on `.zip-go` still runs `preventDefault` and `reservePlan`. On the homepage that scrolls to the on-page list and fills the zip. The href is what a new tab, or a browser with that handler absent, follows.
+- The sentence "Your zip is a vote" was not in `index.html`. Two nearby lines were left. The homepage `.zipnote` still says "Any other zip is a vote for the next water we open." The apply Waitlist pitch still says "Leave your place on the list. Your zip is a vote for the next water." That pitch sits on a form that posts. `sitepkg/` has its own checker and was left unpublished.
+- `site.js?v=` is `20261123a` on every page that loads the script except `fuel/index.html`. This pass was told not to touch `/fuel`, so that page still requests `?v=20261101a`. The footer build comments stayed, because the page copy did not change.
+- Do not add a beacon, a counter, or a post to make the old sentence true.
+
+## 2026-11-23 — the homepage zip note counts after they join
+
+- The sentence above, that the homepage `.zipnote` still says "Any other zip is a vote for the next water we open.", is the state before this follow-up. That note sits on the checker, and the checker does not post. It now keeps "Optional — first-wave zips hear first." and then "Add your name and any other zip counts as a vote for the next water we open."
+- The homepage footer comment moved to `html-20261123a` because that note is page copy. The `?v=` on `site.js` stayed `20261123a`.
+- The apply Waitlist pitch still says "Your zip is a vote for the next water." That form posts. Leave it.
+- `waitlist.html` still says "Any other zip is a vote for the next water" in the lede, the map caption, and one FAQ answer. This pass was the homepage `.zipnote` only.

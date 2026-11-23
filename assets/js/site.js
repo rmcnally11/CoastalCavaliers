@@ -327,7 +327,7 @@ box.className = "zipresult in yes";
 box.innerHTML = "<b>You are in the first water.</b> Clear Lake, Kemah, Seabrook. Leave your name &mdash; you will hear when this coast opens. <a href='#waitlist' class='zip-go' style='color:#163867'>Get on the list &rarr;</a>";
 } else {
 box.className = "zipresult in no";
-box.innerHTML = "<b>Not first-wave yet &mdash; but you just moved the map.</b> Your zip is a vote for the next water. <a href='#waitlist' class='zip-go' style='color:#163867'>Add me to the list &rarr;</a>";
+box.innerHTML = "<b>Not first-wave yet.</b> <a href='/waitlist' class='zip-go' style='color:#163867'>Add your name</a> and your zip counts as a vote for the next water.";
 }
 var go = box.querySelector(".zip-go");
 if (go) go.addEventListener("click", function (e) {
