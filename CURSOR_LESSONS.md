@@ -138,3 +138,11 @@ Read this before you edit. Checked against `main` (`3b6ac05`, 2 Nov 2026) and th
 - Leave the note text, the 200, the TEST SKU filter, the CORS headers, the success `Cache-Control`, and `N8N_CATALOG_WEBHOOK` (default `https://rjmrio.app.n8n.cloud/webhook/cc-catalog`). Do not retarget the webhook from this repo, and do not change n8n or Airtable to paper over the 404.
 - `app/app.js` checks the HTTP status, then copies the JSON when `products` is an array. It does not read `data.ok`. An outage is still an empty board in the app. Leave `app/` alone. The homepage script still returns when `#week-box` is missing.
 - `test/functions.test.js` still only checks that a failure has an empty `products` list. Those two cases now print the error line. `test/catalog-fallback.test.js` is the test that asserts `ok`.
+
+## 2026-11-24 — four doors in the nav, two share cards
+
+- A link to `/waitlist.html` is not a link to `/waitlist`. The club nav on `/`, `/makers`, `/marinas`, `/apply`, `/waitlist`, `/chest`, `/sport`, and `/privacy` now uses the pretty paths for `/waitlist`, `/apply`, `/makers`, and `/marinas`. Before this pass those navs used the `.html` hrefs (the homepage used `#waitlist` and `makers.html`) and none of them linked both `/apply` and `/marinas`. Footers on every one of those pages except `/sport` already used the pretty paths. `/sport`'s footer still used the `.html` hrefs.
+- The homepage header button, hero, and club-column "Waitlist" stay on `#waitlist`. That anchor is the form on the page. The nav word "Waitlist" goes to `/waitlist`.
+- Fuel pages do not share this nav or footer. Their header is Waterdog: Home, For boats, For marinas, Supply, Contact. `/fuel/marinas` is not `/marinas`. Leave them. `makers/portal/` is the desk after apply, not one of these marketing pages. Leave it. Do not add a link to `/app`.
+- `/apply` and `/waitlist` no longer share `og-club.jpg`. `og-apply.jpg` and `og-waitlist.jpg` are new 1200×630 files in the same navy, gold bar, and crest layout as `og-makers.jpg`. `og-makers.jpg` and `og-marinas.jpg` were not rewritten. `/assets/img/*` is cached immutable for a year, so a new card needs a new filename.
+- No stylesheet or script changed, so the `?v=` stamps stayed. New nav words are page copy, so the footer build comment moved. Do not bump a stamp for a file you did not edit.
